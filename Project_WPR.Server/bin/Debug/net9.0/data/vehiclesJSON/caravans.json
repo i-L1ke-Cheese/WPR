@@ -1,0 +1,303 @@
+[
+    {
+        "merk": "hobby",
+        "type": "de luxe",
+        "kenteken": "ab-123-cd",
+        "kleur": "wit",
+        "aanschafjaar": 2018
+    },
+    {
+        "merk": "fendt",
+        "type": "bianco",
+        "kenteken": "ef-456-gh",
+        "kleur": "grijs",
+        "aanschafjaar": 2019
+    },
+    {
+        "merk": "knaus",
+        "type": "sport",
+        "kenteken": "ij-789-kl",
+        "kleur": "blauw",
+        "aanschafjaar": 2020
+    },
+    {
+        "merk": "adria",
+        "type": "altea",
+        "kenteken": "mn-012-op",
+        "kleur": "zilver",
+        "aanschafjaar": 2017
+    },
+    {
+        "merk": "dethleﬀs",
+        "type": "camper",
+        "kenteken": "qr-345-st",
+        "kleur": "groen",
+        "aanschafjaar": 2021
+    },
+    {
+        "merk": "tabbert",
+        "type": "puccini",
+        "kenteken": "uv-678-wx",
+        "kleur": "zwart",
+        "aanschafjaar": 2016
+    },
+    {
+        "merk": "burstner",
+        "type": "premio",
+        "kenteken": "yz-901-ab",
+        "kleur": "wit",
+        "aanschafjaar": 2022
+    },
+    {
+        "merk": "lmc",
+        "type": "musica",
+        "kenteken": "cd-234-ef",
+        "kleur": "blauw",
+        "aanschafjaar": 2015
+    },
+    {
+        "merk": "sprite",
+        "type": "cruzer",
+        "kenteken": "gh-567-ij",
+        "kleur": "rood",
+        "aanschafjaar": 2021
+    },
+    {
+        "merk": "bailey",
+        "type": "unicorn",
+        "kenteken": "kl-890-mn",
+        "kleur": "grijs",
+        "aanschafjaar": 2018
+    },
+    {
+        "merk": "lunar",
+        "type": "clubman",
+        "kenteken": "op-123-qr",
+        "kleur": "zilver",
+        "aanschafjaar": 2017
+    },
+    {
+        "merk": "swi ",
+        "type": "conqueror",
+        "kenteken": "st-456-uv",
+        "kleur": "blauw",
+        "aanschafjaar": 2019
+    },
+    {
+        "merk": "compass",
+        "type": "casita",
+        "kenteken": "wx-789-yz",
+        "kleur": "groen",
+        "aanschafjaar": 2020
+    },
+    {
+        "merk": "coachman",
+        "type": "vip",
+        "kenteken": "ab-012-cd",
+        "kleur": "rood",
+        "aanschafjaar": 2016
+    },
+    {
+        "merk": "buccaneer",
+        "type": "commodore",
+        "kenteken": "ef-345-gh",
+        "kleur": "zwart",
+        "aanschafjaar": 2018
+    },
+    {
+        "merk": "caravelair",
+        "type": "allegra",
+        "kenteken": "ij-678-kl",
+        "kleur": "wit",
+        "aanschafjaar": 2021
+    },
+    {
+        "merk": "sterckeman",
+        "type": "starle ",
+        "kenteken": "mn-901-op",
+        "kleur": "zilver",
+        "aanschafjaar": 2020
+    },
+    {
+        "merk": "tab",
+        "type": "320",
+        "kenteken": "qr-234-st",
+        "kleur": "blauw",
+        "aanschafjaar": 2019
+    },
+    {
+        "merk": "eriba",
+        "type": "touring",
+        "kenteken": "uv-567-wx",
+        "kleur": "grijs",
+        "aanschafjaar": 2022
+    },
+    {
+        "merk": "adria",
+        "type": "ac on",
+        "kenteken": "yz-890-ab",
+        "kleur": "rood",
+        "aanschafjaar": 2017
+    },
+    {
+        "merk": "fendt",
+        "type": "tendenza",
+        "kenteken": "cd-123-ef",
+        "kleur": "wit",
+        "aanschafjaar": 2018
+    },
+    {
+        "merk": "knaus",
+        "type": "sudwind",
+        "kenteken": "gh-456-ij",
+        "kleur": "groen",
+        "aanschafjaar": 2020
+    },
+    {
+        "merk": "hobby",
+        "type": "excellent",
+        "kenteken": "kl-789-mn",
+        "kleur": "zwart",
+        "aanschafjaar": 2017
+    },
+    {
+        "merk": "dethleﬀs",
+        "type": "beduin",
+        "kenteken": "op-012-qr",
+        "kleur": "blauw",
+        "aanschafjaar": 2019
+    },
+    {
+        "merk": "burstner",
+        "type": "averso",
+        "kenteken": "st-345-uv",
+        "kleur": "zilver",
+        "aanschafjaar": 2021
+    },
+    {
+        "merk": "lmc",
+        "type": "vivo",
+        "kenteken": "wx-678-yz",
+        "kleur": "rood",
+        "aanschafjaar": 2020
+    },
+    {
+        "merk": "sprite",
+        "type": "major",
+        "kenteken": "ab-901-cd",
+        "kleur": "groen",
+        "aanschafjaar": 2019
+    },
+    {
+        "merk": "bailey",
+        "type": "phoenix",
+        "kenteken": "ef-234-gh",
+        "kleur": "wit",
+        "aanschafjaar": 2022
+    },
+    {
+        "merk": "lunar",
+        "type": "delta",
+        "kenteken": "gh-567-ij",
+        "kleur": "grijs",
+        "aanschafjaar": 2017
+    },
+    {
+        "merk": "swi ",
+        "type": "elegance",
+        "kenteken": "kl-890-mn",
+        "kleur": "zwart",
+        "aanschafjaar": 2018
+    },
+    {
+        "merk": "compass",
+        "type": "corona",
+        "kenteken": "op-123-qr",
+        "kleur": "blauw",
+        "aanschafjaar": 2021
+    },
+    {
+        "merk": "coachman",
+        "type": "acadia",
+        "kenteken": "st-456-uv",
+        "kleur": "zilver",
+        "aanschafjaar": 2019
+    },
+    {
+        "merk": "buccaneer",
+        "type": "barracuda",
+        "kenteken": "wx-789-yz",
+        "kleur": "rood",
+        "aanschafjaar": 2020
+    },
+    {
+        "merk": "caravelair",
+        "type": "antares",
+        "kenteken": "ab-012-cd",
+        "kleur": "groen",
+        "aanschafjaar": 2016
+    },
+    {
+        "merk": "sterckeman",
+        "type": "evolu on",
+        "kenteken": "ef-345-gh",
+        "kleur": "zwart",
+        "aanschafjaar": 2018
+    },
+    {
+        "merk": "tab",
+        "type": "400",
+        "kenteken": "ij-678-kl",
+        "kleur": "zilver",
+        "aanschafjaar": 2021
+    },
+    {
+        "merk": "eriba",
+        "type": "nova",
+        "kenteken": "mn-901-op",
+        "kleur": "blauw",
+        "aanschafjaar": 2020
+    },
+    {
+        "merk": "adria",
+        "type": "adora",
+        "kenteken": "qr-234-st",
+        "kleur": "wit",
+        "aanschafjaar": 2019
+    },
+    {
+        "merk": "fendt",
+        "type": "opal",
+        "kenteken": "uv-567-wx",
+        "kleur": "zwart",
+        "aanschafjaar": 2022
+    },
+    {
+        "merk": "knaus",
+        "type": "sky traveller",
+        "kenteken": "yz-890-ab",
+        "kleur": "groen",
+        "aanschafjaar": 2017
+    },
+    {
+        "merk": "hobby",
+        "type": "pres ge",
+        "kenteken": "cd-123-ef",
+        "kleur": "grijs",
+        "aanschafjaar": 2018
+    },
+    {
+        "merk": "dethleﬀs",
+        "type": "c'go",
+        "kenteken": "gh-456-ij",
+        "kleur": "blauw",
+        "aanschafjaar": 2020
+    },
+    {
+        "merk": "burstner",
+        "type": "premio life",
+        "kenteken": "kl-789-mn",
+        "kleur": "rood",
+        "aanschafjaar": 2017
+    }
+]
