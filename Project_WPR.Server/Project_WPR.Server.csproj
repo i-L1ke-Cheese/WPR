@@ -35,4 +35,8 @@
     </ProjectReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="data\Migrations\" />
+  </ItemGroup>
+
 </Project>
