@@ -3,7 +3,7 @@
 "ServerUrl": "https://localhost:50327",
 "RedirectUrl": "",
 "LaunchCommand": "npm run dev",
-"WorkingDirectory": "C:\\Users\\PC\\source\\repos\\Project_WPR\\Project_WPR.Server\\..\\project_wpr.client",
+"WorkingDirectory": "C:\\Users\\Mart\\source\\repos\\i-L1ke-Cheese\\WPR\\Project_WPR.Server\\..\\project_wpr.client",
 "MaxTimeoutInSeconds": "120",
 "KeepRunning": "false"
 }
