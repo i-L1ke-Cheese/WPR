@@ -1,2 +1,4 @@
 # gitignore
 .vs/
+obj/
+bin/
