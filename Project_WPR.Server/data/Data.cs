@@ -2,7 +2,9 @@
 
 namespace Project_WPR.Server.data {
     public class User : IdentityUser {
-        public int age { get; set; }
+        public int Age { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 
     public class Vehicle {

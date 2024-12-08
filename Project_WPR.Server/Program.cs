@@ -13,24 +13,42 @@ public class Program {
         builder.Services.AddAuthorization();
         builder.Services.AddControllers()
             .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-        builder.Services.AddDefaultIdentity<User>()
+
+        builder.Services.AddIdentityApiEndpoints<User>()
             .AddEntityFrameworkStores<DatabaseContext>();
+
+        builder.Services.AddSwaggerGen(options => {
+
+        });
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("Allowvite",
+               builder => builder
+                   .WithOrigins("https://localhost:50327")
+                   .AllowAnyMethod()
+                   .AllowAnyHeader());
+        });
+
 
         builder.Services.AddOpenApi();
 
         var app = builder.Build();
 
-        app.UseDefaultFiles();
-        app.MapStaticAssets();
+        //app.UseDefaultFiles();
+        //app.MapStaticAssets();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment()) {
             app.MapOpenApi();
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
 
         app.UseHttpsRedirection();
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseCors("Allowvite");
 
         app.MapControllers();
         app.MapIdentityApi<User>();
