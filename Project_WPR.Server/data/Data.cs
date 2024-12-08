@@ -3,34 +3,33 @@
 namespace Project_WPR.Server.data {
     public class User : IdentityUser {
         public DateOnly BirthDate { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 
-    public class CA_Employee : User
-    {
+    public class CA_Employee : User {
         public string Department { get; set; } // Backoffice of Frontoffice
 
         public ICollection<DamageReport> DamageReports { get; set; }
     }
 
-    public class CompanyAccount : User
-    {
+
+    public class CompanyAccount : User {
         public string CompanyId { get; set; }
     }
 
-    public class VehicleManager : CompanyAccount { 
-    
+    public class VehicleManager : CompanyAccount {
+
     }
 
-    public class BusinessRenter : CompanyAccount
-    {
+    public class BusinessRenter : CompanyAccount {
         public int BusinessRenterId { get; set; }
         public string Address { get; set; }
         public int LicenseNumber { get; set; }
         public string InvoiceAdress { get; set; }
     }
 
-    public class PrivateRenter : User
-    {
+    public class PrivateRenter : User {
         public int PrivateRenterId { get; set; }
         public string Address { get; set; }
         public int LicenseNumber { get; set; }
@@ -62,14 +61,15 @@ namespace Project_WPR.Server.data {
 
     }
 
-    public class VehiclePicture { 
+    public class VehiclePicture {
         public int Id { get; set; }
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
         public string FilePath { get; set; }
     }
 
-    public class DamageReport { 
+
+    public class DamageReport {
         public int Id { get; set; }
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
@@ -79,7 +79,7 @@ namespace Project_WPR.Server.data {
         public CA_Employee Employee { get; set; }
     }
 
-    public class DamageReportPicture { 
+    public class DamageReportPicture {
         public int Id { get; set; }
         public int DamageReportId { get; set; }
         public DamageReport DamageReport { get; set; }
@@ -90,7 +90,7 @@ namespace Project_WPR.Server.data {
         public int Id { get; set; }
         public int VehicleId { get; set; }
         public string? BusinessRenterId { get; set; }
-        public BusinessRenter BusinessRenter { get; set; } 
+        public BusinessRenter BusinessRenter { get; set; }
         public string? PrivateRenterId { get; set; }
         public PrivateRenter PrivateRenter { get; set; }
         public string Intention { get; set; }
@@ -100,25 +100,22 @@ namespace Project_WPR.Server.data {
         public Vehicle Vehicle { get; set; }
     }
 
-    public class Subscription
-    {
+    public class Subscription {
         public int Id { get; set; }
         public string Description { get; set; }
         public Company Company { get; set; }
     }
 
-    public class PayAsYouGo : Subscription { 
+    public class PayAsYouGo : Subscription {
         public int DiscountPercentage { get; set; }
         public string RentalDays { get; set; }
     }
 
-    public class RentalPackage : Subscription
-    {
+    public class RentalPackage : Subscription {
 
     }
 
-    public class Company
-    {
+    public class Company {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Adress { get; set; }
