@@ -13,6 +13,7 @@ namespace Project_WPR.Server.data {
         public ICollection<DamageReport> DamageReports { get; set; }
     }
 
+
     public class CompanyAccount : User {
         public string CompanyId { get; set; }
     }
@@ -66,6 +67,7 @@ namespace Project_WPR.Server.data {
         public Vehicle Vehicle { get; set; }
         public string FilePath { get; set; }
     }
+
 
     public class DamageReport {
         public int Id { get; set; }

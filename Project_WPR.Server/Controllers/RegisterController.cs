@@ -21,7 +21,7 @@ namespace Project_WPR.Server.Controllers {
                 Email = request.Email,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
-                Age = request.Age
+                BirthDate = request.dateOfBirth
             };
 
             var result = await _userManager.CreateAsync(user, request.Password);

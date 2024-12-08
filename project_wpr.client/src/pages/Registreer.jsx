@@ -9,13 +9,13 @@ function Registreer() {
     const [password, setPassword] = useState("");
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
-    const [age, setAge] = useState("");
+    const [dateOfBirth, setdateOfBirth] = useState("");
 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const data = { email, password, firstName, lastName, age};
+        const data = { email, password, firstName, lastName, dateOfBirth };
 
         try {
             const response = await fetch("https://localhost:7289/api/register/register", {
@@ -80,11 +80,11 @@ function Registreer() {
                 <label htmlFor="age" className="visually-hidden">Leeftijd:</label>
                 <input
                     type="text"
-                    id="age"
-                    name="age"
-                    placeholder="Voer uw leeftijd in"
-                    value={age}
-                    onChange={(e) => setAge(e.target.value)}
+                    id="dateOfBirth"
+                    name="dateOfBirth"
+                    placeholder="Voer uw gebootedatum in"
+                    value={dateOfBirth}
+                    onChange={(e) => setdateOfBirth(e.target.value)}
                     required />
                 <span></span>
             </div>
