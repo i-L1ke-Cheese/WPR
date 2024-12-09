@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Project_WPR.Server.data;
 using Project_WPR.Server.data.DTOs;
 
@@ -44,16 +45,17 @@ namespace Project_WPR.Server.Controllers
         }
 
         [HttpPost("huur-auto")]
-        public IActionResult RentCar([FromBody] RentRequest request)
+        public async Task<IActionResult> Rental([FromBody] RentalRequestDTO request)
         {
-            var user = _context.Users.FirstOrDefault(u => u.Id == request.UserId);
+            var privateRenter = await _context.PrivateRenters.FirstOrDefaultAsync(u => u.PrivateRenterId == request.UserId);
+            var businessRenter = await _context.BusinessRenters.FirstOrDefaultAsync(u => u.BusinessRenterId == request.UserId);
 
-            if (user == null)
+            if (privateRenter == null && businessRenter == null)
             {
                 return Unauthorized(new { message = "Gebruiker bestaat niet." });
             }
 
-            if (user is PrivateRenter privateRenter)
+            if (privateRenter != null)
             {
                 var vehicle = _context.Cars
                     .Where(c => c.Id == request.VehicleId && c.IsAvailable)
@@ -70,28 +72,28 @@ namespace Project_WPR.Server.Controllers
                     return BadRequest(new { message = $"Voertuig is niet beschikbaar." });
                 }
 
-                vehicle.isAvailable = false; // Moet nog in database komen te staan zorgt ervoor wanneer een auto wordt verhuurd dat die niet beschikbaar komt te staan/
-                _context.SaveChanges();
+                vehicle.IsAvailable = false; // Update the availability status
+                await _context.SaveChangesAsync();
 
                 return Ok(new { message = $"{vehicle.Brand} {vehicle.Type} is verhuurd." });
-
             }
 
-            if (user is BusinessRenter businessRenter)
+            if (businessRenter != null)
             {
                 var car = _context.Cars.FirstOrDefault(c => c.Id == request.VehicleId && c.IsAvailable);
 
                 if (car == null)
                 {
-                    return BadRequest(new { message = "Auto is niet beschikbaar" }); 
+                    return BadRequest(new { message = "Auto is niet beschikbaar" });
                 }
 
-                car.isAvailable = false; // Moet nog in database komen te staan zorgt ervoor wanneer een auto wordt verhuurd dat die niet beschikbaar komt te staan/
-                _context.SaveChanges();
+                car.IsAvailable = false; // Update the availability status
+                await _context.SaveChangesAsync();
 
                 return Ok(new { message = $"{car.Brand} {car.Type} is verhuurd." });
-
             }
+
+            return Ok(new { message = $"User logged in" });
         }
     }
 }
