@@ -41,7 +41,7 @@ namespace Project_WPR.Server.data {
         public string Brand { get; set; }
         public string Type { get; set; }
         public string Color { get; set; }
-        public DateOnly YearOfPurchase { get; set; }
+        public int YearOfPurchase { get; set; }
         public string LicensePlate { get; set; }
         public string Description { get; set; }
 
