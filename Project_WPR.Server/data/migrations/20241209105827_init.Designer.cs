@@ -2,17 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_WPR.Server.data;
 
 #nullable disable
 
-namespace Project_WPR.Server.Migrations
+namespace Project_WPR.Server.data.migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241209105827_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -379,8 +382,8 @@ namespace Project_WPR.Server.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("YearOfPurchase")
-                        .HasColumnType("INTEGER");
+                    b.Property<DateOnly>("YearOfPurchase")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
