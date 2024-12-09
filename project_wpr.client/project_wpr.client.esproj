@@ -8,4 +8,9 @@
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
   </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\Project_WPR.Server\data\database.db">
+      <Link>database.db</Link>
+    </None>
+  </ItemGroup>
 </Project>

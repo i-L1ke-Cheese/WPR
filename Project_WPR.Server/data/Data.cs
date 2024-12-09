@@ -46,6 +46,7 @@ namespace Project_WPR.Server.data {
         public string Description { get; set; }
 
         public ICollection<VehiclePicture> Pictures { get; set; }
+
     }
 
     public class Car : Vehicle {
