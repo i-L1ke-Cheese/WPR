@@ -17,7 +17,7 @@ namespace Project_WPR.Server.Controllers
         }
 
         [HttpGet("beschikbare-voertuigen")]
-        public IActionResult GetAvailableCars()
+        public IActionResult GetAvailableCars([FromQuery] DateTime? date)
         {
             // Haal alle beschikbare voertuigen op van Cars, Campers en Caravans
             var availableCars = _context.Cars
@@ -35,8 +35,7 @@ namespace Project_WPR.Server.Controllers
             // Combineer de resultaten van Cars, Campers en Caravans
             var allAvailableVehicles = availableCars
                 .Union(availableCampers)
-                .Union(availableCaravans)
-                .ToList();
+                .Union(availableCaravans);
 
             return Ok(allAvailableVehicles);
         }
@@ -44,8 +43,8 @@ namespace Project_WPR.Server.Controllers
         [HttpPost("huur-auto")]
         public async Task<IActionResult> Rental([FromBody] RentalRequestDTO request)
         {
-            var privateRenter = await _context.PrivateRenters.FirstOrDefaultAsync(u => u.PrivateRenterId == request.UserId);
-            var businessRenter = await _context.BusinessRenters.FirstOrDefaultAsync(u => u.BusinessRenterId == request.UserId);
+            var privateRenter = await _context.PrivateRenters.FirstOrDefaultAsync(u => u.Id == request.UserId);
+            var businessRenter = await _context.BusinessRenters.FirstOrDefaultAsync(u => u.Id == request.UserId);
 
             if (privateRenter == null && businessRenter == null)
             {

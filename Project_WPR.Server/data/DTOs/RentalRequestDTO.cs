@@ -2,7 +2,7 @@
 {
     public class RentalRequestDTO
     {
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public int VehicleId { get; set; }
 
     }
