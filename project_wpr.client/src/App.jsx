@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Registreer from './pages/Registreer';
 import Login from './pages/Login';
+import Logout from './pages/Logout';
 import Dashboard from './pages/Dashboard';
 import './App.css';
 
@@ -35,7 +36,7 @@ function App() {
                             <Route path="/registreer" element={<Registreer />} />
                             <Route path="/login" element={<Login />} />
                             <Route path="/dashboard" element={<Dashboard />} />
-                            {/* <Route path="/logout" element={<Logout />} /> */}
+                            <Route path="/logout" element={<Logout />} />
                         </Routes>
                     </div>
                 </div>
