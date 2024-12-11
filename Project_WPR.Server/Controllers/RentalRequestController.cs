@@ -16,13 +16,6 @@ namespace Project_WPR.Server.Controllers
             _context = context;
         }
 
-        [HttpPost("Verhuur-aanvraag")]
-        public async Task<IActionResult> CreateRentalRequest()
-        {
-         
-
-        }
-
         [HttpPost("huur-auto")]
         public async Task<IActionResult> Rental([FromBody] RentalRequestDTO request)
         {

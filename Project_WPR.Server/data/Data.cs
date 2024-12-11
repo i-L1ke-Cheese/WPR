@@ -16,7 +16,7 @@ namespace Project_WPR.Server.data {
 
     public class CompanyAccount : User
     {
-        public string CompanyId { get; set; }
+        public int CompanyId { get; set; }
     }
 
     public class VehicleManager : CompanyAccount {
