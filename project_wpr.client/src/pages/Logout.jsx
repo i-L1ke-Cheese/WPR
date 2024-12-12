@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import * as topBTNmanager from './updateTopBtns.js'
 
 /**
  * Logout component logt de gebruiker uit door een verzoek naar de API te sturen en toont een uitlogbericht.
@@ -12,14 +13,16 @@ function Logout() {
     useEffect(() => {
         const logout = async () => {
             try {
-                const response = await fetch("https://localhost:7289/api/auth/logout", {
+                const response = await fetch("https://localhost:7289/api/Logout/logout", {
                     method: "POST",
+                    credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
                     },
                 });
 
                 if (response.ok) {
+                    topBTNmanager.showLoginBTN();
                     console.log("Logout Successful");
                 } else {
                     console.error("Logout Failed");

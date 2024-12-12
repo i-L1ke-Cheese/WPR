@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project_WPR.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class redo : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -86,9 +86,12 @@ namespace Project_WPR.Server.Migrations
                     Brand = table.Column<string>(type: "TEXT", nullable: false),
                     Type = table.Column<string>(type: "TEXT", nullable: false),
                     Color = table.Column<string>(type: "TEXT", nullable: false),
-                    YearOfPurchase = table.Column<DateOnly>(type: "TEXT", nullable: false),
+                    YearOfPurchase = table.Column<int>(type: "INTEGER", nullable: false),
                     LicensePlate = table.Column<string>(type: "TEXT", nullable: false),
                     Description = table.Column<string>(type: "TEXT", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "INTEGER", nullable: false),
+                    IsDamaged = table.Column<bool>(type: "INTEGER", nullable: false),
+                    RentalPrice = table.Column<double>(type: "REAL", nullable: false),
                     Discriminator = table.Column<string>(type: "TEXT", maxLength: 8, nullable: false),
                     Camper_TransmissionType = table.Column<string>(type: "TEXT", nullable: true),
                     RequiredLicenseType = table.Column<string>(type: "TEXT", nullable: true),
@@ -266,7 +269,9 @@ namespace Project_WPR.Server.Migrations
                     PrivateRenterId = table.Column<string>(type: "TEXT", nullable: true),
                     Intention = table.Column<string>(type: "TEXT", nullable: false),
                     FarthestDestination = table.Column<string>(type: "TEXT", nullable: false),
-                    SuspectedKm = table.Column<int>(type: "INTEGER", nullable: false)
+                    SuspectedKm = table.Column<int>(type: "INTEGER", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
