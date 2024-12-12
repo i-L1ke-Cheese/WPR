@@ -20,14 +20,16 @@ public class Program {
 
         });
 
-        builder.Services.AddCors(options =>
-        {
+        builder.Services.AddCors(options => {
             options.AddPolicy("Allowvite",
                builder => builder
                    .WithOrigins("https://localhost:50327")
                    .AllowAnyMethod()
+                   .AllowCredentials()
                    .AllowAnyHeader());
         });
+
+        builder.Services.AddAuthentication();
 
 
         builder.Services.AddOpenApi();
@@ -45,9 +47,9 @@ public class Program {
         }
 
         app.UseHttpsRedirection();
+        app.UseCors("Allowvite");
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseCors("Allowvite");
 
         app.MapControllers();
         app.MapIdentityApi<User>();

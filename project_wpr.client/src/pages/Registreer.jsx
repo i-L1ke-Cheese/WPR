@@ -18,7 +18,7 @@ function Registreer() {
         const data = { email, password, firstName, lastName, dateOfBirth };
 
         try {
-            const response = await fetch("https://localhost:7289/api/register/register", {
+            const response = await fetch("https://localhost:7289//api/Register/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -31,6 +31,7 @@ function Registreer() {
                 console.log("registering successful:", result);
             } else {
                 console.error("registering failed");
+                document.getElementById("message").innerHTML = "failed";
             }
         } catch (error) {
             console.error("Error:", error);
@@ -98,6 +99,7 @@ function Registreer() {
                     required
                 />
             </div>
+            <p id="message" className="green"></p>
             <button type="submit" className="submit">Registreer</button>   
         </form>
     )

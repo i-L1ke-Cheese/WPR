@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_WPR.Server.data;
 
@@ -10,9 +11,11 @@ using Project_WPR.Server.data;
 namespace Project_WPR.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241212132304_voertuigHuurprijsToevoegen")]
+    partial class voertuigHuurprijsToevoegen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -387,14 +390,10 @@ namespace Project_WPR.Server.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("RentalPrice")
-                        .HasColumnType("REAL");
+                    b.Property<int>("RentalPrice")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("VehicleType")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
