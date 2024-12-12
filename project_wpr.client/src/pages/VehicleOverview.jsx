@@ -73,7 +73,7 @@ function VehicleOverview() {
     }
 
     const filteredVehicles = vehicles.filter(vehicle => {
-        return (filterVehicleType ? vehicle.vehicleType.toLowerCase() === filterType.toLowerCase() : true) &&
+        return (filterVehicleType ? vehicle.vehicleType.toLowerCase() === filterVehicleType.toLowerCase() : true) &&
             (filterBrand ? vehicle.brand.toLowerCase() === filterBrand.toLowerCase() : true) &&
             (filterType ? vehicle.type.toLowerCase() === filterType.toLowerCase() : true) &&
         (filterColor ? vehicle.color.toLowerCase() === filterColor.toLowerCase() : true);
