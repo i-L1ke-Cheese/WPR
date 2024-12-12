@@ -5,24 +5,24 @@
 namespace Project_WPR.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class voertuigbijwerken : Migration
+    public partial class voertuigTypeToevoegen : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<bool>(
-                name: "IsAvailable",
+            migrationBuilder.AddColumn<string>(
+                name: "VehicleType",
                 table: "Vehicle",
-                type: "INTEGER",
+                type: "TEXT",
                 nullable: false,
-                defaultValue: false);
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "IsAvailable",
+                name: "VehicleType",
                 table: "Vehicle");
         }
     }

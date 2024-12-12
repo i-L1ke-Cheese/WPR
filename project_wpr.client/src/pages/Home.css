@@ -1,24 +1,22 @@
 .container {
     color: aquamarine;
-    margin: 100px 0 0 200px;
-    width: 70%;
+    flex-grow: 1;
     height: 450px;
     display: flex;
     justify-content: center;
     gap: 50px;
 }
 
-    .container img {
-        width: 200px; /* Specifieer de gewenste breedte */
-        height: 200px; /* Specifieer de gewenste hoogte */
-        object-fit: cover;
-        border-radius: 10px;
-        border: 2px solid rgba(255, 255, 255, 0.6);
-        transition: ease-in-out 0.5s; /* Apply transition to opacity, width, and height */
-    }
+.container img {
+    width: 200px; /* Specifieer de gewenste breedte */
+    height: 200px; /* Specifieer de gewenste hoogte */
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    transition: ease-in-out 0.5s; /* Apply transition to opacity, width, and height */
+}
 
-        .container img:hover {
-            width: 220px; /* Increase width on hover */
-            height: 220px; /* Increase height on hover */
-            
-        }
+.container img:hover {
+    width: 220px; /* Increase width on hover */
+    height: 220px; /* Increase height on hover */
+}

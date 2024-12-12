@@ -1,22 +1,26 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace Project_WPR.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class LogoutController : ControllerBase
     {
         /// <summary>
-        /// Logouts this instance.
+        /// Logouts this instance by deleting all cookies.
         /// </summary>
         /// <returns></returns>
         [HttpPost("logout")]
         public IActionResult Logout()
         {
-            HttpContext.Response.Cookies.Delete("auth_cookie");
+            foreach (var cookie in HttpContext.Request.Cookies) {
+                HttpContext.Response.Cookies.Delete(cookie.Key);
+            }
 
-            return Ok(new { message = "Logout successful" });
+            return Ok();
         }
     }
 }

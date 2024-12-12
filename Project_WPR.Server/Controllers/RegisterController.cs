@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +10,13 @@ using Project_WPR.Server.data.DTOs;
 namespace Project_WPR.Server.Controllers {
     [Route("api/[controller]")]
     [ApiController]
+    [AllowAnonymous]
     public class RegisterController : ControllerBase {
         private readonly UserManager<User> _userManager;
-        public RegisterController(UserManager<User> userManager) {
+        private readonly SignInManager<User> _signinManager;
+        public RegisterController(UserManager<User> userManager, SignInManager<User> signinManager) {
             _userManager = userManager;
+            _signinManager = signinManager;
         }
 
         [HttpPost("register")]

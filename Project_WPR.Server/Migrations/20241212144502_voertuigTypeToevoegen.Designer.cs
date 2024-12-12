@@ -11,8 +11,8 @@ using Project_WPR.Server.data;
 namespace Project_WPR.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241209101450_voertuigbijwerken")]
-    partial class voertuigbijwerken
+    [Migration("20241212144502_voertuigTypeToevoegen")]
+    partial class voertuigTypeToevoegen
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -377,6 +377,9 @@ namespace Project_WPR.Server.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("INTEGER");
 
+                    b.Property<bool>("IsDamaged")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("LicensePlate")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -385,8 +388,12 @@ namespace Project_WPR.Server.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateOnly>("YearOfPurchase")
+                    b.Property<string>("VehicleType")
+                        .IsRequired()
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("YearOfPurchase")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

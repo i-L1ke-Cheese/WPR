@@ -6,8 +6,6 @@
 
 .container {
     color: aquamarine;
-    margin: 100px 0 0 200px;
-    width: 70%;
     height: auto;
     display: flex;
     flex-wrap: wrap;

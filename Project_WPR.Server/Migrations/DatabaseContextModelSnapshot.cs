@@ -305,6 +305,9 @@ namespace Project_WPR.Server.Migrations
                     b.Property<string>("BusinessRenterId")
                         .HasColumnType("TEXT");
 
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("FarthestDestination")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -314,6 +317,9 @@ namespace Project_WPR.Server.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PrivateRenterId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SuspectedKm")
@@ -381,7 +387,14 @@ namespace Project_WPR.Server.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<double>("RentalPrice")
+                        .HasColumnType("REAL");
+
                     b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VehicleType")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
