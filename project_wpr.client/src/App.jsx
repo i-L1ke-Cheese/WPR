@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -10,9 +11,16 @@ import Logout from './pages/Logout';
 import Dashboard from './pages/Dashboard';
 import VehicleOverview from './pages/VehicleOverview';
 import VehicleDetails from './pages/VehicleDetails';
+import Settings from './pages/Settings';
 import './App.css';
+import * as topBTNmanager from './pages/updateTopBtns.js'
 
 function App() {
+
+    useEffect(() => {
+        topBTNmanager.showAccountDropdown();
+    })
+
     return (
         <Router>
             <div className="App">
@@ -25,9 +33,7 @@ function App() {
                                 <li><Link to="/">Home</Link></li>
                                 <li><Link to="/overview">Overzicht</Link></li>
                                 <li><Link to="/about">About</Link></li>
-                                <li><Link to="/login">Login</Link></li>
                                 <li><Link to="/dashboard">Dashboard</Link></li>{ /* Alleen weergeven als je ingelogd bent */ }
-                                <li><Link to="/logout">Uitloggen</Link></li>{ /* Uitloggen alleen weergeven als je ingelogd bent */ }
                             </ul>
                         </nav>
                     </div>
@@ -42,6 +48,7 @@ function App() {
                             <Route path="/login" element={<Login />} />
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/logout" element={<Logout />} />
+                            <Route path="/settings" element={<Settings />} />
                         </Routes>
                     </div>
                 </div>

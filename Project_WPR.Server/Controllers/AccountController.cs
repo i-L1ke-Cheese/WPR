@@ -31,7 +31,7 @@ namespace Project_WPR.Server.Controllers {
             if(user == null) {
                 return NotFound();
             }
-            return Ok(new {Email = user.Email, UUID = user.Id});
+            return Ok(new {Email = user.Email, FName = user.FirstName, LName = user.LastName});
         }
     }
 }

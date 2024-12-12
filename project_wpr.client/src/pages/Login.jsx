@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
+import * as topBTNmanager from './updateTopBtns.js'
 
 // https://uiverse.io/nathann09/bad-hound-78 Gebruikt voor inspiratie en hulp om frontend mooi te maken
 function Login() {
@@ -25,6 +26,7 @@ function Login() {
 
 			if (response.ok) {
 				console.log("Login successful");
+				topBTNmanager.showAccountDropdown();
 				navigate('/dashboard');
 			} else {
 				console.error("Login failed");
@@ -33,6 +35,24 @@ function Login() {
 			console.error("Error:", error);
 		}
 	};
+
+	const check = async () => {
+		const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		if (loggedInCheckResponse.ok) { //if already logged in, and still opening /login, get redirected to the dashboard
+			navigate("/dashboard");
+		}
+	}
+
+	useEffect(() => {
+		check();
+	});
 
 	return (
 		<form className="form" onSubmit={handleSubmit}>
