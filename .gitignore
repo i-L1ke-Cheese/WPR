@@ -5,4 +5,3 @@ bin/
 *.db
 *.db-shm
 *.db-wal
-/Project_WPR.Server/database.db-shm
