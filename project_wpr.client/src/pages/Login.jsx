@@ -14,8 +14,9 @@ function Login() {
 		const data = { email, password };
 
 		try {
-			const response = await fetch("https://localhost:7289/login", {
+			const response = await fetch("https://localhost:7289/login?useCookies=true", {
 				method: "POST",
+				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -23,8 +24,7 @@ function Login() {
 			});
 
 			if (response.ok) {
-				const result = await response.json();
-				console.log("Login successful:", result);
+				console.log("Login successful");
 				navigate('/dashboard');
 			} else {
 				console.error("Login failed");
@@ -56,6 +56,7 @@ function Login() {
 					required
 				/>
 			</div>
+			<p id="message" className="green"></p>
 			<button type="submit" className="submit">Login</button>
 			<p className="registreer-link">
 				Geen account? <Link to="/registreer">Registreer hier</Link>

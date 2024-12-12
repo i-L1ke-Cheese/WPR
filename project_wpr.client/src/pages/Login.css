@@ -16,6 +16,13 @@
     color: #000;
 }
 
+.green {
+    color: green;
+}
+.red {
+    color: red;
+}
+
 .input-container {
     position: relative;
 }
