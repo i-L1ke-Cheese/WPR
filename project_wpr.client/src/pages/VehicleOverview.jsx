@@ -11,6 +11,7 @@ import './VehicleOverview.css';
 function VehicleOverview() {
     //Zorgen dat alle voertuigen worden opgehaald uit de database
     const [vehicles, setVehicles] = useState([]);
+    const [filterType, setFilterType] = useState('');
     const navigate = useNavigate();
     var selectedVehicle = null;
 
@@ -36,11 +37,29 @@ function VehicleOverview() {
         navigate(`/vehicle?id=${vehicle.id}`);
     };
 
+    const handleFilterChange = (event) => {
+        setFilterType(event.target.value);
+    }
+
+    //Filter de voertuigen op basis van het geselecteerde type
+    const filteredVehicles = filterType
+        ? vehicles.filter(vehicle => vehicle.discriminator && vehicle.discriminator.toLowerCase() === filterType.toLowerCase())
+        : vehicles;
+
     return (
         <div className="vehicle-overview">
             <h2>Vehicle Overview</h2>
+            <div className="filter-container">
+                <label htmlFor="vehicle-discriminator">Filter op type: </label>
+                <select id="vehicle-discriminator" value={filterType} onChange={handleFilterChange}>
+                    <option value="">Alle voertuigen</option>
+                    <option value="auto">Auto</option>
+                    <option value="camper">Camper</option>
+                    <option value="caravan">Caravan</option>
+                </select>
+            </div>
             <div className="container">
-                {vehicles.map(vehicle => (
+                {filteredVehicles.map(vehicle => (
                     <div key={vehicle.id}>
                         <img
                             src={'Standaardauto.jpg'} //Hier moet de eerste foto komen uit de database
@@ -51,17 +70,6 @@ function VehicleOverview() {
                     </div>
                 ))}
             </div>
-            {selectedVehicle && (
-                <div className="selected-car">
-                    <h2>Geselecteerd voertuig</h2>
-                    <p>Merk: {selectedVehicle.brand}</p>
-                    <p>Model: {selectedVehicle.type}</p>
-                    <p>Kleur: {selectedVehicle.color}</p>
-                    <p>Jaar: {selectedVehicle.yearOfPurchase}</p>
-                    <p>Kenteken: {selectedVehicle.licensePlate}</p>
-                    <p>Beschrijving: {selectedVehicle.description}</p>
-                </div>
-            )}
         </div>
     );
 }

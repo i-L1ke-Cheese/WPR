@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_WPR.Server.data;
 
@@ -10,9 +11,11 @@ using Project_WPR.Server.data;
 namespace Project_WPR.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241212144502_voertuigTypeToevoegen")]
+    partial class voertuigTypeToevoegen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -305,9 +308,6 @@ namespace Project_WPR.Server.Migrations
                     b.Property<string>("BusinessRenterId")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("FarthestDestination")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -317,9 +317,6 @@ namespace Project_WPR.Server.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("PrivateRenterId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("StartDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SuspectedKm")
@@ -386,9 +383,6 @@ namespace Project_WPR.Server.Migrations
                     b.Property<string>("LicensePlate")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<double>("RentalPrice")
-                        .HasColumnType("REAL");
 
                     b.Property<string>("Type")
                         .IsRequired()
