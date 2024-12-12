@@ -20,7 +20,7 @@ function Home() {
 
     return (
         <div className="container">
-            {/* Itereer over de lijst van auto's en toon ze */}
+            {/*Itereer over de lijst van auto's en toon ze */}
             {cars.map((car) => (
                 <div key={car.id}>
                     <img

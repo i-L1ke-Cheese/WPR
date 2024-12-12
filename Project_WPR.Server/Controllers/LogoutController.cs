@@ -7,6 +7,10 @@ namespace Project_WPR.Server.Controllers
     [Route("api/[controller]")]
     public class LogoutController : ControllerBase
     {
+        /// <summary>
+        /// Logouts this instance.
+        /// </summary>
+        /// <returns></returns>
         [HttpPost("logout")]
         public IActionResult Logout()
         {

@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-//import './Logout.css';
 
+/**
+ * Logout component logt de gebruiker uit door een verzoek naar de API te sturen en toont een uitlogbericht.
+ * 
+ * @returns {JSX.Element} Het gerenderde component dat het uitlogbericht toont.
+ */
 function Logout() {
     const navigate = useNavigate();
 
