@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Project_WPR.Server.data;
-using System.Collections.Generic;
-using System.Linq;
+
 
 namespace Project_WPR.Server.Controllers
 {
@@ -23,7 +20,7 @@ namespace Project_WPR.Server.Controllers
 
 
         /// <summary>
-        /// Gets the vehicles.
+        /// Gets all vehicles.
         /// </summary>
         /// <returns></returns>
         [HttpGet("alle-voertuigen")]
@@ -41,7 +38,7 @@ namespace Project_WPR.Server.Controllers
         }
 
         /// <summary>
-        /// Gets the vehicle.
+        /// Gets a vehicle.
         /// </summary>
         /// <param name="id">The identifier.</param>
         /// <returns></returns>

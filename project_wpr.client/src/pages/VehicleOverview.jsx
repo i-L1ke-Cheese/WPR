@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './VehicleOverview.css';
 
-
+/**
+ * VehicleOverview component haalt alle voertuigen op uit de database en toont deze.
+ * Gebruikers kunnen op een voertuig klikken om naar de detailpagina van dat voertuig te navigeren.
+ * 
+ * @returns {JSX.Element} Het gerenderde component dat een overzicht van voertuigen toont.
+ */
 function VehicleOverview() {
     //Zorgen dat alle voertuigen worden opgehaald uit de database
     const [vehicles, setVehicles] = useState([]);
@@ -62,27 +67,3 @@ function VehicleOverview() {
 }
 
 export default VehicleOverview;
-
-//return (
-//    <div className="vehicle-overview">
-//        <h2>Vehicle Overview</h2>
-//        <ul className="all-vehicles">
-//            {vehicles.map(vehicle => (
-//                <li key={vehicle.id} onClick={() => handleVehicleClick(vehicle)} className="vehicle">
-//                    - {vehicle.brand} - {vehicle.type} - {vehicle.color} ({vehicle.yearOfPurchase})
-//                </li>
-//            ))}
-//        </ul>
-//        {selectedVehicle && (
-//            <div className="selected-car">
-//                <h2>Geselecteerd voertuig</h2>
-//                <p>Merk: {selectedVehicle.brand}</p>
-//                <p>Model: {selectedVehicle.type}</p>
-//                <p>Kleur: {selectedVehicle.color}</p>
-//                <p>Jaar: {selectedVehicle.yearOfPurchase}</p>
-//                <p>Kenteken: {selectedVehicle.licensePlate}</p>
-//                <p>Beschrijving: {selectedVehicle.description}</p>
-//            </div>
-//        )}
-//    </div>
-//);
