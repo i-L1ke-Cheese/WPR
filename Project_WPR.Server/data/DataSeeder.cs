@@ -25,6 +25,7 @@ namespace Project_WPR.Server.data {
                     temp.Description = "Car put in database by seeder;";
                     temp.IsAvailable = true;
                     temp.IsDamaged = false;
+                    temp.VehicleType = "car";
                     temp.TransmissionType = c.versnellingsbaktype;
 
                     _c.Cars.Add(temp);
@@ -47,6 +48,7 @@ namespace Project_WPR.Server.data {
                     temp.Description = "Camper put in database by seeder;";
                     temp.IsAvailable = true;
                     temp.IsDamaged = false;
+                    temp.VehicleType = "camper";
                     temp.TransmissionType = c.versnellingsbaktype;
                     temp.RequiredLicenseType = c.benodigdrijbewijs;
 
@@ -70,6 +72,7 @@ namespace Project_WPR.Server.data {
                     temp.Description = "Caravan put in database by seeder;";
                     temp.IsAvailable = true;
                     temp.IsDamaged = false;
+                    temp.VehicleType = "caravan";
 
                     _c.Caravans.Add(temp);
                 }
