@@ -1,7 +1,6 @@
-
-
 using Project_WPR.Server.data;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 public class Program {
     public static void Main(String[] args) {
@@ -54,8 +53,8 @@ public class Program {
         app.MapIdentityApi<User>();
         app.MapFallbackToFile("/index.html");
 
-        DatabaseContext dbc = new DatabaseContext();
-        DataSeeder.Run(dbc);
+        //DatabaseContext dbc = new DatabaseContext();
+        //DataSeeder.Run(dbc);
 
         app.Run();
     }

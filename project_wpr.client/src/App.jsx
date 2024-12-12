@@ -8,6 +8,8 @@ import Registreer from './pages/Registreer';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Dashboard from './pages/Dashboard';
+import VehicleOverview from './pages/VehicleOverview';
+import VehicleDetails from './pages/VehicleDetails';
 import './App.css';
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
                         <nav>
                             <ul>
                                 <li><Link to="/">Home</Link></li>
+                                <li><Link to="/overview">Overzicht</Link></li>
                                 <li><Link to="/about">About</Link></li>
                                 <li><Link to="/login">Login</Link></li>
                                 <li><Link to="/dashboard">Dashboard</Link></li>{ /* Alleen weergeven als je ingelogd bent */ }
@@ -32,6 +35,8 @@ function App() {
                     <div className="content">
                         <Routes>
                             <Route path="/" element={<Home />} />
+                            <Route path="/overview" element={<VehicleOverview />} />
+                            <Route path="/vehicle" element={<VehicleDetails /> } />
                             <Route path="/about" element={<About />} />
                             <Route path="/registreer" element={<Registreer />} />
                             <Route path="/login" element={<Login />} />

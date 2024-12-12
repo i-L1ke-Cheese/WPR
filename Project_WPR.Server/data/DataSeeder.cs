@@ -23,6 +23,8 @@ namespace Project_WPR.Server.data {
                     temp.YearOfPurchase = c.aanschafjaar;
                     temp.LicensePlate = c.kenteken;
                     temp.Description = "Car put in database by seeder;";
+                    temp.IsAvailable = true;
+                    temp.IsDamaged = false;
                     temp.TransmissionType = c.versnellingsbaktype;
 
                     _c.Cars.Add(temp);
@@ -43,6 +45,8 @@ namespace Project_WPR.Server.data {
                     temp.YearOfPurchase = c.aanschafjaar;
                     temp.LicensePlate = c.kenteken;
                     temp.Description = "Camper put in database by seeder;";
+                    temp.IsAvailable = true;
+                    temp.IsDamaged = false;
                     temp.TransmissionType = c.versnellingsbaktype;
                     temp.RequiredLicenseType = c.benodigdrijbewijs;
 
@@ -64,6 +68,8 @@ namespace Project_WPR.Server.data {
                     temp.YearOfPurchase = c.aanschafjaar;
                     temp.LicensePlate = c.kenteken;
                     temp.Description = "Caravan put in database by seeder;";
+                    temp.IsAvailable = true;
+                    temp.IsDamaged = false;
 
                     _c.Caravans.Add(temp);
                 }
@@ -76,6 +82,8 @@ namespace Project_WPR.Server.data {
             public string kenteken { get; set; }
             public string kleur { get; set; }
             public int aanschafjaar { get; set; }
+            //public Boolean isBeschikbaar { get; set; }
+            //public Boolean isBeschadigd { get; set; }
         }
 
         private class CarObj {
@@ -84,6 +92,8 @@ namespace Project_WPR.Server.data {
             public string kenteken { get; set; }
             public string kleur { get; set; }
             public int aanschafjaar { get; set; }
+            //public Boolean isBeschikbaar { get; set; }
+            //public Boolean isBeschadigd { get; set; }
             public string versnellingsbaktype { get; set; }
         }
 
@@ -93,6 +103,8 @@ namespace Project_WPR.Server.data {
             public string kenteken { get; set; }
             public string kleur { get; set; }
             public int aanschafjaar { get; set; }
+            //public Boolean isBeschikbaar { get; set; }
+            //public Boolean isBeschadigd { get; set; }
             public string versnellingsbaktype { get; set; }
             public string benodigdrijbewijs { get; set; }
         }
