@@ -55,6 +55,7 @@ function VehicleDetails() {
                 <p><strong>Kenteken:</strong> {vehicle.licensePlate}</p>
                 <p><strong>Beschrijving:</strong> {vehicle.description}</p>
                 <p><strong>Huurprijs per dag:</strong> €{vehicle.rentalPrice}</p>
+                <p><strong>Voertuigtype:</strong> { vehicle.vehicleType}</p>
                 {vehicle.transmissionType && <p><strong>Versnellingsbak:</strong> {vehicle.transmissionType}</p>}
                 {vehicle.requiredLicenseType && <p><strong>Rijbewijs:</strong> {vehicle.requiredLicenseType}</p>}
             </div>

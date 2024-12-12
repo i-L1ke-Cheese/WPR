@@ -47,6 +47,7 @@ namespace Project_WPR.Server.data {
         public Boolean IsAvailable { get; set; }
         public Boolean IsDamaged { get; set; }
         public double RentalPrice { get; set; }
+        public string VehicleType { get; set; }
         public ICollection<VehiclePicture> Pictures { get; set; }
     }
 

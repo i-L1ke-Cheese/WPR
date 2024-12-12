@@ -43,17 +43,17 @@ function VehicleOverview() {
 
     //Filter de voertuigen op basis van het geselecteerde type
     const filteredVehicles = filterType
-        ? vehicles.filter(vehicle => vehicle.discriminator && vehicle.discriminator.toLowerCase() === filterType.toLowerCase())
+        ? vehicles.filter(vehicle => vehicle.vehicleType && vehicle.vehicleType.toLowerCase() === filterType.toLowerCase())
         : vehicles;
 
     return (
         <div className="vehicle-overview">
             <h2>Vehicle Overview</h2>
             <div className="filter-container">
-                <label htmlFor="vehicle-discriminator">Filter op type: </label>
-                <select id="vehicle-discriminator" value={filterType} onChange={handleFilterChange}>
+                <label htmlFor="vehicleType">Filter op type: </label>
+                <select id="vehicleType" value={filterType} onChange={handleFilterChange}>
                     <option value="">Alle voertuigen</option>
-                    <option value="auto">Auto</option>
+                    <option value="car">Auto</option>
                     <option value="camper">Camper</option>
                     <option value="caravan">Caravan</option>
                 </select>
