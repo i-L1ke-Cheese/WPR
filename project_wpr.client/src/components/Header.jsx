@@ -55,7 +55,7 @@ function Header() {
             <div className="navbar">
                 <h1 id="PageTitle" >CarAndAll</h1>
                 <div id="AccountDropdownBTNTopBar" className="dropdown hide">
-                    <button className="AccountMenuBTN" onClick={toggleVisibility}>ACCOUNT
+                    <button className="AccountMenuBTN" onClick={toggleVisibility}><i id="DropDownCaretTag" className="fa-solid fa-caret-down"></i> ACCOUNT
                     </button>
                     <div className="dropdown-content" id="myDropdown">
                         <p><b>hey, <span id="dropdownUserTag">user</span>!</b></p>
