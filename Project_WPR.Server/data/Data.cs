@@ -45,6 +45,7 @@ namespace Project_WPR.Server.data {
         public string LicensePlate { get; set; }
         public string Description { get; set; }
         public Boolean IsAvailable { get; set; }
+        public Boolean IsDamaged { get; set; }
         public ICollection<VehiclePicture> Pictures { get; set; }
     }
 
