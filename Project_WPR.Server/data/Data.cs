@@ -45,6 +45,8 @@ namespace Project_WPR.Server.data {
         public string LicensePlate { get; set; }
         public string Description { get; set; }
         public Boolean IsAvailable { get; set; }
+        public Boolean IsDamaged { get; set; }
+        public double RentalPrice { get; set; }
         public ICollection<VehiclePicture> Pictures { get; set; }
     }
 
@@ -96,7 +98,8 @@ namespace Project_WPR.Server.data {
         public string Intention { get; set; }
         public string FarthestDestination { get; set; }
         public int SuspectedKm { get; set; }
-
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public Vehicle Vehicle { get; set; }
     }
 

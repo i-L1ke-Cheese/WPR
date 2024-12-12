@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-    import { Link } from 'react-router-dom';
-    import './Login.css';
+import { Link, useNavigate } from 'react-router-dom';
+import './Login.css';
+
 // https://uiverse.io/nathann09/bad-hound-78 Gebruikt voor inspiratie en hulp om frontend mooi te maken
 function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -22,21 +24,8 @@ function Login() {
 			});
 
 			if (response.ok) {
-				console.log("Login successful:");
-				document.getElementById("message").innerHTML = "login succesfull";
-				const response = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
-					method: "POST",
-					credentials: "include",
-					headers: {
-						"Content-type": "application/json"
-					}
-				});
-
-				if (response.ok) {
-					console.log("ok");
-				} else {
-					console.log("not ok");
-				}
+				console.log("Login successful");
+				navigate('/dashboard');
 			} else {
 				console.error("Login failed");
 			}

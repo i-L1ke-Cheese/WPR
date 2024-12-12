@@ -1,7 +1,6 @@
-
-
 using Project_WPR.Server.data;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 public class Program {
     public static void Main(String[] args) {

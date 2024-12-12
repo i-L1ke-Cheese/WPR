@@ -16,6 +16,7 @@ namespace Project_WPR.Server.data {
                 List<CarObj> items = JsonConvert.DeserializeObject<List<CarObj>>(json);
 
                 foreach (CarObj c in items) {
+                    Random rand = new Random();
                     Car temp = new Car();
                     temp.Brand = c.merk;
                     temp.Type = c.type;
@@ -23,6 +24,9 @@ namespace Project_WPR.Server.data {
                     temp.YearOfPurchase = c.aanschafjaar;
                     temp.LicensePlate = c.kenteken;
                     temp.Description = "Car put in database by seeder;";
+                    temp.IsAvailable = true;
+                    temp.IsDamaged = false;
+                    temp.RentalPrice = rand.Next(20, 75);
                     temp.TransmissionType = c.versnellingsbaktype;
 
                     _c.Cars.Add(temp);
@@ -36,6 +40,7 @@ namespace Project_WPR.Server.data {
                 List<CamperObj> items = JsonConvert.DeserializeObject<List<CamperObj>>(json);
 
                 foreach (CamperObj c in items) {
+                    Random rand = new Random();
                     Camper temp = new Camper();
                     temp.Brand = c.merk;
                     temp.Type = c.type;
@@ -43,6 +48,9 @@ namespace Project_WPR.Server.data {
                     temp.YearOfPurchase = c.aanschafjaar;
                     temp.LicensePlate = c.kenteken;
                     temp.Description = "Camper put in database by seeder;";
+                    temp.IsAvailable = true;
+                    temp.IsDamaged = false;
+                    temp.RentalPrice = rand.Next(50, 150);
                     temp.TransmissionType = c.versnellingsbaktype;
                     temp.RequiredLicenseType = c.benodigdrijbewijs;
 
@@ -57,6 +65,7 @@ namespace Project_WPR.Server.data {
                 List<caravanobj> items = JsonConvert.DeserializeObject<List<caravanobj>>(json);
 
                 foreach (caravanobj c in items) {
+                    Random rand = new Random();
                     Caravan temp = new Caravan();
                     temp.Brand = c.merk;
                     temp.Type = c.type;
@@ -64,6 +73,9 @@ namespace Project_WPR.Server.data {
                     temp.YearOfPurchase = c.aanschafjaar;
                     temp.LicensePlate = c.kenteken;
                     temp.Description = "Caravan put in database by seeder;";
+                    temp.IsAvailable = true;
+                    temp.IsDamaged = false;
+                    temp.RentalPrice = rand.Next(20, 75);
 
                     _c.Caravans.Add(temp);
                 }

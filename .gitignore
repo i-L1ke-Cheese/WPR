@@ -2,6 +2,6 @@
 .vs/
 obj/
 bin/
-/Project_WPR.Server/database.db
-/Project_WPR.Server/database.db-shm
-/Project_WPR.Server/database.db-wal
+*.db
+*.db-shm
+*.db-wal
