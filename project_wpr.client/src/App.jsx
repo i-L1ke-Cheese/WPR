@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Registreer from './pages/Registreer'
 import Login from './pages/Login'
+//import Company from './pages/Company'
 import './App.css';
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                             <Route path="/about" element={<About />} />
                             <Route path="/registreer" element={<Registreer />} />
                             <Route path="/login" element={<Login />} />
+                            {/*<Route path="/Company" element={<Company />} />*/}
                         </Routes>
                     </div>
                 </div>

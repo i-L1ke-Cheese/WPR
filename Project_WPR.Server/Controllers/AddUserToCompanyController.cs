@@ -31,11 +31,15 @@ namespace Project_WPR.Server.Controllers
 
             if(businessRenter.CompanyId == null)
             {
-                return NotFound("Heeft geen company");
+                return NotFound("Heeft geen Bedrijf");
+            }
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == businessRenter.CompanyId);
+            if (company == null)
+            {
+                return NotFound("Bedrijf niet gevonden");
             }
 
-
-            return Ok(businessRenter.CompanyId);
+            return Ok(company.Name);
         }
 
         [HttpPost("SetCompanyFromUser")]
