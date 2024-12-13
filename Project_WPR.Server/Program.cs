@@ -55,6 +55,7 @@ public class Program {
         app.MapIdentityApi<User>();
         app.MapFallbackToFile("/index.html");
 
+        // 1x runnen als de database leeg is
         //DatabaseContext dbc = new DatabaseContext();
         //DataSeeder.Run(dbc);
 
