@@ -7,13 +7,13 @@ namespace Project_WPR.Server.Controllers
     [Route("api/[controller]")]
     public class VehicleController : ControllerBase
     {
-        private readonly data.DatabaseContext _context;
+        private readonly data.IDatabaseContext _context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleController"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public VehicleController(data.DatabaseContext context)
+        public VehicleController(data.IDatabaseContext context)
         {
             _context = context;
         }
@@ -45,6 +45,11 @@ namespace Project_WPR.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<data.Vehicle>> GetVehicle(int id)
         {
+            if (_context == null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Database context is not initialized.");
+            }
+
             var auto = await _context.Cars.FindAsync(id);
             var camper = await _context.Campers.FindAsync(id);
             var caravan = await _context.Caravans.FindAsync(id);

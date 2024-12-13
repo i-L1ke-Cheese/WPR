@@ -25,33 +25,9 @@ function VehicleOverview() {
     const navigate = useNavigate();
     var selectedVehicle = null;
 
-    //useEffect(() => {
-    //    const fetchVehicles = async () => {
-    //        try {
-    //            const response = await fetch("https://localhost:7289/api/Vehicle/alle-voertuigen")
-    //            if (response.ok) {
-    //                const data = await response.json();
-    //                setVehicles(data);
-
-    //                const uniqueBrands = [...new Set(data.map(vehicle => vehicle.brand))].sort();
-    //                setBrands(uniqueBrands);
-
-    //                const uniqueTypes = [...new Set(data.map(vehicle => vehicle.type))].sort();
-    //                setTypes(uniqueTypes);
-
-    //                const uniqueColors = [...new Set(data.map(vehicle => vehicle.color))].sort();
-    //                setColors(uniqueColors);
-    //            } else {
-    //                console.error("Failed to fetch vehicles");
-    //            }
-    //        } catch (error) {
-    //            console.error("Error: ", error);
-    //        }
-    //    };
-
-    //    fetchVehicles();
-    //}, []);
-
+    /**
+     * useEffect hook om de voertuigen op te halen uit de API.
+     */
     useEffect(() => {
         const fetchVehicles = async () => {
             try {
@@ -70,6 +46,9 @@ function VehicleOverview() {
         fetchVehicles();
     }, []);
 
+    /**
+     * useEffect hook om de unieke merken, types en kleuren van de gefilterde voertuigen op te halen zodat deze in de filter dropdowns getoond kunnen worden.
+     */
     useEffect(() => {
         const filteredVehicles = vehicles.filter(vehicle => {
             return (filterVehicleType ? vehicle.vehicleType.toLowerCase() === filterVehicleType.toLowerCase() : true) &&
@@ -83,39 +62,62 @@ function VehicleOverview() {
 
         const uniqueTypes = [...new Set(filteredVehicles.map(vehicle => vehicle.type))].sort();
         setTypes(uniqueTypes);
-
+        
         const uniqueColors = [...new Set(filteredVehicles.map(vehicle => vehicle.color))].sort();
         setColors(uniqueColors);
     }, [vehicles, filterVehicleType, filterBrand, filterType, filterColor]);
 
+    /**
+     * Functie die wordt aangeroepen wanneer een voertuig wordt aangeklikt.
+     * @param {any} vehicle
+     */
     const handleVehicleClick = (vehicle) => {
         navigate(`/vehicle?id=${vehicle.id}`);
     };
 
+    /**
+     * Functie die wordt aangeroepen wanneer de filter voor het voertuigtype wordt aangepast.
+     * @param {any} event
+     */
     const handleFilterVehicleTypeChange = (event) => {
         const value = event.target.value;
         setFilterVehicleType(value);
         localStorage.setItem('filterVehicleType', value);
     }
 
+    /**
+     * Functie die wordt aangeroepen wanneer de filter voor het merk wordt aangepast.
+     * @param {any} event
+     */
     const handleFilterBrandChange = (event) => {
         const value = event.target.value;
         setFilterBrand(value);
         localStorage.setItem('filterBrand', value);
     }
 
+    /**
+     * Functie die wordt aangeroepen wanneer de filter voor het type wordt aangepast.
+     * @param {any} event
+     */
     const handleFilterTypeChange = (event) => {
         const value = event.target.value;
         setFilterType(value);
         localStorage.setItem('filterType', value);
     }
 
+    /**
+     * Functie die wordt aangeroepen wanneer de filter voor de kleur wordt aangepast.
+     * @param {any} event
+     */
     const handleFilterColorChange = (event) => {
         const value = event.target.value;
         setFilterColor(value);
         localStorage.setItem('filterColor', value);
     }
 
+    /**
+     * Functie die wordt aangeroepen wanneer de reset filters knop wordt aangeklikt.
+     */
     const handleResetFilters = () => {
         setFilterVehicleType('');
         setFilterBrand('');
@@ -126,14 +128,15 @@ function VehicleOverview() {
         localStorage.removeItem('filterType');
         localStorage.removeItem('filterColor');
     }
-
+     /**
+      * Filter de voertuigen op basis van de geselecteerde filters.
+      */
     const filteredVehicles = vehicles.filter(vehicle => {
         return (filterVehicleType ? vehicle.vehicleType.toLowerCase() === filterVehicleType.toLowerCase() : true) &&
             (filterBrand ? vehicle.brand.toLowerCase() === filterBrand.toLowerCase() : true) &&
             (filterType ? vehicle.type.toLowerCase() === filterType.toLowerCase() : true) &&
         (filterColor ? vehicle.color.toLowerCase() === filterColor.toLowerCase() : true);
     });
-
 
     return (
         <div className="vehicle-overview">
