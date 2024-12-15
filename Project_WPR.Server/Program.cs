@@ -8,7 +8,9 @@ public class Program {
 
         // Add services to the container.
 
-        builder.Services.AddDbContext<DatabaseContext>();
+        builder.Services.AddDbContext<DatabaseContext>(options =>
+            options.UseSqlite("Data Source=database.db"));
+        builder.Services.AddScoped<IDatabaseContext, DatabaseContext>();
         builder.Services.AddAuthorization();
         builder.Services.AddControllers()
             .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -30,6 +32,7 @@ public class Program {
         });
 
         builder.Services.AddAuthentication();
+        builder.Services.AddLogging();
 
 
         builder.Services.AddOpenApi();

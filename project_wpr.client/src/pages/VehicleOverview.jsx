@@ -157,7 +157,7 @@ function VehicleOverview() {
                     ))}
                 </select> <br />
                 <label htmlFor="type">Filteren op model: </label>
-                <select id="type" value={filterBrand} onChange={handleFilterTypeChange}>
+                <select id="type" value={filterType} onChange={handleFilterTypeChange}>
                     <option value="">Alle modellen</option>
                     {types.map(type => (
                         <option key={type} value={type}>{type}</option>

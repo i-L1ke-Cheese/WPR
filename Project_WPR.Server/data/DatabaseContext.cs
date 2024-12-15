@@ -21,6 +21,11 @@ namespace Project_WPR.Server.data {
     }
 
     public class DatabaseContext : IdentityDbContext, IDatabaseContext {
+        public DatabaseContext(DbContextOptions<DatabaseContext> options)
+            : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder b) {
             b.UseSqlite("Data Source=database.db");
         }
