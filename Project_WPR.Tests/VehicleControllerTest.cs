@@ -81,7 +81,7 @@ namespace Project_WPR.Tests
             var result = await _controller.GetVehicle(1);
 
             // Assert
-            Assert.IsType<NotFoundResult>(result.Result);
+            Assert.IsType<NotFoundResult>(result.Result); 
         }
 
         [Fact]
