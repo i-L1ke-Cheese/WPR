@@ -5,7 +5,7 @@
 namespace Project_WPR.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class testt : Migration
+    public partial class bruh2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

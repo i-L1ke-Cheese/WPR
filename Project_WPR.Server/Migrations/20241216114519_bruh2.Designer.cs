@@ -11,8 +11,8 @@ using Project_WPR.Server.data;
 namespace Project_WPR.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241212162318_initial")]
-    partial class initial
+    [Migration("20241216114519_bruh2")]
+    partial class bruh2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -235,6 +235,9 @@ namespace Project_WPR.Server.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("MaxVehiclesPerCompany")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -308,6 +311,12 @@ namespace Project_WPR.Server.Migrations
                     b.Property<string>("BusinessRenterId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("BusinessRenterId1")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("TEXT");
 
@@ -334,6 +343,10 @@ namespace Project_WPR.Server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BusinessRenterId");
+
+                    b.HasIndex("BusinessRenterId1");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("PrivateRenterId");
 
@@ -394,6 +407,10 @@ namespace Project_WPR.Server.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VehicleType")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -501,9 +518,8 @@ namespace Project_WPR.Server.Migrations
                 {
                     b.HasBaseType("Project_WPR.Server.data.User");
 
-                    b.Property<string>("CompanyId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
 
                     b.HasDiscriminator().HasValue("CompanyAccount");
                 });
@@ -546,14 +562,14 @@ namespace Project_WPR.Server.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("BusinessRenterId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("InvoiceAdress")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("LicenseNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("MaxVehiclesPerBusinessRenter")
                         .HasColumnType("INTEGER");
 
                     b.HasDiscriminator().HasValue("BusinessRenter");
@@ -658,6 +674,14 @@ namespace Project_WPR.Server.Migrations
                         .HasForeignKey("BusinessRenterId")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("Project_WPR.Server.data.BusinessRenter", null)
+                        .WithMany("ActiveRentalRequests")
+                        .HasForeignKey("BusinessRenterId1");
+
+                    b.HasOne("Project_WPR.Server.data.Company", null)
+                        .WithMany("ActiveRentalRequests")
+                        .HasForeignKey("CompanyId");
+
                     b.HasOne("Project_WPR.Server.data.PrivateRenter", "PrivateRenter")
                         .WithMany()
                         .HasForeignKey("PrivateRenterId")
@@ -687,6 +711,11 @@ namespace Project_WPR.Server.Migrations
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("Project_WPR.Server.data.Company", b =>
+                {
+                    b.Navigation("ActiveRentalRequests");
+                });
+
             modelBuilder.Entity("Project_WPR.Server.data.Subscription", b =>
                 {
                     b.Navigation("Company")
@@ -701,6 +730,11 @@ namespace Project_WPR.Server.Migrations
             modelBuilder.Entity("Project_WPR.Server.data.CA_Employee", b =>
                 {
                     b.Navigation("DamageReports");
+                });
+
+            modelBuilder.Entity("Project_WPR.Server.data.BusinessRenter", b =>
+                {
+                    b.Navigation("ActiveRentalRequests");
                 });
 #pragma warning restore 612, 618
         }

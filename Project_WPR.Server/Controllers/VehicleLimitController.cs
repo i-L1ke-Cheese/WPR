@@ -22,7 +22,7 @@ namespace Project_WPR.Server.Controllers
         public async Task<IActionResult> GetCompanyVehicleLimit(string businessRenterId)
         {
             var businessRenter = await _context.BusinessRenters
-                .FirstOrDefaultAsync(br => br.BusinessRenterId == businessRenterId);
+                .FirstOrDefaultAsync(br => br.Id == businessRenterId);
 
             if (businessRenter == null)
             {
@@ -31,7 +31,7 @@ namespace Project_WPR.Server.Controllers
 
             var businessRenterDTO = new BusinessRentersDTO
             {
-                BusinessRenterId = businessRenter.BusinessRenterId,
+                BusinessRenterId = businessRenter.Id,
                 FirstName = businessRenter.FirstName,
                 LastName = businessRenter.LastName,
                 MaxVehiclesPerBusinessRenter = businessRenter.MaxVehiclesPerBusinessRenter
@@ -44,7 +44,7 @@ namespace Project_WPR.Server.Controllers
         public async Task<IActionResult> SetBusinessVehicleLimit([FromBody] VehicleLimitDTO vehicleLimitDTO)
         {
             var businessRenter = await _context.BusinessRenters
-                .FirstOrDefaultAsync(br => br.BusinessRenterId == vehicleLimitDTO.BusinessRenterId);
+                .FirstOrDefaultAsync(br => br.Id == vehicleLimitDTO.BusinessRenterId);
 
             if (businessRenter == null)
             {
@@ -56,7 +56,7 @@ namespace Project_WPR.Server.Controllers
 
             var businessRenterDTO = new BusinessRentersDTO
             {
-                BusinessRenterId = businessRenter.BusinessRenterId,
+                BusinessRenterId = businessRenter.Id,
                 FirstName = businessRenter.FirstName,
                 LastName = businessRenter.LastName,
                 MaxVehiclesPerBusinessRenter = businessRenter.MaxVehiclesPerBusinessRenter
@@ -68,7 +68,7 @@ namespace Project_WPR.Server.Controllers
         public async Task<IActionResult> SetCompanyRenterVehicleLimit([FromBody] VehicleLimitDTO vehicleLimitDTO)
         {
             var businessRenter = await _context.BusinessRenters
-                .FirstOrDefaultAsync(br => br.BusinessRenterId == vehicleLimitDTO.BusinessRenterId);
+                .FirstOrDefaultAsync(br => br.Id == vehicleLimitDTO.BusinessRenterId);
 
             if (businessRenter == null)
             {
@@ -80,7 +80,8 @@ namespace Project_WPR.Server.Controllers
 
             var businessRenterDTO = new BusinessRentersDTO
             {
-                BusinessRenterId = businessRenter.BusinessRenterId,
+                BusinessRenterId = businessRenter.Id,
+
                 FirstName = businessRenter.FirstName,
                 LastName = businessRenter.LastName,
                 MaxVehiclesPerBusinessRenter = businessRenter.MaxVehiclesPerBusinessRenter

@@ -59,7 +59,7 @@ namespace Project_WPR.Server.data {
 
             b.Entity<RentalRequest>()
                 .HasOne(rr => rr.BusinessRenter)
-                .WithMany()
+                .WithMany(br => br.ActiveRentalRequests)
                 .HasForeignKey(rr => rr.BusinessRenterId)
                 .OnDelete(DeleteBehavior.Restrict);
 
