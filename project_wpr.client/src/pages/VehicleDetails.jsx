@@ -14,10 +14,12 @@ function VehicleDetails() {
 
 
     const location = useLocation();
-    // Extract the query parameter
     const queryParams = new URLSearchParams(location.search);
     const vehicleId = queryParams.get("id");
 
+    /**
+     * useEffect hook om de voertuigdetails op te halen uit de API.
+     */
     useEffect(() => {
         const fetchVehicle = async () => {
             try {
@@ -32,10 +34,7 @@ function VehicleDetails() {
                 console.error("Error: ", error);
             }
         };
-
         fetchVehicle();
-
-        
     }, [id]);
 
     if (!vehicle) {

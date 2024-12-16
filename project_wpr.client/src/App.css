@@ -12,7 +12,7 @@
 
 .main-layout {
     display: flex;
-    flex-direction: row;  
+    flex-direction: row;
     padding: 0px;
     overflow: hidden; 
     width: 100vw;

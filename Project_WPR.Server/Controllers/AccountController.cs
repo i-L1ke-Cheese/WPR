@@ -17,10 +17,10 @@ namespace Project_WPR.Server.Controllers {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signinManager;
         private readonly DatabaseContext _dbContext;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signinManager) {
+        public AccountController(UserManager<User> userManager, SignInManager<User> signinManager, DatabaseContext dbContext) {
             _userManager = userManager;
             _signinManager = signinManager;
-            _dbContext = new DatabaseContext();
+            _dbContext = dbContext;
         }
 
         
