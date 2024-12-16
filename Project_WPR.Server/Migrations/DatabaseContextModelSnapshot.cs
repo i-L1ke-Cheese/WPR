@@ -515,9 +515,8 @@ namespace Project_WPR.Server.Migrations
                 {
                     b.HasBaseType("Project_WPR.Server.data.User");
 
-                    b.Property<string>("CompanyId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("INTEGER");
 
                     b.HasDiscriminator().HasValue("CompanyAccount");
                 });
@@ -559,9 +558,6 @@ namespace Project_WPR.Server.Migrations
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("BusinessRenterId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("InvoiceAdress")
                         .IsRequired()
