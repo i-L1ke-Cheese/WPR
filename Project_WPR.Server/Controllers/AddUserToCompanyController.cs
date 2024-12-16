@@ -22,7 +22,7 @@ namespace Project_WPR.Server.Controllers
         public async Task<IActionResult> GetCompanyFromUser(string businessRenterId)
         {
             var businessRenter = await _context.BusinessRenters
-                .FirstOrDefaultAsync(br => br.BusinessRenterId == businessRenterId);
+                .FirstOrDefaultAsync(br => br.Id == businessRenterId);
 
             if (businessRenter == null)
             {
@@ -46,7 +46,7 @@ namespace Project_WPR.Server.Controllers
         public async Task<IActionResult> SetCompanyFromUser(string businessRenterId, int addCompany)
         {
             var businessRenter = await _context.BusinessRenters
-                .FirstOrDefaultAsync(br => br.BusinessRenterId == businessRenterId);
+                .FirstOrDefaultAsync(br => br.Id == businessRenterId);
 
             if (businessRenter == null)
             {

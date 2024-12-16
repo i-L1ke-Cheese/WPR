@@ -24,7 +24,6 @@ namespace Project_WPR.Server.data {
     }
 
     public class BusinessRenter : CompanyAccount {
-        public string BusinessRenterId { get; set; }
         public string Address { get; set; }
         public int LicenseNumber { get; set; }
         public string InvoiceAdress { get; set; }

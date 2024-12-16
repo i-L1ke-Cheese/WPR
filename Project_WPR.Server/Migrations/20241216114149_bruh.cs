@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project_WPR.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class bruh : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,11 +35,11 @@ namespace Project_WPR.Server.Migrations
                     FirstName = table.Column<string>(type: "TEXT", nullable: true),
                     LastName = table.Column<string>(type: "TEXT", nullable: true),
                     Department = table.Column<string>(type: "TEXT", nullable: true),
-                    CompanyId = table.Column<string>(type: "TEXT", nullable: true),
-                    BusinessRenterId = table.Column<int>(type: "INTEGER", nullable: true),
+                    CompanyId = table.Column<int>(type: "INTEGER", nullable: true),
                     Address = table.Column<string>(type: "TEXT", nullable: true),
                     LicenseNumber = table.Column<int>(type: "INTEGER", nullable: true),
                     InvoiceAdress = table.Column<string>(type: "TEXT", nullable: true),
+                    MaxVehiclesPerBusinessRenter = table.Column<int>(type: "INTEGER", nullable: true),
                     PrivateRenterId = table.Column<int>(type: "INTEGER", nullable: true),
                     PrivateRenter_Address = table.Column<string>(type: "TEXT", nullable: true),
                     PrivateRenter_LicenseNumber = table.Column<int>(type: "INTEGER", nullable: true),
@@ -92,6 +92,7 @@ namespace Project_WPR.Server.Migrations
                     IsAvailable = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsDamaged = table.Column<bool>(type: "INTEGER", nullable: false),
                     RentalPrice = table.Column<double>(type: "REAL", nullable: false),
+                    VehicleType = table.Column<string>(type: "TEXT", nullable: false),
                     Discriminator = table.Column<string>(type: "TEXT", maxLength: 8, nullable: false),
                     Camper_TransmissionType = table.Column<string>(type: "TEXT", nullable: true),
                     RequiredLicenseType = table.Column<string>(type: "TEXT", nullable: true),
@@ -217,7 +218,8 @@ namespace Project_WPR.Server.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Adress = table.Column<string>(type: "TEXT", nullable: false),
                     KVK_number = table.Column<string>(type: "TEXT", nullable: false),
-                    SubscriptionId = table.Column<int>(type: "INTEGER", nullable: false)
+                    SubscriptionId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MaxVehiclesPerCompany = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -259,44 +261,6 @@ namespace Project_WPR.Server.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RentalRequests",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    VehicleId = table.Column<int>(type: "INTEGER", nullable: false),
-                    BusinessRenterId = table.Column<string>(type: "TEXT", nullable: true),
-                    PrivateRenterId = table.Column<string>(type: "TEXT", nullable: true),
-                    Intention = table.Column<string>(type: "TEXT", nullable: false),
-                    FarthestDestination = table.Column<string>(type: "TEXT", nullable: false),
-                    SuspectedKm = table.Column<int>(type: "INTEGER", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_RentalRequests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_RentalRequests_AspNetUsers_BusinessRenterId",
-                        column: x => x.BusinessRenterId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RentalRequests_AspNetUsers_PrivateRenterId",
-                        column: x => x.PrivateRenterId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RentalRequests_Vehicle_VehicleId",
-                        column: x => x.VehicleId,
-                        principalTable: "Vehicle",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "VehiclePictures",
                 columns: table => new
                 {
@@ -314,6 +278,56 @@ namespace Project_WPR.Server.Migrations
                         principalTable: "Vehicle",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RentalRequests",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    VehicleId = table.Column<int>(type: "INTEGER", nullable: false),
+                    BusinessRenterId = table.Column<string>(type: "TEXT", nullable: true),
+                    PrivateRenterId = table.Column<string>(type: "TEXT", nullable: true),
+                    Intention = table.Column<string>(type: "TEXT", nullable: false),
+                    FarthestDestination = table.Column<string>(type: "TEXT", nullable: false),
+                    SuspectedKm = table.Column<int>(type: "INTEGER", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    BusinessRenterId1 = table.Column<string>(type: "TEXT", nullable: true),
+                    CompanyId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RentalRequests", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RentalRequests_AspNetUsers_BusinessRenterId",
+                        column: x => x.BusinessRenterId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RentalRequests_AspNetUsers_BusinessRenterId1",
+                        column: x => x.BusinessRenterId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_RentalRequests_AspNetUsers_PrivateRenterId",
+                        column: x => x.PrivateRenterId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_RentalRequests_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_RentalRequests_Vehicle_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicle",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -400,6 +414,16 @@ namespace Project_WPR.Server.Migrations
                 column: "BusinessRenterId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_RentalRequests_BusinessRenterId1",
+                table: "RentalRequests",
+                column: "BusinessRenterId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RentalRequests_CompanyId",
+                table: "RentalRequests",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_RentalRequests_PrivateRenterId",
                 table: "RentalRequests",
                 column: "PrivateRenterId");
@@ -434,9 +458,6 @@ namespace Project_WPR.Server.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Companies");
-
-            migrationBuilder.DropTable(
                 name: "DamageReportPictures");
 
             migrationBuilder.DropTable(
@@ -449,16 +470,19 @@ namespace Project_WPR.Server.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "Subscriptions");
+                name: "DamageReports");
 
             migrationBuilder.DropTable(
-                name: "DamageReports");
+                name: "Companies");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Vehicle");
+
+            migrationBuilder.DropTable(
+                name: "Subscriptions");
         }
     }
 }
