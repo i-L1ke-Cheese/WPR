@@ -6,8 +6,11 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Registreer from './pages/Registreer'
 import Login from './pages/Login'
+import AddWorker from './pages/AddWorker'
 //import Company from './pages/Company'
 import './App.css';
+import VehicleLimit from './pages/VehicleLimit';
+import Getworkers from './pages/Companyworkers'
 
 function App() {
     return (
@@ -33,6 +36,10 @@ function App() {
                             <Route path="/registreer" element={<Registreer />} />
                             <Route path="/login" element={<Login />} />
                             {/*<Route path="/Company" element={<Company />} />*/}
+                            <Route path="/AddWorker" element={<AddWorker />} />
+                            <Route path="/VehicleLimit" element={<VehicleLimit />} />
+                            <Route path="/Companyworkers" element={<Getworkers />} />
+                            
                         </Routes>
                     </div>
                 </div>

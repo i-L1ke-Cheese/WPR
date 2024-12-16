@@ -7,7 +7,7 @@ namespace Project_WPR.Server.data {
             addCars(c);
             addCampers(c);
             addCaravans(c);
-            c.SaveChanges();
+            //c.SaveChanges();
         }
 
         private static void addCars(DatabaseContext _c) {
