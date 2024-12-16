@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-    import { Link } from 'react-router-dom';
-    import './Login.css';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import './Login.css';
+import * as topBTNmanager from './updateTopBtns.js'
+
 // https://uiverse.io/nathann09/bad-hound-78 Gebruikt voor inspiratie en hulp om frontend mooi te maken
 function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const navigate = useNavigate();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -12,8 +15,9 @@ function Login() {
 		const data = { email, password };
 
 		try {
-			const response = await fetch("https://localhost:7289/login", {
+			const response = await fetch("https://localhost:7289/login?useCookies=true", {
 				method: "POST",
+				credentials: "include",
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -21,8 +25,9 @@ function Login() {
 			});
 
 			if (response.ok) {
-				const result = await response.json();
-				console.log("Login successful:", result);
+				console.log("Login successful");
+				topBTNmanager.showAccountDropdown();
+				navigate('/dashboard');
 			} else {
 				console.error("Login failed");
 			}
@@ -30,6 +35,24 @@ function Login() {
 			console.error("Error:", error);
 		}
 	};
+
+	const check = async () => {
+		const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
+			method: "POST",
+			credentials: "include",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		if (loggedInCheckResponse.ok) { //if already logged in, and still opening /login, get redirected to the dashboard
+			navigate("/dashboard");
+		}
+	}
+
+	useEffect(() => {
+		check();
+	});
 
 	return (
 		<form className="form" onSubmit={handleSubmit}>
@@ -53,6 +76,7 @@ function Login() {
 					required
 				/>
 			</div>
+			<p id="message" className="green"></p>
 			<button type="submit" className="submit">Login</button>
 			<p className="registreer-link">
 				Geen account? <Link to="/registreer">Registreer hier</Link>

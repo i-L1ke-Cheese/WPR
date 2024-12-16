@@ -2,7 +2,30 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace Project_WPR.Server.data {
-    public class DatabaseContext : IdentityDbContext {
+    public interface IDatabaseContext
+    {
+        DbSet<CA_Employee> CA_Employees { get; set; }
+        DbSet<Car> Cars { get; set; }
+        DbSet<Camper> Campers { get; set; }
+        DbSet<Caravan> Caravans { get; set; }
+        DbSet<Company> Companies { get; set; }
+        DbSet<Subscription> Subscriptions { get; set; }
+        DbSet<VehiclePicture> VehiclePictures { get; set; }
+        DbSet<DamageReport> DamageReports { get; set; }
+        DbSet<DamageReportPicture> DamageReportPictures { get; set; }
+        DbSet<BusinessRenter> BusinessRenters { get; set; }
+        DbSet<PrivateRenter> PrivateRenters { get; set; }
+        DbSet<RentalRequest> RentalRequests { get; set; }
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+
+    }
+
+    public class DatabaseContext : IdentityDbContext, IDatabaseContext {
+        public DatabaseContext(DbContextOptions<DatabaseContext> options)
+            : base(options)
+        {
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder b) {
             b.UseSqlite("Data Source=database.db");
         }
@@ -65,6 +88,11 @@ namespace Project_WPR.Server.data {
         public DbSet<BusinessRenter> BusinessRenters { get; set; }
         public DbSet<PrivateRenter> PrivateRenters { get; set; }
         public DbSet<RentalRequest> RentalRequests { get; set; }
+
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            return base.SaveChangesAsync(cancellationToken);
+        }
 
     }
 
