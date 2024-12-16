@@ -4,30 +4,25 @@
     box-sizing: border-box;
 }
 
-.header {
-    background-color: #f1f1f1;
-    padding: 20px;
-    text-align: center;
-    font-size: 30px;
-    position: fixed; 
-    top: 0; 
-    left: 0;
-    right: 0;
-    width: 100%; 
-    z-index: 1000; 
+.App {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .main-layout {
     display: flex;
-    flex-direction: row;  
-    padding: 10px;
-    height: calc(110vh - 200px); 
+    flex-direction: row;
+    padding: 0px;
     overflow: hidden; 
+    width: 100vw;
+    flex-grow: 1;
 }
 
 .sidebar {
     position: center;
     width: 150px;
+    min-width: 150px;
     background-color: #f4f4f4;
     padding: 20px;
     border-right: 1px solid #ddd; 
@@ -36,7 +31,7 @@
 }
 
 .content {
-    width: 1500px; 
+    flex-grow: 1;
     padding: 20px;
     background-color: #fff;
     height: 100%; 
@@ -48,12 +43,10 @@
     background-color: #f1f1f1;
     padding: 20px;
     text-align: center;
-    position: fixed; 
     bottom: 0;
     left: 0;
     right: 0;
-    width: 100%; 
-    z-index: 1000; 
+    width: 100vw; 
 }
 
 @media (max-width: 768px) {

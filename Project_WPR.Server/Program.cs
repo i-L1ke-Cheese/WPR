@@ -1,7 +1,6 @@
-
-
 using Project_WPR.Server.data;
 using System.Text.Json.Serialization;
+using Microsoft.EntityFrameworkCore;
 
 public class Program {
     public static void Main(String[] args) {
@@ -9,7 +8,9 @@ public class Program {
 
         // Add services to the container.
 
-        builder.Services.AddDbContext<DatabaseContext>();
+        builder.Services.AddDbContext<DatabaseContext>(options =>
+            options.UseSqlite("Data Source=database.db"));
+        builder.Services.AddScoped<IDatabaseContext, DatabaseContext>();
         builder.Services.AddAuthorization();
         builder.Services.AddControllers()
             .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -21,14 +22,17 @@ public class Program {
 
         });
 
-        builder.Services.AddCors(options =>
-        {
+        builder.Services.AddCors(options => {
             options.AddPolicy("Allowvite",
                builder => builder
                    .WithOrigins("https://localhost:50327")
                    .AllowAnyMethod()
+                   .AllowCredentials()
                    .AllowAnyHeader());
         });
+
+        builder.Services.AddAuthentication();
+        builder.Services.AddLogging();
 
 
         builder.Services.AddOpenApi();
@@ -46,16 +50,17 @@ public class Program {
         }
 
         app.UseHttpsRedirection();
+        app.UseCors("Allowvite");
         app.UseAuthentication();
         app.UseAuthorization();
-        app.UseCors("Allowvite");
 
         app.MapControllers();
         app.MapIdentityApi<User>();
         app.MapFallbackToFile("/index.html");
 
-        DatabaseContext dbc = new DatabaseContext();
-        DataSeeder.Run(dbc);
+        // 1x runnen als de database leeg is
+        //DatabaseContext dbc = new DatabaseContext();
+        //DataSeeder.Run(dbc);
 
         app.Run();
     }

@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_WPR.Server", "Project_WPR.Server\Project_WPR.Server.csproj", "{D6CD6D12-37B5-410C-9A4E-C23FFEE21C79}"
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "project_wpr.client", "project_wpr.client\project_wpr.client.esproj", "{0ABE0FC0-6FDD-4E36-9213-6433543F0D88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_WPR.Tests", "Project_WPR.Tests\Project_WPR.Tests.csproj", "{BAAC16F0-4417-4895-80AE-AF1851A3A87B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,10 @@ Global
 		{0ABE0FC0-6FDD-4E36-9213-6433543F0D88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0ABE0FC0-6FDD-4E36-9213-6433543F0D88}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0ABE0FC0-6FDD-4E36-9213-6433543F0D88}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{BAAC16F0-4417-4895-80AE-AF1851A3A87B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAAC16F0-4417-4895-80AE-AF1851A3A87B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAAC16F0-4417-4895-80AE-AF1851A3A87B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAAC16F0-4417-4895-80AE-AF1851A3A87B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

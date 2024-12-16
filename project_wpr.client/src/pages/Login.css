@@ -16,6 +16,13 @@
     color: #000;
 }
 
+.green {
+    color: green;
+}
+.red {
+    color: red;
+}
+
 .input-container {
     position: relative;
 }
@@ -52,6 +59,7 @@
     width: 100%;
     border-radius: 0.5rem;
     text-transform: uppercase;
+    cursor: pointer;
 }
 
 .registreer-link {

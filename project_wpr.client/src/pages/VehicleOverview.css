@@ -1,0 +1,28 @@
+.vehicle-overview {
+    padding: 20px;
+    text-align: center;
+    color: black;
+}
+
+.container {
+    color: aquamarine;
+    height: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+}
+
+.container img {
+    width: 200px; /* Specifieer de gewenste breedte */
+    height: 200px; /* Specifieer de gewenste hoogte */
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    transition: ease-in-out 0.5s; /* Apply transition to opacity, width, and height */
+}
+
+.container img:hover {
+    width: 220px; /* Increase width on hover */
+    height: 220px; /* Increase height on hover */
+}
