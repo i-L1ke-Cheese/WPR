@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import Row from './components/Row';
 import Home from './pages/Home';
 import About from './pages/About';
+//import Company from './pages/Company'
 import Registreer from './pages/Registreer';
 import Login from './pages/Login';
 import Logout from './pages/Logout';
@@ -12,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import VehicleOverview from './pages/VehicleOverview';
 import VehicleDetails from './pages/VehicleDetails';
 import Settings from './pages/Settings';
+>>>>>>> develop
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns.js'
 
@@ -46,9 +48,13 @@ function App() {
                             <Route path="/about" element={<About />} />
                             <Route path="/registreer" element={<Registreer />} />
                             <Route path="/login" element={<Login />} />
+<<<<<<< HEAD
+                            {/*<Route path="/Company" element={<Company />} />*/}
+=======
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/logout" element={<Logout />} />
                             <Route path="/settings" element={<Settings />} />
+>>>>>>> develop
                         </Routes>
                     </div>
                 </div>

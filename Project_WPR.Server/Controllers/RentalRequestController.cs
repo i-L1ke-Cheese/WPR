@@ -16,30 +16,6 @@ namespace Project_WPR.Server.Controllers
             _context = context;
         }
 
-        [HttpGet("beschikbare-voertuigen")]
-        public IActionResult GetAvailableCars([FromQuery] DateTime? date)
-        {
-            // Haal alle beschikbare voertuigen op van Cars, Campers en Caravans
-            var availableCars = _context.Cars
-                .Where(car => car.IsAvailable)
-                .Select(car => new { car.Id, car.Brand, car.Type });
-
-            var availableCampers = _context.Campers
-                .Where(camper => camper.IsAvailable)
-                .Select(camper => new { camper.Id, camper.Brand, camper.Type });
-
-            var availableCaravans = _context.Caravans
-                .Where(caravan => caravan.IsAvailable)
-                .Select(caravan => new { caravan.Id, caravan.Brand, caravan.Type });
-
-            // Combineer de resultaten van Cars, Campers en Caravans
-            var allAvailableVehicles = availableCars
-                .Union(availableCampers)
-                .Union(availableCaravans);
-
-            return Ok(allAvailableVehicles);
-        }
-
         [HttpPost("huur-auto")]
         public async Task<IActionResult> Rental([FromBody] RentalRequestDTO request)
         {
@@ -54,19 +30,19 @@ namespace Project_WPR.Server.Controllers
             if (privateRenter != null)
             {
                 var vehicle = await _context.Cars
-        .Where(c => c.Id == request.VehicleId)
-        .Cast<Vehicle>()
-        .FirstOrDefaultAsync()
-        ?? await _context.Campers
-        .Where(c => c.Id == request.VehicleId)
-        .Cast<Vehicle>()
-        .FirstOrDefaultAsync()
-        ?? await _context.Caravans
-        .Where(c => c.Id == request.VehicleId)
-        .Cast<Vehicle>()
-        .FirstOrDefaultAsync();
+                .Where(c => c.Id == request.VehicleId)
+                .Cast<Vehicle>()
+                .FirstOrDefaultAsync()
+                ?? await _context.Campers
+                .Where(c => c.Id == request.VehicleId)
+                .Cast<Vehicle>()
+                .FirstOrDefaultAsync()
+                ?? await _context.Caravans
+                .Where(c => c.Id == request.VehicleId)
+                .Cast<Vehicle>()
+                .FirstOrDefaultAsync();
 
-                if (vehicle == null)
+                if (vehicle == null || vehicle.IsAvailable == false)
                 {
                     return BadRequest(new { message = $"Voertuig is niet beschikbaar." });
                 }
@@ -81,7 +57,7 @@ namespace Project_WPR.Server.Controllers
             {
                 var car = _context.Cars.FirstOrDefault(c => c.Id == request.VehicleId && c.IsAvailable);
 
-                if (car == null)
+                if (car == null || car.IsAvailable == false)
                 {
                     return BadRequest(new { message = "Auto is niet beschikbaar" });
                 }
