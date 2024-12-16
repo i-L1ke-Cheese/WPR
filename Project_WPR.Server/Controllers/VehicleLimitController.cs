@@ -56,9 +56,32 @@ namespace Project_WPR.Server.Controllers
 
             var businessRenterDTO = new BusinessRentersDTO
             {
-
-
                 BusinessRenterId = businessRenter.Id,
+                FirstName = businessRenter.FirstName,
+                LastName = businessRenter.LastName,
+                MaxVehiclesPerBusinessRenter = businessRenter.MaxVehiclesPerBusinessRenter
+            };
+
+            return Ok(businessRenterDTO);
+        }
+        [HttpPost("SetCompanyRenterVehicleLimit")]
+        public async Task<IActionResult> SetCompanyRenterVehicleLimit([FromBody] VehicleLimitDTO vehicleLimitDTO)
+        {
+            var businessRenter = await _context.BusinessRenters
+                .FirstOrDefaultAsync(br => br.Id == vehicleLimitDTO.BusinessRenterId);
+
+            if (businessRenter == null)
+            {
+                return NotFound("Huurder niet gevonden");
+            }
+
+            businessRenter.MaxVehiclesPerBusinessRenter = vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
+            await _context.SaveChangesAsync();
+
+            var businessRenterDTO = new BusinessRentersDTO
+            {
+                BusinessRenterId = businessRenter.Id,
+
                 FirstName = businessRenter.FirstName,
                 LastName = businessRenter.LastName,
                 MaxVehiclesPerBusinessRenter = businessRenter.MaxVehiclesPerBusinessRenter

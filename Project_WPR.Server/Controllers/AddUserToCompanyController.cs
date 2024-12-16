@@ -43,26 +43,26 @@ namespace Project_WPR.Server.Controllers
         }
 
         [HttpPost("SetCompanyFromUser")]
-        public async Task<IActionResult> SetCompanyFromUser(string businessRenterId, int addCompany)
+        public async Task<IActionResult> SetCompanyFromUser([FromBody] AddUserToCompanyDTO dto)
         {
             var businessRenter = await _context.BusinessRenters
-                .FirstOrDefaultAsync(br => br.Id == businessRenterId);
+                .FirstOrDefaultAsync(br => br.Id == dto.BusinessRenterId);
+
 
             if (businessRenter == null)
             {
                 return NotFound("Huurder niet gevonden");
             }
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == addCompany);
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == dto.AddCompany);
             if (company == null)
             {
                 return NotFound("Bedrijf niet gevonden");
             }
 
-            businessRenter.CompanyId = addCompany;
+            businessRenter.CompanyId = dto.AddCompany;
             await _context.SaveChangesAsync();
 
-
-            return Ok(businessRenter.CompanyId);
+            return Ok(new { Message = "User registered successfully" });
         }
     }
 }

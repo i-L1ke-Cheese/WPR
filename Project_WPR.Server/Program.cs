@@ -2,8 +2,10 @@ using Project_WPR.Server.data;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
-public class Program {
-    public static void Main(String[] args) {
+public class Program
+{
+    public static void Main(String[] args)
+    {
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
@@ -43,7 +45,8 @@ public class Program {
         //app.MapStaticAssets();
 
         // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment()) {
+        if (app.Environment.IsDevelopment())
+        {
             app.MapOpenApi();
             app.UseSwagger();
             app.UseSwaggerUI();

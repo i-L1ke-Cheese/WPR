@@ -22,15 +22,12 @@ namespace Project_WPR.Server.Controllers
         {
             var company = new Company
             {
-               
+
                 Name = request.Name,
                 Adress = request.Adress,
                 KVK_number = request.KVK_number,
-                Subscription = request.Subscription
+                SubscriptionId = request.SubscriptionId
             };
-
-            _context.Companies.Add(company);
-            await _context.SaveChangesAsync();
 
             var newCompany = await _context.Companies
                    .FirstOrDefaultAsync(c => c.Name == request.Name && c.KVK_number == request.KVK_number && c.Adress == request.Adress);
@@ -40,7 +37,12 @@ namespace Project_WPR.Server.Controllers
                 return BadRequest("Er is iets mis gegaan bij het voegen van de company");
             }
 
+            _context.Companies.Add(company);
+            await _context.SaveChangesAsync();
+
+            
+
             return Ok(new { Message = "Company registered successfully" });
         }
     }
-} // niet af
+}

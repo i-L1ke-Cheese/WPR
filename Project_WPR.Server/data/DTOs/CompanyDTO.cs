@@ -5,6 +5,8 @@
         public string Name { get; set; }
         public string Adress { get; set; }
         public string KVK_number { get; set; }
-        public Subscription Subscription { get; set; }
+        public int SubscriptionId { get; set; }
+
+
     }
 }
