@@ -32,9 +32,9 @@ namespace Project_WPR.Server.Controllers
             var newCompany = await _context.Companies
                    .FirstOrDefaultAsync(c => c.Name == request.Name && c.KVK_number == request.KVK_number && c.Adress == request.Adress);
 
-            if (newCompany == null)
+            if (newCompany != null)
             {
-                return BadRequest("Er is iets mis gegaan bij het voegen van de company");
+                return BadRequest("Er is iets mis gegaan bij het voegen van de company: company bestaat al");
             }
 
             _context.Companies.Add(company);

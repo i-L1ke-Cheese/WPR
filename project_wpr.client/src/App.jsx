@@ -2,14 +2,12 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Row from './components/Row';
+//import Row from './components/Row';
 import Home from './pages/Home';
 import About from './pages/About';
 import Registreer from './pages/Registreer'
 import Login from './pages/Login'
 //import Company from './pages/Company'
-import Registreer from './pages/Registreer';
-import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Dashboard from './pages/Dashboard';
 import VehicleOverview from './pages/VehicleOverview';
@@ -19,6 +17,7 @@ import Companyworkers from './pages/Companyworkers';
 import AddWorker from './pages/AddWorker';
 import VehicleLimit from './pages/VehicleLimit';
 import './App.css';
+import * as topBTNmanager from './pages/updateTopBtns';
 
 function App() {
 

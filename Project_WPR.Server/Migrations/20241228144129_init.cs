@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project_WPR.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class bruh : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -294,7 +294,6 @@ namespace Project_WPR.Server.Migrations
                     SuspectedKm = table.Column<int>(type: "INTEGER", nullable: false),
                     StartDate = table.Column<DateTime>(type: "TEXT", nullable: false),
                     EndDate = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    BusinessRenterId1 = table.Column<string>(type: "TEXT", nullable: true),
                     CompanyId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -306,11 +305,6 @@ namespace Project_WPR.Server.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RentalRequests_AspNetUsers_BusinessRenterId1",
-                        column: x => x.BusinessRenterId1,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_RentalRequests_AspNetUsers_PrivateRenterId",
                         column: x => x.PrivateRenterId,
@@ -390,8 +384,7 @@ namespace Project_WPR.Server.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Companies_SubscriptionId",
                 table: "Companies",
-                column: "SubscriptionId",
-                unique: true);
+                column: "SubscriptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DamageReportPictures_DamageReportId",
@@ -412,11 +405,6 @@ namespace Project_WPR.Server.Migrations
                 name: "IX_RentalRequests_BusinessRenterId",
                 table: "RentalRequests",
                 column: "BusinessRenterId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RentalRequests_BusinessRenterId1",
-                table: "RentalRequests",
-                column: "BusinessRenterId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RentalRequests_CompanyId",

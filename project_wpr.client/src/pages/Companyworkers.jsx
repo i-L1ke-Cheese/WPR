@@ -8,6 +8,7 @@ function Getworkers() {
         try {
             const response = await fetch(`https://localhost:7289/api/CompanyWorkers/companyTest?companyIDset=${addCompany}`, {
                 method: 'GET',
+                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                 }

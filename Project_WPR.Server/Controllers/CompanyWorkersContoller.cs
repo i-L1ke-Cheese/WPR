@@ -3,35 +3,51 @@ using Project_WPR.Server.data.DTOs;
 using Project_WPR.Server.data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Project_WPR.Server.Controllers
 {
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CompanyWorkersController : ControllerBase
     {
-        private readonly DatabaseContext _context;
-
-        public CompanyWorkersController(DatabaseContext context)
-        {
-            _context = context;
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signinManager;
+        private readonly DatabaseContext _dbContext;
+        public CompanyWorkersController(UserManager<User> userManager, SignInManager<User> signinManager, DatabaseContext dbContext) {
+            _userManager = userManager;
+            _signinManager = signinManager;
+            _dbContext = dbContext;
         }
+
         // post moet nog komen en ik moet het allemaal veiliger maken
         [HttpGet("companyTest")]
         public async Task<IActionResult> Get1Company(int companyIDset)
         {
-            
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == companyIDset);
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userID == null) {
+                return Unauthorized(new { Msg = "no user logged in" });
+            }
+            var user = await _userManager.FindByIdAsync(userID);
+            if (user == null) {
+                return NotFound();
+            }
+
+            return Ok(new { userID =  user.Id });
+
+            var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyIDset);
 
             if (company == null)
             {
                 return BadRequest("Company aint real fam");
             }
 
-            var users = await _context.BusinessRenters.Where(u => u.CompanyId == companyIDset).Select(u => new
+            var users = await _dbContext.BusinessRenters.Where(u => u.CompanyId == companyIDset).Select(u => new
             {
-                u.BusinessRenterId,
+                u.Id,
                 companyName = company.Name,
                 u.FirstName,
                 u.LastName,

@@ -38,7 +38,7 @@ function Login() {
 
 	const check = async () => {
 		const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
-			method: "POST",
+			method: "GET",
 			credentials: "include",
 			headers: {
 				"Content-Type": "application/json",

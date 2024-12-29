@@ -2,7 +2,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_WPR.Server.data;
 
@@ -11,11 +10,9 @@ using Project_WPR.Server.data;
 namespace Project_WPR.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241216114149_bruh")]
-    partial class bruh
+    partial class DatabaseContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -247,8 +244,7 @@ namespace Project_WPR.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubscriptionId")
-                        .IsUnique();
+                    b.HasIndex("SubscriptionId");
 
                     b.ToTable("Companies");
                 });
@@ -311,9 +307,6 @@ namespace Project_WPR.Server.Migrations
                     b.Property<string>("BusinessRenterId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("BusinessRenterId1")
-                        .HasColumnType("TEXT");
-
                     b.Property<int?>("CompanyId")
                         .HasColumnType("INTEGER");
 
@@ -343,8 +336,6 @@ namespace Project_WPR.Server.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BusinessRenterId");
-
-                    b.HasIndex("BusinessRenterId1");
 
                     b.HasIndex("CompanyId");
 
@@ -629,8 +620,8 @@ namespace Project_WPR.Server.Migrations
             modelBuilder.Entity("Project_WPR.Server.data.Company", b =>
                 {
                     b.HasOne("Project_WPR.Server.data.Subscription", "Subscription")
-                        .WithOne("Company")
-                        .HasForeignKey("Project_WPR.Server.data.Company", "SubscriptionId")
+                        .WithMany()
+                        .HasForeignKey("SubscriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -670,13 +661,9 @@ namespace Project_WPR.Server.Migrations
             modelBuilder.Entity("Project_WPR.Server.data.RentalRequest", b =>
                 {
                     b.HasOne("Project_WPR.Server.data.BusinessRenter", "BusinessRenter")
-                        .WithMany()
+                        .WithMany("ActiveRentalRequests")
                         .HasForeignKey("BusinessRenterId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Project_WPR.Server.data.BusinessRenter", null)
-                        .WithMany("ActiveRentalRequests")
-                        .HasForeignKey("BusinessRenterId1");
 
                     b.HasOne("Project_WPR.Server.data.Company", null)
                         .WithMany("ActiveRentalRequests")
@@ -714,12 +701,6 @@ namespace Project_WPR.Server.Migrations
             modelBuilder.Entity("Project_WPR.Server.data.Company", b =>
                 {
                     b.Navigation("ActiveRentalRequests");
-                });
-
-            modelBuilder.Entity("Project_WPR.Server.data.Subscription", b =>
-                {
-                    b.Navigation("Company")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Project_WPR.Server.data.Vehicle", b =>

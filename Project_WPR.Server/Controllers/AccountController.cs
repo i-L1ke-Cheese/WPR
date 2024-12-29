@@ -24,7 +24,7 @@ namespace Project_WPR.Server.Controllers {
         }
 
         
-        [HttpPost("getCurrentAccount")]
+        [HttpGet("getCurrentAccount")]
         public async Task<IActionResult> getCurrentAccount() {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if(userID == null) {
