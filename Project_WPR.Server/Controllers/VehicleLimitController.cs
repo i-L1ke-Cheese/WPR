@@ -31,9 +31,6 @@ namespace Project_WPR.Server.Controllers
 
             var businessRenterDTO = new BusinessRentersDTO
             {
-                BusinessRenterId = businessRenter.Id,
-                FirstName = businessRenter.FirstName,
-                LastName = businessRenter.LastName,
                 MaxVehiclesPerBusinessRenter = businessRenter.MaxVehiclesPerBusinessRenter
             };
 
@@ -56,38 +53,30 @@ namespace Project_WPR.Server.Controllers
 
             var businessRenterDTO = new BusinessRentersDTO
             {
-                BusinessRenterId = businessRenter.Id,
-                FirstName = businessRenter.FirstName,
-                LastName = businessRenter.LastName,
                 MaxVehiclesPerBusinessRenter = businessRenter.MaxVehiclesPerBusinessRenter
             };
 
             return Ok(businessRenterDTO);
         }
         [HttpPost("SetCompanyRenterVehicleLimit")]
-        public async Task<IActionResult> SetCompanyRenterVehicleLimit([FromBody] VehicleLimitDTO vehicleLimitDTO)
+        public async Task<IActionResult> SetCompanyRenterVehicleLimit(int companyId)
         {
-            var businessRenter = await _context.BusinessRenters
-                .FirstOrDefaultAsync(br => br.Id == vehicleLimitDTO.BusinessRenterId);
 
-            if (businessRenter == null)
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == companyId);
+
+            if (company == null)
             {
-                return NotFound("Huurder niet gevonden");
+                return NotFound("Bedrijf niet gevonden");
+            }
+            if (company.Id != companyId)
+            {
+                return NotFound("Verkeerde bedrijf");
             }
 
-            businessRenter.MaxVehiclesPerBusinessRenter = vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
+            company.MaxVehiclesPerCompany = 10;
             await _context.SaveChangesAsync();
 
-            var businessRenterDTO = new BusinessRentersDTO
-            {
-                BusinessRenterId = businessRenter.Id,
-
-                FirstName = businessRenter.FirstName,
-                LastName = businessRenter.LastName,
-                MaxVehiclesPerBusinessRenter = businessRenter.MaxVehiclesPerBusinessRenter
-            };
-
-            return Ok(businessRenterDTO);
+            return Ok(company.MaxVehiclesPerCompany);
         }
 
     }

@@ -109,7 +109,6 @@ namespace Project_WPR.Server.data {
     public class Subscription {
         public int Id { get; set; }
         public string Description { get; set; }
-        public Company Company { get; set; }
     }
 
     public class PayAsYouGo : Subscription {

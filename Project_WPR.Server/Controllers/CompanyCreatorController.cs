@@ -9,17 +9,18 @@ namespace Project_WPR.Server.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class CompanyCreatorController : ControllerBase
     {
         private readonly DatabaseContext _context;
 
-        public CompanyController(DatabaseContext context)
+        public CompanyCreatorController(DatabaseContext context)
         {
             _context = context;
         }
     [HttpPost("company")]
         public async Task<IActionResult> Company([FromBody] CompanyDTO request)
-        {
+        { 
+
             var company = new Company
             {
 
@@ -32,9 +33,9 @@ namespace Project_WPR.Server.Controllers
             var newCompany = await _context.Companies
                    .FirstOrDefaultAsync(c => c.Name == request.Name && c.KVK_number == request.KVK_number && c.Adress == request.Adress);
 
-            if (newCompany == null)
+            if (newCompany != null)
             {
-                return BadRequest("Er is iets mis gegaan bij het voegen van de company");
+                return BadRequest("Er is iets mis gegaan bij het voegen van de company: company bestaat al");
             }
 
             _context.Companies.Add(company);

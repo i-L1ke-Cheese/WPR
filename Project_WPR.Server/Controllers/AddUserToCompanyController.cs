@@ -18,51 +18,63 @@ namespace Project_WPR.Server.Controllers
             _context = context;
         }
 
-        [HttpGet("GetCompanyFromUser")]
-        public async Task<IActionResult> GetCompanyFromUser(string businessRenterId)
+        [HttpDelete("DeleteUserFromCompany")]
+        public async Task<IActionResult> DeleteUserFromCompany([FromBody] AddUserToCompanyDTO dto)
         {
             var businessRenter = await _context.BusinessRenters
-                .FirstOrDefaultAsync(br => br.Id == businessRenterId);
+                .FirstOrDefaultAsync(br => br.Id == dto.BusinessRenterId);
 
             if (businessRenter == null)
             {
-                return NotFound("Huurder niet gevonden");
+                return NotFound("Werknemer niet gevonden");
             }
-
-            if(businessRenter.CompanyId == null)
-            {
-                return NotFound("Heeft geen Bedrijf");
-            }
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == businessRenter.CompanyId);
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == dto.Id);
             if (company == null)
             {
                 return NotFound("Bedrijf niet gevonden");
             }
 
-            return Ok(company.Name);
+            if (businessRenter.CompanyId != dto.Id)
+            {
+                return BadRequest("Werknemer niet in dit bedrijf");
+            }
+
+
+            businessRenter.MaxVehiclesPerBusinessRenter = 0;
+            businessRenter.CompanyId = 0;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { Message = "Werknemer verwijderd" });
         }
 
-        [HttpPost("SetCompanyFromUser")]
-        public async Task<IActionResult> SetCompanyFromUser([FromBody] AddUserToCompanyDTO dto)
+        [HttpPost("SetUserToCompany")]
+        public async Task<IActionResult> SetUserToCompany([FromBody] AddUserToCompanyDTO dto)
         {
             var businessRenter = await _context.BusinessRenters
                 .FirstOrDefaultAsync(br => br.Id == dto.BusinessRenterId);
 
 
+
             if (businessRenter == null)
             {
-                return NotFound("Huurder niet gevonden");
+                return NotFound("Werknemer niet gevonden");
             }
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == dto.AddCompany);
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == dto.Id);
             if (company == null)
             {
                 return NotFound("Bedrijf niet gevonden");
             }
 
-            businessRenter.CompanyId = dto.AddCompany;
+            if(businessRenter.CompanyId != dto.Id)
+            {
+                BadRequest("Gebruiker werkt voor een ander bedrijf");
+            }
+
+            businessRenter.MaxVehiclesPerBusinessRenter = 1;
+            businessRenter.CompanyId = dto.Id;
             await _context.SaveChangesAsync();
 
-            return Ok(new { Message = "User registered successfully" });
+            return Ok(new { Message = "Werknemer toegevoegd" });
         }
     }
 }

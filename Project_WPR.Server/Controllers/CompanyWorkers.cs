@@ -3,6 +3,8 @@ using Project_WPR.Server.data.DTOs;
 using Project_WPR.Server.data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Project_WPR.Server.Controllers
 {
@@ -11,32 +13,32 @@ namespace Project_WPR.Server.Controllers
     [ApiController]
     public class CompanyWorkersController : ControllerBase
     {
-        private readonly DatabaseContext _context;
-
-        public CompanyWorkersController(DatabaseContext context)
-        {
-            _context = context;
+        private readonly DatabaseContext _dbContext;
+        public CompanyWorkersController(DatabaseContext dbContext) {
+            _dbContext = dbContext;
         }
+
         // post moet nog komen en ik moet het allemaal veiliger maken
-        [HttpGet("companyTest")]
-        public async Task<IActionResult> Get1Company(int companyIDset)
+        [HttpGet("GetCompanyWorkers")]
+        public async Task<IActionResult> GetCompanyWorkers(int companyIDset)
         {
-            
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == companyIDset);
+           
+
+            var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyIDset);
 
             if (company == null)
             {
                 return BadRequest("Company aint real fam");
             }
 
-            var users = await _context.BusinessRenters.Where(u => u.CompanyId == companyIDset).Select(u => new
+            var users = await _dbContext.BusinessRenters.Where(u => u.CompanyId == companyIDset).Select(u => new
             {
-                u.BusinessRenterId,
+                u.Id,
                 companyName = company.Name,
                 u.FirstName,
                 u.LastName,
-                u.Email
-                //u.MaxVehiclesPerBusinessRenter  // null moet toegestaan worden anders crasht het steeds
+                u.Email,
+                u.MaxVehiclesPerBusinessRenter
             }).ToListAsync();
 
             if (users == null || !users.Any())

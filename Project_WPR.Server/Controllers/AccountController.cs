@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Project_WPR.Server.data;
 using Project_WPR.Server.data.DTOs;
 using System.Security.Claims;
@@ -24,7 +25,7 @@ namespace Project_WPR.Server.Controllers {
         }
 
         
-        [HttpPost("getCurrentAccount")]
+        [HttpGet("getCurrentAccount")]
         public async Task<IActionResult> getCurrentAccount() {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if(userID == null) {
@@ -34,7 +35,23 @@ namespace Project_WPR.Server.Controllers {
             if(user == null) {
                 return NotFound();
             }
-            return Ok(new {Email = user.Email, FName = user.FirstName, LName = user.LastName});
+
+            var businessRenter = await _dbContext.BusinessRenters.FirstOrDefaultAsync(br => br.Id == userID);
+            if (businessRenter != null)
+            {
+                var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == businessRenter.CompanyId);
+                return Ok(new
+                {
+                    Email = user.Email,
+                    FName = user.FirstName,
+                    LName = user.LastName,
+                    ID = user.Id,
+                    CompanyId = businessRenter.CompanyId,
+                    CompanyName = company.Name
+                });
+            }
+
+            return Ok(new {Email = user.Email, FName = user.FirstName, LName = user.LastName, ID = user.Id });
         }
 
         [HttpPost("changePhoneNr")]
