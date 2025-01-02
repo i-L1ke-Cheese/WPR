@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import './EditUserData.css';
-import { use } from 'react';
 
+/**
+ * Componenet for editing user data.
+ * @returns {JSX.Element} THe EditUserData component.
+ */
 const EditUserData = () => {
     const [userData, setUserData] = useState({
         firstname: '',
@@ -16,6 +18,9 @@ const EditUserData = () => {
 
     const [errors, setErrors] = useState({});
 
+    /**
+     * Fetches the current user information from the server.
+     */
     const getUserInfo = async () => {
         const response = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
             method: "POST",
@@ -45,6 +50,10 @@ const EditUserData = () => {
         getUserInfo();
     }, []);
 
+    /**
+     * Handles input changes and updtes the userData state.
+     * @param {any} e - The event object.
+     */
     const handleChange = (e) => {
         const { name, value } = e.target;
         setUserData({
@@ -53,6 +62,10 @@ const EditUserData = () => {
         });
     };
 
+    /**
+     * Validates the user data.
+     * @returns {Object} An object containing validation errors, if any.
+     */
     const validate = () => {
         const errors = {};
         //voornaam
@@ -68,8 +81,8 @@ const EditUserData = () => {
             errors.email = 'Email is ongeldig';
         }
         //telefoonnummer
-        if (userData.phone && !/^\d{9,13}$/.test(userData.phone)) {
-            errors.phone = 'Telefoonnummer moet tussen 10 en 13 cijfers zijn';
+        if (userData.phone && !/^\d{10,15}$/.test(userData.phone)) {
+            errors.phone = 'Telefoonnummer moet tussen 10 en 15 cijfers zijn';
         }
         //adres
         if (userData.address && !/^\w{1,50}\s\d{1,5}$/.test(userData.address)) {
@@ -90,6 +103,10 @@ const EditUserData = () => {
         return errors;
     };
 
+    /**
+     * Handles form submission and updates the user data on the server.
+     * @param {Object} e - The event object.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         const validationErrors = validate();
@@ -116,6 +133,7 @@ const EditUserData = () => {
         });
 
         if (response.ok) {
+            setErrors({});
             const result = await response.json();
             console.log('updated user data: ', result);
             alert('Gegevens succesvol bijgewerkt.');
