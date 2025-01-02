@@ -37,6 +37,35 @@ namespace Project_WPR.Server.Controllers {
             return Ok(new {Email = user.Email, FName = user.FirstName, LName = user.LastName});
         }
 
+        [HttpPost("updateUser")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO request)
+        {
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userID == null)
+            {
+                return Unauthorized(new { Msg = "Geen gebruiker ingelogd" });
+            }
+            var user = await _userManager.FindByIdAsync(userID);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.FirstName = request.Name;
+            user.Email = request.Email;
+            user.PhoneNumber = request.Phone;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(new { Message = "Gegevens succesvol bijgewerkt" });
+        }
+
+
+
         [HttpPost("changePhoneNr")]
         public async Task<IActionResult> changePhoneNr([FromBody] changePhoneNumberDTO request) {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -55,5 +84,7 @@ namespace Project_WPR.Server.Controllers {
 
             return Ok(new { Message = "Phone number changed.", PhoneNumber = request.newPhoneNumber });
         }
+
+
     }
 }

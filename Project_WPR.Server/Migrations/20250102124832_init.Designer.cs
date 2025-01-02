@@ -11,8 +11,8 @@ using Project_WPR.Server.data;
 namespace Project_WPR.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241212162318_initial")]
-    partial class initial
+    [Migration("20250102124832_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -394,6 +394,10 @@ namespace Project_WPR.Server.Migrations
                         .HasColumnType("REAL");
 
                     b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VehicleType")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

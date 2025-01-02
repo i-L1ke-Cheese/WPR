@@ -12,6 +12,7 @@ import Dashboard from './pages/Dashboard';
 import VehicleOverview from './pages/VehicleOverview';
 import VehicleDetails from './pages/VehicleDetails';
 import Settings from './pages/Settings';
+import EditUserData from './pages/EditUserData';
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns.js'
 
@@ -49,6 +50,7 @@ function App() {
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/logout" element={<Logout />} />
                             <Route path="/settings" element={<Settings />} />
+                            <Route path="/edituserdata" element={<EditUserData />} />
                         </Routes>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +31,10 @@ namespace Project_WPR.Server.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("alle-voertuigen")]
-        public ActionResult<IEnumerable<data.Vehicle>> GetVehicles()
+        public async Task<IActionResult> GetVehicles(int i)
         {
+            var businessRenter = await _context.BusinessRenters.FirstOrDefaultAsync(x => x.BusinessRenterId == i);
+
             try
             {
                 var cars = _context.Cars.ToList();
@@ -41,6 +44,11 @@ namespace Project_WPR.Server.Controllers
                 var vehicles = cars.Cast<data.Vehicle>()
                     .Union(campers)
                     .Union(caravans);
+
+                if(businessRenter != null)
+                {
+                  return Ok(cars);
+                }
 
                 return Ok(vehicles);
             }

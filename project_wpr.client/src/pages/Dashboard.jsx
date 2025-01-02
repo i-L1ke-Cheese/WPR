@@ -31,11 +31,15 @@ function Dashboard() {
         getUserInfo();
     })
 
+    const handleEditUserDataClick = () => {
+        navigate('/edituserdata');
+    }
+
     return (
         <div className="dashboard">
             <h2>Welkom op je dashboard, <span id="DashboardFName">gebruiker</span></h2>
             <div className="placeholder-container">
-                <div className="placeholder">Placeholder 1 Settings pagina</div>
+                <div className="placeholder" onClick={handleEditUserDataClick}>Gegevens inzien/veranderen</div>
                 <div className="placeholder">Placeholder 2</div>
                 <div className="placeholder">Placeholder 3</div>
             </div>

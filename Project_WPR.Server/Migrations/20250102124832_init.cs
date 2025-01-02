@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Project_WPR.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -92,6 +92,7 @@ namespace Project_WPR.Server.Migrations
                     IsAvailable = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsDamaged = table.Column<bool>(type: "INTEGER", nullable: false),
                     RentalPrice = table.Column<double>(type: "REAL", nullable: false),
+                    VehicleType = table.Column<string>(type: "TEXT", nullable: false),
                     Discriminator = table.Column<string>(type: "TEXT", maxLength: 8, nullable: false),
                     Camper_TransmissionType = table.Column<string>(type: "TEXT", nullable: true),
                     RequiredLicenseType = table.Column<string>(type: "TEXT", nullable: true),
