@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import VehicleOverview from './pages/VehicleOverview';
 import VehicleDetails from './pages/VehicleDetails';
 import Settings from './pages/Settings';
+import EditUserData from './pages/EditUserData';
 import Companyworkers from './pages/Companyworkers';
 import AddWorker from './pages/AddWorker';
 import VehicleLimit from './pages/VehicleLimit';
@@ -54,6 +55,7 @@ function App() {
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/logout" element={<Logout />} />
                             <Route path="/settings" element={<Settings />} />
+                            <Route path="/edituserdata" element={<EditUserData />} />
                             <Route path="/1" element={<Companyworkers />} />
                             <Route path="/2" element={<VehicleLimit />} />
                             <Route path="/3" element={<AddWorker />} />

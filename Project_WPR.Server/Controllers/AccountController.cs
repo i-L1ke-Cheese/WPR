@@ -23,19 +23,63 @@ namespace Project_WPR.Server.Controllers {
             _dbContext = dbContext;
         }
 
-        
-        [HttpGet("getCurrentAccount")]
-        public async Task<IActionResult> getCurrentAccount() {
+        [HttpPost("getCurrentAccount")]
+        public async Task<IActionResult> getCurrentAccount()
+        {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if(userID == null) {
-                return Unauthorized(new {Msg = "no user logged in"});
+            if (userID == null)
+            {
+                return Unauthorized(new { Msg = "no user logged in" });
             }
             var user = await _userManager.FindByIdAsync(userID);
-            if(user == null) {
+            if (user == null)
+            {
                 return NotFound();
             }
-            return Ok(new {Email = user.Email, FName = user.FirstName, LName = user.LastName});
+            return Ok(new UserInfoDTO
+            {
+                Email = user.Email,
+                FName = user.FirstName,
+                LName = user.LastName,
+                PhoneNr = user.PhoneNumber,
+                Address = user.Address,
+                Place = user.Place,
+                LicenseNumber = user.LicenseNumber
+            });
         }
+
+        [HttpPost("updateUser")]
+        public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO request)
+        {
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userID == null)
+            {
+                return Unauthorized(new { Msg = "Geen gebruiker ingelogd" });
+            }
+            var user = await _userManager.FindByIdAsync(userID);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.Email = request.Email;
+            user.PhoneNumber = request.Phone;
+            user.Address = request.Address;
+            user.Place = request.Place;
+            user.LicenseNumber = request.LicenseNumber;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(result.Errors);
+            }
+
+            return Ok(new { Message = "Gegevens succesvol bijgewerkt" });
+        }
+
+
 
         [HttpPost("changePhoneNr")]
         public async Task<IActionResult> changePhoneNr([FromBody] changePhoneNumberDTO request) {
@@ -55,5 +99,7 @@ namespace Project_WPR.Server.Controllers {
 
             return Ok(new { Message = "Phone number changed.", PhoneNumber = request.newPhoneNumber });
         }
+
+
     }
 }

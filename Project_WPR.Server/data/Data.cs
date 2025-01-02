@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.Diagnostics.Contracts;
 
 namespace Project_WPR.Server.data {
     public class User : IdentityUser {
         public DateOnly BirthDate { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Address { get; set; }
+        public string Place { get; set; }
+        public string LicenseNumber { get; set; }
     }
 
     public class CA_Employee : User {
@@ -24,8 +28,7 @@ namespace Project_WPR.Server.data {
     }
 
     public class BusinessRenter : CompanyAccount {
-        public string Address { get; set; }
-        public int LicenseNumber { get; set; }
+        public int BusinessRenterId { get; set; }
         public string InvoiceAdress { get; set; }
         public int MaxVehiclesPerBusinessRenter { get; set; } // Property to store max vehicles per business renter
         public ICollection<RentalRequest> ActiveRentalRequests { get; set; } = new List<RentalRequest>(); // Collection to store active rental requests
@@ -33,8 +36,6 @@ namespace Project_WPR.Server.data {
 
     public class PrivateRenter : User {
         public int PrivateRenterId { get; set; }
-        public string Address { get; set; }
-        public int LicenseNumber { get; set; }
         public string PaymentDetails { get; set; }
     }
 
