@@ -33,11 +33,11 @@ namespace Project_WPR.Server.data {
         protected override void OnModelCreating(ModelBuilder b) { 
             base.OnModelCreating(b);
 
-            b.Entity<Company>()
-                .HasOne(c => c.Subscription)
-                .WithOne(s => s.Company)
-                .HasForeignKey<Company>(c => c.SubscriptionId)
-                .OnDelete(DeleteBehavior.Cascade);
+            //b.Entity<Company>()
+            //    .HasOne(c => c.Subscription)
+            //    //.WithMany(s => s.Company)
+            //    .HasForeignKey<Company>(c => c.SubscriptionId)
+            //    .OnDelete(DeleteBehavior.Cascade);
 
             b.Entity<VehiclePicture>()
                 .HasOne(vp => vp.Vehicle)
@@ -59,7 +59,7 @@ namespace Project_WPR.Server.data {
 
             b.Entity<RentalRequest>()
                 .HasOne(rr => rr.BusinessRenter)
-                .WithMany()
+                .WithMany(br => br.ActiveRentalRequests)
                 .HasForeignKey(rr => rr.BusinessRenterId)
                 .OnDelete(DeleteBehavior.Restrict);
 

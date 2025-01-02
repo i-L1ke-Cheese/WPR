@@ -13,13 +13,14 @@ namespace Project_WPR.Server.data {
 
     public class CA_Employee : User {
         public string Department { get; set; } // Backoffice of Frontoffice
-
         public ICollection<DamageReport> DamageReports { get; set; }
+
     }
 
 
-    public class CompanyAccount : User {
-        public string CompanyId { get; set; }
+    public class CompanyAccount : User
+    {
+        public int CompanyId { get; set; }
     }
 
     public class VehicleManager : CompanyAccount {
@@ -29,6 +30,8 @@ namespace Project_WPR.Server.data {
     public class BusinessRenter : CompanyAccount {
         public int BusinessRenterId { get; set; }
         public string InvoiceAdress { get; set; }
+        public int MaxVehiclesPerBusinessRenter { get; set; } // Property to store max vehicles per business renter
+        public ICollection<RentalRequest> ActiveRentalRequests { get; set; } = new List<RentalRequest>(); // Collection to store active rental requests
     }
 
     public class PrivateRenter : User {
@@ -107,7 +110,6 @@ namespace Project_WPR.Server.data {
     public class Subscription {
         public int Id { get; set; }
         public string Description { get; set; }
-        public Company Company { get; set; }
     }
 
     public class PayAsYouGo : Subscription {
@@ -119,12 +121,15 @@ namespace Project_WPR.Server.data {
 
     }
 
-    public class Company {
+    public class Company
+    {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Adress { get; set; }
         public string KVK_number { get; set; }
         public int SubscriptionId { get; set; }
         public Subscription Subscription { get; set; }
+        public int MaxVehiclesPerCompany { get; set; }
+        public ICollection<RentalRequest> ActiveRentalRequests { get; set; } = new List<RentalRequest>();
     }
 }

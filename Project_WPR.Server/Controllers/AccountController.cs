@@ -23,7 +23,6 @@ namespace Project_WPR.Server.Controllers {
             _dbContext = dbContext;
         }
 
-
         [HttpPost("getCurrentAccount")]
         public async Task<IActionResult> getCurrentAccount()
         {
