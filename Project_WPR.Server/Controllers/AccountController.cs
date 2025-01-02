@@ -23,18 +23,30 @@ namespace Project_WPR.Server.Controllers {
             _dbContext = dbContext;
         }
 
-        
+
         [HttpPost("getCurrentAccount")]
-        public async Task<IActionResult> getCurrentAccount() {
+        public async Task<IActionResult> getCurrentAccount()
+        {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if(userID == null) {
-                return Unauthorized(new {Msg = "no user logged in"});
+            if (userID == null)
+            {
+                return Unauthorized(new { Msg = "no user logged in" });
             }
             var user = await _userManager.FindByIdAsync(userID);
-            if(user == null) {
+            if (user == null)
+            {
                 return NotFound();
             }
-            return Ok(new {Email = user.Email, FName = user.FirstName, LName = user.LastName});
+            return Ok(new UserInfoDTO
+            {
+                Email = user.Email,
+                FName = user.FirstName,
+                LName = user.LastName,
+                PhoneNr = user.PhoneNumber,
+                Address = user.Address,
+                Place = user.Place,
+                LicenseNumber = user.LicenseNumber
+            });
         }
 
         [HttpPost("updateUser")]
@@ -51,9 +63,13 @@ namespace Project_WPR.Server.Controllers {
                 return NotFound();
             }
 
-            user.FirstName = request.Name;
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
             user.Email = request.Email;
             user.PhoneNumber = request.Phone;
+            user.Address = request.Address;
+            user.Place = request.Place;
+            user.LicenseNumber = request.LicenseNumber;
 
             var result = await _userManager.UpdateAsync(user);
             if (!result.Succeeded)

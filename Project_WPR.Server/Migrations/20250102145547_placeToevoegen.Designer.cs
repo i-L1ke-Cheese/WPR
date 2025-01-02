@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Project_WPR.Server.data;
 
@@ -10,9 +11,11 @@ using Project_WPR.Server.data;
 namespace Project_WPR.Server.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250102145547_placeToevoegen")]
+    partial class placeToevoegen
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -434,10 +437,6 @@ namespace Project_WPR.Server.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<DateOnly>("BirthDate")
                         .HasColumnType("TEXT");
 
@@ -446,14 +445,6 @@ namespace Project_WPR.Server.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LicenseNumber")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Place")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -525,12 +516,35 @@ namespace Project_WPR.Server.Migrations
                 {
                     b.HasBaseType("Project_WPR.Server.data.User");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LicenseNumber")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("PaymentDetails")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Place")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("PrivateRenterId")
                         .HasColumnType("INTEGER");
+
+                    b.ToTable("AspNetUsers", t =>
+                        {
+                            t.Property("Address")
+                                .HasColumnName("PrivateRenter_Address");
+
+                            t.Property("LicenseNumber")
+                                .HasColumnName("PrivateRenter_LicenseNumber");
+
+                            t.Property("Place")
+                                .HasColumnName("PrivateRenter_Place");
+                        });
 
                     b.HasDiscriminator().HasValue("PrivateRenter");
                 });
@@ -539,10 +553,21 @@ namespace Project_WPR.Server.Migrations
                 {
                     b.HasBaseType("Project_WPR.Server.data.CompanyAccount");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.Property<int>("BusinessRenterId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("InvoiceAdress")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("LicenseNumber")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Place")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
