@@ -23,7 +23,7 @@ namespace Project_WPR.Server.Controllers {
             _dbContext = dbContext;
         }
 
-        [HttpPost("getCurrentAccount")]
+        [HttpGet("getCurrentAccount")]
         public async Task<IActionResult> getCurrentAccount()
         {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -36,7 +36,7 @@ namespace Project_WPR.Server.Controllers {
             {
                 return NotFound();
             }
-            return Ok(new UserInfoDTO
+            return Ok(new 
             {
                 Email = user.Email,
                 FName = user.FirstName,
