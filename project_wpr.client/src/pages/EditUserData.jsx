@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './EditUserData.css';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Componenet for editing user data.
  * @returns {JSX.Element} THe EditUserData component.
  */
 const EditUserData = () => {
+    const navigate = useNavigate();
+
     const [userData, setUserData] = useState({
         firstname: '',
         lastname: '',
@@ -17,6 +20,7 @@ const EditUserData = () => {
     });
 
     const [errors, setErrors] = useState({});
+    us
 
     /**
      * Fetches the current user information from the server.

@@ -65,6 +65,7 @@ namespace Project_WPR.Server.Controllers {
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.Email = request.Email;
+            user.UserName = request.Email;
             user.PhoneNumber = request.Phone;
             user.Address = request.Address;
             user.Place = request.Place;
