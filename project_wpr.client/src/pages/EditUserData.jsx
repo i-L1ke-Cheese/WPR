@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import './EditUserData.css';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Componenet for editing user data.
  * @returns {JSX.Element} THe EditUserData component.
  */
 const EditUserData = () => {
+    const navigate = useNavigate();
+
     const [userData, setUserData] = useState({
         firstname: '',
         lastname: '',
@@ -23,7 +26,7 @@ const EditUserData = () => {
      */
     const getUserInfo = async () => {
         const response = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
-            method: "POST",
+            method: "GET",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
@@ -70,14 +73,16 @@ const EditUserData = () => {
         const errors = {};
         //voornaam
         if (!userData.firstname) {
-            errors.name = 'Voornaam is verplicht';
+            errors.firstname = 'Voornaam is verplicht';
         }
         //achternaam
-        if (!userData.firstname) {
-            errors.name = 'Voornaam is verplicht';
+        if (!userData.lastname) {
+            errors.lastname = 'Achternaam is verplicht';
         }
         //email
-        if (userData.email && !/\S+@\S+\.\S+/.test(userData.email)) {
+        if (!userData.email) {
+            errors.email = 'Email is verplicht';
+        } else if (userData.email && !/\S+@\S+\.\S+/.test(userData.email)) {
             errors.email = 'Email is ongeldig';
         }
         //telefoonnummer
@@ -91,7 +96,9 @@ const EditUserData = () => {
             errors.address = 'Plaatsnaam is verplicht als adres is ingevoerd';
         }
         //plaatsnaam
-        if (!userData.address && userData.place) {
+        if (userData.place && !/^[A-Za-z]+$/.test(userData.place)) {
+            errors.place = 'Adres is ongeldig'
+        } else if (!userData.address && userData.place) {
             errors.place = 'Adres is verplicht als plaatsnaam is ingevoerd';
         }
         //rijbewijsnummer
