@@ -26,6 +26,11 @@ namespace Project_WPR.Server.Controllers {
         [HttpGet("getCurrentAccount")]
         public async Task<IActionResult> getCurrentAccount()
         {
+            if (User == null || !User.Identity.IsAuthenticated)
+            {
+                return Unauthorized(new { Msg = "no user logged in" });
+            }
+            
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userID == null)
             {
