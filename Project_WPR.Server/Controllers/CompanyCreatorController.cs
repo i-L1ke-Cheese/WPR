@@ -9,17 +9,18 @@ namespace Project_WPR.Server.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class CompanyController : ControllerBase
+    public class CompanyCreatorController : ControllerBase
     {
         private readonly DatabaseContext _context;
 
-        public CompanyController(DatabaseContext context)
+        public CompanyCreatorController(DatabaseContext context)
         {
             _context = context;
         }
     [HttpPost("company")]
         public async Task<IActionResult> Company([FromBody] CompanyDTO request)
-        {
+        { 
+
             var company = new Company
             {
 

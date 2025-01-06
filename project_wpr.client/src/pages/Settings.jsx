@@ -8,7 +8,7 @@ function Settings() {
 
     const getUserInfo = async () => {
         const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
-            method: "POST",
+            method: "GET",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
@@ -17,6 +17,7 @@ function Settings() {
 
         if (loggedInCheckResponse.ok) {
             const stuff = await loggedInCheckResponse.json();
+            console.log(stuff);
             document.getElementById("DashboardFName").innerHTML = stuff.fName;
         } else {
             navigate("/login");

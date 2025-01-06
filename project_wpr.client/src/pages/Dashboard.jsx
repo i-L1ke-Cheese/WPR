@@ -47,6 +47,7 @@ function Dashboard() {
 
         if (loggedInCheckResponse.ok) {
             const stuff = await loggedInCheckResponse.json();
+            console.log(stuff)
             document.getElementById("DashboardFName").innerHTML = stuff.fName;
         } else {
             navigate("/login");

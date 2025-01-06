@@ -3,6 +3,6 @@
     public class AddUserToCompanyDTO
     {
         public string BusinessRenterId { get; set; }
-        public int AddCompany { get; set; }
+        public int Id { get; set; }
     }
 }
