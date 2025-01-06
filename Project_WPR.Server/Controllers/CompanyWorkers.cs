@@ -18,17 +18,17 @@ namespace Project_WPR.Server.Controllers
             _dbContext = dbContext;
         }
 
-        // post moet nog komen en ik moet het allemaal veiliger maken
+        // Pakt alle medewerkers van een bedrijf
         [HttpGet("GetCompanyWorkers")]
         public async Task<IActionResult> GetCompanyWorkers(int companyIDset)
         {
-           
 
+            // controleert of het de juiste bedrijf is zodat je niet medewerkers van een ander bedrijf ziet
             var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyIDset);
 
             if (company == null)
             {
-                return BadRequest("Company aint real fam");
+                return BadRequest("Bedrijf bestaat niet");
             }
 
             var users = await _dbContext.BusinessRenters.Where(u => u.CompanyId == companyIDset).Select(u => new
@@ -38,17 +38,17 @@ namespace Project_WPR.Server.Controllers
                 u.FirstName,
                 u.LastName,
                 u.Email,
-                u.MaxVehiclesPerBusinessRenter
+               // u.MaxVehiclesPerBusinessRenter moet nog op null toegestaan gezet worden
             }).ToListAsync();
 
             if (users == null || !users.Any())
             {
-                return BadRequest("Company aint real fam");
+                return BadRequest("Bedrijf bestaat niet");
             }
 
             return Ok(users);
         }
 
-     
+
     }
 }

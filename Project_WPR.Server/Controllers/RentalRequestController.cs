@@ -1,8 +1,13 @@
 ﻿
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_WPR.Server.data;
 using Project_WPR.Server.data.DTOs;
+using System.ComponentModel;
+using System.Security.Claims;
 
 namespace Project_WPR.Server.Controllers
 {
@@ -10,27 +15,139 @@ namespace Project_WPR.Server.Controllers
     [Route("api/[controller]")]
     public class RentalRequestController : ControllerBase
     {
+        private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signinManager;
         private readonly DatabaseContext _context;
+        public RentalRequestController(UserManager<User> userManager, SignInManager<User> signinManager, DatabaseContext dbContext) {
+            _userManager = userManager;
+            _signinManager = signinManager;
+            _context = dbContext;
+        }
 
-        public RentalRequestController(DatabaseContext context)
-        {
-            _context = context;
+        [HttpGet("reserveringen-van-auto")]
+        public async Task<IActionResult> getVehicleReservations([FromQuery] int vehicleId) {
+            var reservations = await _context.RentalRequests.Where(rr => rr.VehicleId == vehicleId).Select(rr => new { StartDate = rr.StartDate, EndDate = rr.EndDate }).ToListAsync();
+
+            if (reservations == null || reservations.Count == 0) {
+                return NotFound(new { message = "No reservations found for the given vehicleId." }); // Return 404 if no results
+            }
+
+            return Ok(reservations);
+        }
+
+        [HttpGet("reserveringen-van-gebruiker")]
+        [Authorize]
+        public async Task<IActionResult> getVehicleReservationsOfCurrentUser() {
+
+            // get currently logged in user from cookie
+            if (User == null || !User.Identity.IsAuthenticated) {
+                return Unauthorized(new { Msg = "no user logged in" });
+            }
+
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userID == null) {
+                return Unauthorized(new { Msg = "no user logged in" });
+            }
+            var user = await _userManager.FindByIdAsync(userID);
+            if (user == null) {
+                return NotFound();
+            }
+
+            //get reservations of this user
+            var reservations = await _context.RentalRequests
+                .Where(rr => rr.PrivateRenterId == userID || rr.BusinessRenterId == userID)
+                .Select(rr => new VehicleReservationDashboardDTO {
+                    VehicleId = rr.VehicleId,
+                    StartDate = rr.StartDate,
+                    EndDate = rr.EndDate,
+                    Intention = rr.Intention,
+                    SuspectedKm = rr.SuspectedKm,
+                })
+                .ToListAsync();
+
+            if(reservations.Count == 0 || reservations == null) {
+                return NotFound(new { message = "No reservations found for the given user." });
+            }
+
+            foreach(var r in reservations) {
+                var V = r.VehicleId;
+                var tempvehicle = await _context.Cars
+                .Where(c => c.Id == V)
+                .Cast<Vehicle>()
+                .FirstOrDefaultAsync()
+                ?? await _context.Campers
+                .Where(c => c.Id == V)
+                .Cast<Vehicle>()
+                .FirstOrDefaultAsync()
+                ?? await _context.Caravans
+                .Where(c => c.Id == V)
+                .Cast<Vehicle>()
+                .FirstOrDefaultAsync();
+
+                r.VehicleBrand = tempvehicle.Brand;
+                r.VehicleModel = tempvehicle.Type;
+                r.VehicleColor = tempvehicle.Color;
+            }
+
+            return Ok(reservations);
         }
 
         [HttpPost("huur-auto")]
-        public async Task<IActionResult> Rental([FromBody] RentalRequestDTO request)
-        {
-            var privateRenter = await _context.PrivateRenters.FirstOrDefaultAsync(u => u.Id == request.UserId);
-            var businessRenter = await _context.BusinessRenters.FirstOrDefaultAsync(u => u.Id == request.UserId);
+        public async Task<IActionResult> Rental([FromBody] RentalRequestDTO request) {
+
+            // get currently logged in user from cookie
+            if (User == null || !User.Identity.IsAuthenticated)
+            {
+                return Unauthorized(new { Msg = "no user logged in" });
+            }
+
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userID == null) {
+                return Unauthorized(new { Msg = "no user logged in" });
+            }
+            var user = await _userManager.FindByIdAsync(userID);
+            if (user == null) {
+                return NotFound();
+            }
+
+            //check if its privaterenter or businessrenter
+            var privateRenter = await _context.PrivateRenters.FirstOrDefaultAsync(u => u.Id == userID);
+            var businessRenter = await _context.BusinessRenters.FirstOrDefaultAsync(u => u.Id == userID);
 
             if (privateRenter == null && businessRenter == null)
             {
                 return Unauthorized(new { message = "Gebruiker bestaat niet." });
             }
 
+            DateOnly now = DateOnly.FromDateTime(DateTime.Now);
+            if (request.endDate < request.startDate) {
+                return BadRequest(new { message = "Einddatum moet na de startdatum liggen." });
+            }
+
+            if (request.startDate < now) {
+                return BadRequest(new { message = "Startdatum moet na vandaag liggen." });
+            }
+
+            // check of vehicle beschikbaar is, door te kijken of de start-eind overlapt met
+            // start-eind van rental requests van deze auto
+            var reservations = await _context.RentalRequests.Where(rr => rr.VehicleId == request.VehicleId).Select(rr => new { StartDate = rr.StartDate, EndDate = rr.EndDate }).ToListAsync();
+            if (reservations != null) {
+                foreach (var r in reservations) {
+                    var overlapping = r.StartDate <= request.endDate && request.startDate <= r.EndDate;
+                    if (overlapping) {
+                        return BadRequest(new { message = "Voertuig is al gereserveerd tijdens deze periode" });
+                    }
+                }
+            } else {
+                return StatusCode(500, new { message = "reservations = null, shouldnt happen" });
+            }
+
+            RentalRequest RR = new RentalRequest();
+            Vehicle vehicle = null;
+
             if (privateRenter != null)
             {
-                var vehicle = await _context.Cars
+                var tempvehicle = await _context.Cars
                 .Where(c => c.Id == request.VehicleId)
                 .Cast<Vehicle>()
                 .FirstOrDefaultAsync()
@@ -43,18 +160,19 @@ namespace Project_WPR.Server.Controllers
                 .Cast<Vehicle>()
                 .FirstOrDefaultAsync();
 
-                if (vehicle == null || vehicle.IsAvailable == false)
+                if (tempvehicle == null) {
+                    return BadRequest(new { message = $"Voertuig niet gevonden in DB." });
+                }
+
+                if (tempvehicle.IsAvailable == false)
                 {
                     return BadRequest(new { message = $"Voertuig is niet beschikbaar." });
                 }
+                vehicle = tempvehicle;
 
-                vehicle.IsAvailable = false; // Update the availability status
-                await _context.SaveChangesAsync();
+                RR.PrivateRenterId = userID;
 
-                return Ok(new { message = $"{vehicle.Brand} {vehicle.Type} is verhuurd." });
-            }
-
-            if (businessRenter != null)
+            } else if (businessRenter != null)
             {
                 var car = _context.Cars.FirstOrDefault(c => c.Id == request.VehicleId && c.IsAvailable);
 
@@ -63,13 +181,29 @@ namespace Project_WPR.Server.Controllers
                     return BadRequest(new { message = "Auto is niet beschikbaar" });
                 }
 
-                car.IsAvailable = false; // Update the availability status
-                await _context.SaveChangesAsync();
+                vehicle = car;
 
-                return Ok(new { message = $"{car.Brand} {car.Type} is verhuurd." });
+                RR.BusinessRenterId = userID;
+            } else {
+                //hier zou je nooit moeten komen, want er is aan het begin al gechekt of beide null zijn.
+                //daarom laat ik dit hier leeg maar er zou een error code kunnen komen
+                //zodat je 1000000% zeker bent dat hij niet de RR gaat opslaan zonder dat businessrenterid
+                //of privaterenterid zijn gezet (dan krijg je namelijk error)
             }
+            
+            // als we tot zover zijn gekomen, dan is alles goed gegaan! (vgm) dus kunnen we de rentalrequest
+            // opslaan in DB en een success code returnen
+            RR.StartDate = request.startDate;
+            RR.EndDate = request.endDate;
+            RR.VehicleId = request.VehicleId;
+            RR.Intention = request.intention;
+            RR.SuspectedKm = request.suspectedKm;
+            RR.FarthestDestination = request.FarthestDestination;
+            _context.Add(RR);
 
-            return Ok(new { message = $"User logged in" });
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = $"{vehicle.Brand} {vehicle.Type} is verhuurd." });
         }
     }
 }

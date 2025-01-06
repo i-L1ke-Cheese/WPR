@@ -34,6 +34,7 @@ function VehicleOverview() {
                 const response = await fetch("https://localhost:7289/api/Vehicle/alle-voertuigen")
                 if (response.ok) {
                     const data = await response.json();
+                    //console.log(data);
                     setVehicles(data);
                 } else {
                     console.error("Failed to fetch vehicles");
@@ -174,13 +175,15 @@ function VehicleOverview() {
             </div>
             <div className="container">
                 {filteredVehicles.map(vehicle => (
-                    <div key={vehicle.id}>
+                    <div style={{ border: '1px solid black', cursor: 'pointer' }} key={vehicle.id}>
                         <img
                             src={'Standaardauto.jpg'} //Hier moet de eerste foto komen uit de database
                             alt={vehicle.brand + " " + vehicle.type}
                             className={selectedVehicle === vehicle.id ? 'selected' : ''}
                             onClick={() => handleVehicleClick(vehicle)}
                         />
+                        <p style={{ color: 'black' }}>{vehicle.vehicleType + ": " + vehicle.brand + " " + vehicle.type}</p>
+                        <p style={{ color: 'black' }}>{vehicle.licensePlate + " (" + vehicle.color + ")" }</p>
                     </div>
                 ))}
             </div>

@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-//import Row from './components/Row';
 import Home from './pages/Home';
 import About from './pages/About';
 import Registreer from './pages/Registreer'
@@ -13,6 +12,7 @@ import VehicleOverview from './pages/VehicleOverview';
 import VehicleDetails from './pages/VehicleDetails';
 import Settings from './pages/Settings';
 import Company from './pages/Company';
+import EditUserData from './pages/EditUserData';
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
 
@@ -52,6 +52,7 @@ function App() {
                             <Route path="/logout" element={<Logout />} />
                             <Route path="/settings" element={<Settings />} />
                             <Route path="/Company" element={<Company />} />
+                            <Route path="/edituserdata" element={<EditUserData />} />
                         </Routes>
                     </div>
                 </div>
