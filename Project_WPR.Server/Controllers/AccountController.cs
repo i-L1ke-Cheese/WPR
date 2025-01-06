@@ -9,6 +9,7 @@ using Project_WPR.Server.data;
 using Project_WPR.Server.data.DTOs;
 using System.Security.Claims;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Project_WPR.Server.Controllers {
     [Route("api/[controller]")]
@@ -63,7 +64,22 @@ namespace Project_WPR.Server.Controllers {
 					LicenseNumber = user.LicenseNumber
                 });
             }
-
+            var companyAdmin = await _dbContext.CompanyAdmin.FirstOrDefaultAsync(ca => ca.Id == userID);
+            if (companyAdmin != null)
+            {
+                var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyAdmin.CompanyId);
+                return Ok(new
+                {
+                    Email = user.Email,
+                    FName = user.FirstName,
+                    LName = user.LastName,
+                    ID = user.Id,
+                    role = "CompanyAdmin",
+                    CompanyId = companyAdmin.CompanyId,
+                    CompanyName = company.Name
+                });
+            } 
+            
             return Ok(new 
             {
 				ID = user.Id,
@@ -109,8 +125,6 @@ namespace Project_WPR.Server.Controllers {
             return Ok(new { Message = "Gegevens succesvol bijgewerkt" });
         }
 
-
-
         [HttpPost("changePhoneNr")]
         public async Task<IActionResult> changePhoneNr([FromBody] changePhoneNumberDTO request) {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -129,7 +143,5 @@ namespace Project_WPR.Server.Controllers {
 
             return Ok(new { Message = "Phone number changed.", PhoneNumber = request.newPhoneNumber });
         }
-
-
     }
 }

@@ -26,6 +26,10 @@ namespace Project_WPR.Server.data {
     public class VehicleManager : CompanyAccount {
 
     }
+    public class CompanyAdmin : CompanyAccount
+    {
+
+    }
 
     public class BusinessRenter : CompanyAccount {
         public int BusinessRenterId { get; set; }

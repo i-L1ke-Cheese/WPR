@@ -13,7 +13,7 @@ namespace Project_WPR.Server.Controllers
 
     {
         private readonly data.IDatabaseContext _context;
-        private readonly ILogger<VehicleController> _logger; //
+        private readonly ILogger<VehicleController> _logger; 
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleController"/> class.

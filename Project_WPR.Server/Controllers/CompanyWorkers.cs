@@ -22,7 +22,6 @@ namespace Project_WPR.Server.Controllers
         [HttpGet("GetCompanyWorkers")]
         public async Task<IActionResult> GetCompanyWorkers(int companyIDset)
         {
-
             // controleert of het de juiste bedrijf is zodat je niet medewerkers van een ander bedrijf ziet
             var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyIDset);
 

@@ -23,16 +23,22 @@ function Company() {
 
         if (loggedInCheckResponse.ok) {
             const stuff = await loggedInCheckResponse.json();
-            setCompanyName(stuff.companyName);
-            setCompanyId(stuff.companyId); // Zorg ervoor dat companyId correct wordt ingesteld
-            handleFetch(stuff.companyId);
+            // Controleer of de gebruiker de rol 'CompanyAdmin' heeft
+            if (stuff.role && stuff.role.includes("CompanyAdmin")) {
+                setCompanyName(stuff.companyName);
+                setCompanyId(stuff.companyId); // Zorg ervoor dat companyId correct wordt ingesteld
+                handleFetch(stuff.companyId);
+                handleCompanyLimit(stuff.companyId);
+            } else {
+                navigate("/login");
+            }
         } else {
             navigate("/login");
         }
     }
 
     useEffect(() => {
-        getUserInfo(); // get user info, but also check if user is logged in, and if not, go to login page
+        getUserInfo();// get user info, but also check if user is logged in, and if not, go to login page
     }, []);
 
     const handleFetch = async (companyId) => {
@@ -136,20 +142,20 @@ function Company() {
         }
     };
 
-    const handleCompanyLimit = async (event) => {
-        event.preventDefault();
+    const handleCompanyLimit = async (companyId) => {
         try {
-            const response = await fetch('https://localhost:7289/api/VehicleLimit/SetCompanyRenterVehicleLimit?companyId=${companyId}', {
-                method: 'POST',
+            const response = await fetch(`https://localhost:7289/api/VehicleLimit/GetCompanyRenterVehicleLimit?companyId=${companyId}`, {
+                method: 'GET',
+                credentials: "include",
                 headers: {
                     'Content-Type': 'application/json',
                 }
             });
             if (response.ok) {
                 const data = await response.json();
-                setCompanyMaxVehicles(data.companyMaxVehicles);
+                setCompanyMaxVehicles(data);
             } else {
-                alert('Error');
+                alert('Mag geen auto huren');
             }
         } catch (error) {
             console.error('Error:', error);
@@ -161,20 +167,7 @@ function Company() {
     return (
         <div className="container" style={{ color: 'black' }}>
             <p>Bedrijfs pagina van: {companyName}</p>
-            <form onSubmit={handleCompanyLimit}>
-                <p>Voeg een werknemer toe aan {companyName}:</p>
-                <div className="form-group">
-                    <label htmlFor="addBusinessRenterId">Maximale aantal voertuigen:  </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="addBusinessRenterId"
-                        value={addBusinessRenterId}
-                        onChange={(e) => setAddBusinessRenterId(e.target.value)}
-                        required
-                    />
-                </div>
-            </form>
+            <p>Maximaal aantal voertuigen voor het bedrijf: {companyMaxVehicles}</p>
             <form onSubmit={handleAdd}>
                 <p>Voeg een werknemer toe aan {companyName}:</p>
                 <div className="form-group">
@@ -210,6 +203,7 @@ function Company() {
             <div className="users-container" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                 {users.map((user, index) => (
                     <div key={index} className="user-card" style={{ margin: '10px', padding: '10px', border: '1px solid #ccc' }}>
+                        <p><strong>User ID:</strong> {user.id}</p>
                         <p><strong>First Name:</strong> {user.firstName}</p>
                         <p><strong>Last Name:</strong> {user.lastName}</p>
                         <p><strong>Company Name:</strong> {user.companyName}</p>
