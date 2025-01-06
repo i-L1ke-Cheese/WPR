@@ -8,3 +8,4 @@ bin/
 /Project_WPR.Server/database.db
 /Project_WPR.Server/database.db-shm
 /Project_WPR.Server/database.db-wal
+/Project_WPR.Server/Migrations

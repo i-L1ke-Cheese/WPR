@@ -68,24 +68,26 @@ function Dashboard() {
             <h2>Welkom op je dashboard, <span id="DashboardFName">gebruiker</span></h2>
             <div className="dashboard-panel-container">
                 
-                    {/*<h3>Uw Reserveringen:</h3>     &apos; = '  */}
-                    {!hasReservations && <p>U heeft nog geen auto&apos;s gehuurd</p>}
-                    {hasReservations && (
-                        <div className="dashboard-panel dashboard-panel-fullwidth">
-                            {reservations.map((reservation, index) => (
-                                <div key={index} className="dashboard-panel dashboard-panel-halfwidth darkgraybg">
-                                    <img src="Standaardauto.jpg" alt="Vehicle" className="reservation-image" />
-                                    <div className="reservation-details">
-                                        <h3>{reservation.vehicleBrand} {reservation.vehicleModel} ({reservation.vehicleColor})</h3>
-                                        <p>{reservation.startDate} tot {reservation.endDate}</p>
-                                        <p>Gebruiken voor: {reservation.intention}</p>
-                                        <p>Geschatte afstand: {reservation.suspectedKm}</p>
-                                        <Link to={`/vehicle?id=${reservation.vehicleId}`}>Pagina van voertuig</Link>
-                                    </div>
+                {/*<h3>Uw Reserveringen:</h3>     &apos; = '  */}
+                {!hasReservations && (<div className="dashboard-panel dashboard-panel-fullwidth">
+                    <p>U heeft nog geen auto&apos;s gehuurd</p>
+                </div>)}
+                {hasReservations && (
+                    <div className="dashboard-panel dashboard-panel-fullwidth scroll">
+                        {reservations.map((reservation, index) => (
+                            <div key={index} className="dashboard-panel dashboard-panel-halfwidth darkgraybg">
+                                <img src="Standaardauto.jpg" alt="Vehicle" className="reservation-image" />
+                                <div className="reservation-details">
+                                    <h3>{reservation.vehicleBrand} {reservation.vehicleModel} ({reservation.vehicleColor})</h3>
+                                    <p>{reservation.startDate} tot {reservation.endDate}</p>
+                                    <p>Gebruiken voor: {reservation.intention}</p>
+                                    <p>Geschatte afstand: {reservation.suspectedKm}</p>
+                                    <Link to={`/vehicle?id=${reservation.vehicleId}`}>Pagina van voertuig</Link>
                                 </div>
-                            ))}
-                        </div>
-                    )}
+                            </div>
+                        ))}
+                    </div>
+                )}
                 <div className="dashboard-panel dashboard-panel-fullwidth pointer" onClick={handleEditUserDataClick}>Gegevens inzien/veranderen</div>
                 <div className="dashboard-panel dashboard-panel-halfwidth darkgraybg">
                     <p>placeholder</p>
