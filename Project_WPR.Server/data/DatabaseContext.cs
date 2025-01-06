@@ -86,6 +86,7 @@ namespace Project_WPR.Server.data {
         public DbSet<DamageReport> DamageReports { get; set; }
         public DbSet<DamageReportPicture> DamageReportPictures { get; set; }
         public DbSet<BusinessRenter> BusinessRenters { get; set; }
+        public DbSet<CompanyAdmin> CompanyAdmin { get; set; }
         public DbSet<PrivateRenter> PrivateRenters { get; set; }
         public DbSet<RentalRequest> RentalRequests { get; set; }
 

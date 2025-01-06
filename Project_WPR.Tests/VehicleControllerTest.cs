@@ -53,7 +53,12 @@ namespace Project_WPR.Tests
         {
             // Arrange
             var car = new data.Car { Id = 1, Brand = "Toyota" };
-            var camper = new data.Camper { Id = 2, Brand = "Volkswagen" };
+            var camper = new data.Camper
+            {
+                Id =
+                2,
+                Brand = "Volkswagen"
+            };
             var caravan = new data.Caravan { Id = 3, Brand = "Hymer" };
 
             _mockContext.Setup(c => c.Cars.FindAsync(1)).ReturnsAsync(car);
@@ -81,7 +86,7 @@ namespace Project_WPR.Tests
             var result = await _controller.GetVehicle(1);
 
             // Assert
-            Assert.IsType<NotFoundResult>(result.Result); 
+            Assert.IsType<NotFoundResult>(result.Result);
         }
 
         [Fact]
@@ -215,7 +220,7 @@ namespace Project_WPR.Tests
 
         public T Current => _inner.Current;
     }
-
+    //-------------
     //public static class DbSetMockExtensions
     //{
     //    public static DbSet<T> ReturnsDbSet<T>(this Mock<DbSet<T>> mockSet, IEnumerable<T> sourceList) where T : class
@@ -228,13 +233,13 @@ namespace Project_WPR.Tests
     //        return mockSet.Object;
     //    }
 
-    //    public static void ReturnsDbSet<T>(this Mock<DbSet<T>> mockSet, List<T> sourceList) where T : class
-    //    {
-    //        var queryable = sourceList.AsQueryable();
-    //        mockSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
-    //        mockSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
-    //        mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-    //        mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(queryable.GetEnumerator());
-    //    }
-    //}
+//    public static void ReturnsDbSet<T>(this Mock<DbSet<T>> mockSet, List<T> sourceList) where T : class
+//    {
+//        var queryable = sourceList.AsQueryable();
+//        mockSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
+//        mockSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
+//        mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
+//        mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(queryable.GetEnumerator());
+//    }
+//}
 }
