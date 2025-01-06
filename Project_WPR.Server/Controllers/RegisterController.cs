@@ -21,7 +21,7 @@ namespace Project_WPR.Server.Controllers {
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO request) {
-            var user = new User {
+            var user = new PrivateRenter {
                 UserName = request.Email,
                 Email = request.Email,
                 FirstName = request.FirstName,

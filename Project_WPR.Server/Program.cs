@@ -62,8 +62,7 @@ public class Program
         app.MapFallbackToFile("/index.html");
 
         // 1x runnen als de database leeg is
-        //using (var scope = app.Services.CreateScope())
-        //{
+        //using (var scope = app.Services.CreateScope()) {
         //    var dbc = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
         //    DataSeeder.Run(dbc);
         //}

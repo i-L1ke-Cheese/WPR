@@ -1,0 +1,12 @@
+﻿namespace Project_WPR.Server.data.DTOs {
+    public class VehicleReservationDashboardDTO {
+        public int VehicleId { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly EndDate { get; set; }
+        public string Intention { get; set; }
+        public int SuspectedKm { get; set; }
+        public string VehicleBrand { get; set; }
+        public string VehicleModel { get; set; }
+        public string VehicleColor { get; set; }
+    }
+}

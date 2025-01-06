@@ -3,25 +3,83 @@
     text-align: center;
 }
 
-.placeholder-container {
+.dashboard-panel-container {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
     margin-top: 20px;
+    gap: 10px;
 }
 
-.placeholder {
-    width: 100px;
-    height: 100px;
-    padding: 20px;
-    background-color: #ccc;
+.dashboard-panel {
     display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid black;
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+    color: black;
+    max-height: 40vh;
+    overflow: scroll;
+}
+
+
+.pretty-high {
+    height: 400px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.dashboard-panel-halfwidth {
+    flex: 1 1 48%;
+    margin: 0px;
+}
+
+.dashboard-panel-fullwidth {
+    width: 100%;
+}
+
+.darkgraybg {
+    background-color: #ccc;
 }
 
 h2 {
     color: black;
 }
+
+.reservation-card {
+    display: inline-block;
+    background-color: #f8f8f8;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.reservation-image {
+    float: left;
+    max-height: 200px;
+    margin-right: 20px;
+}
+
+.reservation-details {
+    float: right;
+}
+
+.reservation-details h3 {
+    margin-top: 0;
+}
+
+.reservation-details p {
+    margin: 5px 0;
+}
+
+
+
 
 

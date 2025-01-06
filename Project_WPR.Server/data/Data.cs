@@ -102,8 +102,8 @@ namespace Project_WPR.Server.data {
         public string Intention { get; set; }
         public string FarthestDestination { get; set; }
         public int SuspectedKm { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateOnly StartDate { get; set; }
+        public DateOnly EndDate { get; set; }
         public Vehicle Vehicle { get; set; }
     }
 
