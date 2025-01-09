@@ -1,7 +1,4 @@
-/**
- * @jest-environment jsdom
- */
- 
+
  //test om te testen of de testing environment goed is 
 
 import React from 'react';
