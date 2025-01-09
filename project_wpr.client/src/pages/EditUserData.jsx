@@ -156,8 +156,9 @@ const EditUserData = () => {
             <h2>Gegevens inzien/bewerken</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Voornaam: </label>
+                    <label htmlFor="firstname">Voornaam: </label>
                     <input
+                        id="firstname"
                         type="text"
                         name="firstname"
                         value={userData.firstname}
@@ -165,8 +166,9 @@ const EditUserData = () => {
                     />
                 </div>
                 <div>
-                    <label>Achternaam: </label>
+                    <label htmlFor="lastname">Achternaam: </label>
                     <input
+                        id="lastname"
                         type="text"
                         name="lastname"
                         value={userData.lastname}
@@ -174,8 +176,9 @@ const EditUserData = () => {
                     />
                 </div>
                 <div>
-                    <label>Email: </label>
+                    <label htmlFor="email">Email: </label>
                     <input
+                        id="email"
                         type="email"
                         name="email"
                         value={userData.email}
@@ -183,8 +186,9 @@ const EditUserData = () => {
                     />
                 </div>
                 <div>
-                    <label>Telefoonnummer: </label>
+                    <label htmlFor="phone">Telefoonnummer: </label>
                     <input
+                        id="phone"
                         type="text"
                         name="phone"
                         value={userData.phone}
@@ -192,8 +196,9 @@ const EditUserData = () => {
                     />
                 </div>
                 <div>
-                    <label>Adres + huisnummer: </label>
+                    <label htmlFor="address">Adres + huisnummer: </label>
                     <input
+                        id="address"
                         type="text"
                         name="address"
                         value={userData.address}
@@ -201,8 +206,9 @@ const EditUserData = () => {
                     />
                 </div>
                 <div>
-                    <label>Plaats: </label>
+                    <label htmlFor="place">Plaats: </label>
                     <input
+                        id="place"
                         type="text"
                         name="place"
                         value={userData.place}
@@ -210,26 +216,28 @@ const EditUserData = () => {
                     />
                 </div>
                 <div>
-                    <label>Rijbewijsnummer: </label>
+                    <label htmlFor="licensenumber">Rijbewijsnummer: </label>
                     <input
+                        id="licensenumber"
                         type="text"
                         name="licensenumber"
                         value={userData.licensenumber}
                         onChange={handleChange}
                     />
                 </div>
-                    {errors.firstname && <p className="error">{errors.firstname}</p>}
-                    {errors.lastname && <p className="error">{errors.lastname}</p>}
-                    {errors.email && <p className="error">{errors.email}</p>}
-                    {errors.phone && <p className="error">{errors.phone}</p>}
-                    {errors.address && <p className="error">{errors.address}</p>}
-                    {errors.place && <p className="error">{errors.place}</p>}
-                    {errors.licensenumber && <p className="error">{errors.licensenumber}</p>}
+                {errors.firstname && <p className="error">{errors.firstname}</p>}
+                {errors.lastname && <p className="error">{errors.lastname}</p>}
+                {errors.email && <p className="error">{errors.email}</p>}
+                {errors.phone && <p className="error">{errors.phone}</p>}
+                {errors.address && <p className="error">{errors.address}</p>}
+                {errors.place && <p className="error">{errors.place}</p>}
+                {errors.licensenumber && <p className="error">{errors.licensenumber}</p>}
 
                 <button type="submit">Gegevens opslaan</button>
             </form>
         </div>
     );
+
 };
 
 export default EditUserData;
