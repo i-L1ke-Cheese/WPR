@@ -122,6 +122,20 @@ const EditUserData = () => {
             return;
         }
 
+        // Als er geen telefoonnummer, adres, plaats of rijb. nummer is zorgen dat hij wordt veranderd in een lege string ("")
+        if (!userData.phone) {
+            userData.phone = "";
+        }
+        if (!userData.address) {
+            userData.address = "";
+        }
+        if (!userData.place) {
+            userData.place = "";
+        }
+        if (!userData.licensenumber) {
+            userData.licensenumber = "";
+        }
+
         const response = await fetch("https://localhost:7289/api/Account/updateUser", {
             method: "POST",
             credentials: "include",
@@ -129,13 +143,13 @@ const EditUserData = () => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                firstname: userData.firstname,
-                lastname: userData.lastname,
-                email: userData.email,
-                phone: userData.phone,
-                address: userData.address,
-                place: userData.place,
-                licenseNumber: userData.licensenumber
+                Firstname: userData.firstname,
+                Lastname: userData.lastname,
+                Email: userData.email,
+                Phone: userData.phone,
+                Address: userData.address,
+                Place: userData.place,
+                LicenseNumber: userData.licensenumber
             })
         });
 
