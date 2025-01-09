@@ -4,11 +4,11 @@ using System.Diagnostics.Contracts;
 namespace Project_WPR.Server.data {
     public class User : IdentityUser {
         public DateOnly BirthDate { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Address { get; set; }
-        public string Place { get; set; }
-        public string LicenseNumber { get; set; }
+        public string ? FirstName { get; set; }
+        public string ? LastName { get; set; }
+        public string ? Address { get; set; }
+        public string ? Place { get; set; }
+        public string ? LicenseNumber { get; set; }
     }
 
     public class CA_Employee : User {
@@ -40,7 +40,7 @@ namespace Project_WPR.Server.data {
 
     public class PrivateRenter : User {
         public int PrivateRenterId { get; set; }
-        public string PaymentDetails { get; set; }
+        public string ? PaymentDetails { get; set; }
     }
 
     public class Vehicle {
