@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Header from './components/Header';
@@ -15,6 +16,7 @@ import Company from './pages/Company';
 import EditUserData from './pages/EditUserData';
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
+import CreateCompany from './pages/CreateCompany'
 
 function App() {
 
@@ -35,7 +37,7 @@ function App() {
                                 <li><Link to="/overview">Overzicht</Link></li>
                                 <li><Link to="/about">About</Link></li>
                                 <li><Link to="/dashboard">Dashboard</Link></li>{ /* Alleen weergeven als je ingelogd bent */}
-                                <li><Link to="/Company">Company</Link></li>
+                                <li><Link to="/company">Company</Link></li>
                             </ul>
                         </nav>
                     </div>
@@ -51,8 +53,9 @@ function App() {
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/logout" element={<Logout />} />
                             <Route path="/settings" element={<Settings />} />
-                            <Route path="/Company" element={<Company />} />
+                            <Route path="/company" element={<Company />} />
                             <Route path="/edituserdata" element={<EditUserData />} />
+                            <Route path="/createcompany" element={<CreateCompany />} />
                         </Routes>
                     </div>
                 </div>
