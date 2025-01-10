@@ -13,6 +13,7 @@ import VehicleDetails from './pages/VehicleDetails';
 import Settings from './pages/Settings';
 import Company from './pages/Company';
 import EditUserData from './pages/EditUserData';
+import EditVehicles from './pages/EditVehicles';
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
 
@@ -34,8 +35,9 @@ function App() {
                                 <li><Link to="/">Home</Link></li>
                                 <li><Link to="/overview">Overzicht</Link></li>
                                 <li><Link to="/about">About</Link></li>
-                                <li><Link to="/dashboard">Dashboard</Link></li>{ /* Alleen weergeven als je ingelogd bent */}
+                                <li><Link to="/dashboard">Dashboard</Link></li> { /* Alleen weergeven als je ingelogd bent */}
                                 <li><Link to="/Company">Company</Link></li>
+                                <li><Link to="/EditVehicles">Voertuigen aanpassen</Link></li> {/* Alleen weergeven als backoffice medewerker */ }
                             </ul>
                         </nav>
                     </div>
@@ -53,6 +55,7 @@ function App() {
                             <Route path="/settings" element={<Settings />} />
                             <Route path="/Company" element={<Company />} />
                             <Route path="/edituserdata" element={<EditUserData />} />
+                            <Route path="/EditVehicles" element={<EditVehicles />} />
                         </Routes>
                     </div>
                 </div>
