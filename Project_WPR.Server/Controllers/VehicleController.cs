@@ -99,30 +99,76 @@ namespace Project_WPR.Server.Controllers
         }
 
         [HttpPost("voeg-voertuig-toe")]
-        public async Task<ActionResult<data.Vehicle>> AddVehicle([FromBody] data.Vehicle vehicle)
+        public async Task<ActionResult<data.Vehicle>> AddVehicle([FromBody] data.DTOs.VehicleDTO vehicleDto)
         {
-            if (vehicle == null)
+            if (vehicleDto == null)
             {
                 return BadRequest("Vehicle is leeg.");
             }
 
             try
             {
-                if (vehicle is data.Car car)
+                data.Vehicle vehicle;
+
+                //_logger.LogInformation("Vehicle type: {VehicleType}", vehicle.VehicleType);
+                //_logger.LogInformation("Vehicle object type: {ObjectType}", vehicle.GetType().Name);
+
+
+                switch (vehicleDto.VehicleType?.ToLower())
                 {
-                    _context.Cars.Add(car);
-                }
-                else if (vehicle is data.Camper camper)
-                {
-                    _context.Campers.Add(camper);
-                }
-                else if (vehicle is data.Caravan caravan)
-                {
-                    _context.Caravans.Add(caravan);
-                }
-                else
-                {
-                    return BadRequest("Ongeldig voertuigtype.");
+                    case "car":
+                        vehicle = new data.Car
+                        {
+                            Brand = vehicleDto.Brand,
+                            Type = vehicleDto.Type,
+                            Color = vehicleDto.Color,
+                            YearOfPurchase = vehicleDto.YearOfPurchase,
+                            LicensePlate = vehicleDto.LicensePlate,
+                            Description = vehicleDto.Description,
+                            IsAvailable = vehicleDto.IsAvailable,
+                            IsDamaged = vehicleDto.IsDamaged,
+                            RentalPrice = vehicleDto.RentalPrice,
+                            VehicleType = vehicleDto.VehicleType,
+                            TransmissionType = vehicleDto.TransmissionType
+                        };
+                        _context.Cars.Add(vehicle as data.Car);
+                        break;
+                    case "camper":
+                        vehicle = new data.Camper
+                        {
+                            Brand = vehicleDto.Brand,
+                            Type = vehicleDto.Type,
+                            Color = vehicleDto.Color,
+                            YearOfPurchase = vehicleDto.YearOfPurchase,
+                            LicensePlate = vehicleDto.LicensePlate,
+                            Description = vehicleDto.Description,
+                            IsAvailable = vehicleDto.IsAvailable,
+                            IsDamaged = vehicleDto.IsDamaged,
+                            RentalPrice = vehicleDto.RentalPrice,
+                            VehicleType = vehicleDto.VehicleType,
+                            TransmissionType = vehicleDto.TransmissionType,
+                            RequiredLicenseType = vehicleDto.RequiredLicenseType
+                        };
+                        _context.Campers.Add(vehicle as data.Camper);
+                        break;
+                    case "caravan":
+                        vehicle = new data.Caravan
+                        {
+                            Brand = vehicleDto.Brand,
+                            Type = vehicleDto.Type,
+                            Color = vehicleDto.Color,
+                            YearOfPurchase = vehicleDto.YearOfPurchase,
+                            LicensePlate = vehicleDto.LicensePlate,
+                            Description = vehicleDto.Description,
+                            IsAvailable = vehicleDto.IsAvailable,
+                            IsDamaged = vehicleDto.IsDamaged,
+                            RentalPrice = vehicleDto.RentalPrice,
+                            VehicleType = vehicleDto.VehicleType
+                        };
+                        _context.Caravans.Add(vehicle as data.Caravan);
+                        break;
+                    default:
+                        return BadRequest("Ongeldig voertuigtype.");
                 }
 
                 await _context.SaveChangesAsync();
@@ -192,6 +238,66 @@ namespace Project_WPR.Server.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while updating the vehicle.");
             }
         }
+
+        [HttpDelete("verwijder-voertuig/{id}")]
+        public async Task<IActionResult> DeleteVehicle(int id)
+        {
+            var vehicle = await _context.Cars.FindAsync(id) as data.Vehicle
+                        ?? await _context.Campers.FindAsync(id) as data.Vehicle
+                        ?? await _context.Caravans.FindAsync(id) as data.Vehicle;
+
+            if (vehicle == null)
+            {
+                return NotFound("Voertuig niet gevonden");
+            }
+
+            try
+            {
+                // Verwijder gerelateerde RentalRequests
+                var rentalRequests = _context.RentalRequests.Where(rr => rr.VehicleId == id);
+                _context.RentalRequests.RemoveRange(rentalRequests);
+
+                // Verwijder gerelateerde DamageReports
+                var damageReports = _context.DamageReports.Where(dr => dr.VehicleId == id);
+                _context.DamageReports.RemoveRange(damageReports);
+
+                // Verwijder gerelateerde VehiclePictures
+                var vehiclePictures = _context.VehiclePictures.Where(vp => vp.VehicleId == id);
+                _context.VehiclePictures.RemoveRange(vehiclePictures);
+
+                if (vehicle is data.Car)
+                {
+                    _context.Cars.Remove(vehicle as data.Car);
+                }
+                else if (vehicle is data.Camper)
+                {
+                    _context.Campers.Remove(vehicle as data.Camper);
+                }
+                else if (vehicle is data.Caravan)
+                {
+                    _context.Caravans.Remove(vehicle as data.Caravan);
+                }
+                else
+                {
+                    return BadRequest("Ongeldig voertuigtype.");
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok("Voertuig succesvol verwijderd");
+            }
+            catch (DbUpdateException dbEx)
+            {
+                _logger.LogError(dbEx, $"Database update error when deleting the vehicle with ID: {id}");
+                var innerExceptionMessage = dbEx.InnerException?.Message ?? "No inner exception";
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Database update error occurred while deleting the vehicle: {dbEx.Message}. Inner exception: {innerExceptionMessage}");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred when deleting the vehicle with ID: {id}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting the vehicle: {ex.Message}");
+            }
+        }
     }
-}    
+}
 

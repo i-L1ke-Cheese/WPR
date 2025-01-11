@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import './EditVehicles.css';
 
 const EditVehicles = () => {
+    const navigate = useNavigate();
     const [vehicles, setVehicles] = useState([]);
     const [formData, setFormData] = useState({
         id: '',
@@ -101,15 +103,40 @@ const EditVehicles = () => {
     };
 
     // Handle delete
-    const handleDelete = (id) => {
-        fetch(`/api/vehicle/${id}`, { method: 'DELETE' })
-            .then(() => setVehicles((prev) => prev.filter((v) => v.id !== id)));
-    };
+    async function handleDelete(vehicleId) {
+        try {
+            const response = await fetch(`https://localhost:7289/api/vehicle/verwijder-voertuig/${vehicleId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Error:', errorText);
+                alert(`Error: ${errorText}`);
+            } else {
+                const result = await response.text();
+                console.log('Success:', result);
+                alert('Voertuig succesvol verwijderd');
+                setVehicles((prev) => prev.filter((v) => v.id !== vehicleId));
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Er is een fout opgetreden bij het verwijderen van het voertuig');
+        }
+    }
 
     // Handle edit
     const handleEdit = (vehicle) => {
         setFormData(vehicle);
     };
+
+    // Handle Click
+    const handleClick = () => {
+        navigate("/addvehicle");
+    }
 
     return (
         <div className="vehicle-page">
@@ -240,6 +267,7 @@ const EditVehicles = () => {
                     </select>
                 </div>
                 <button type="submit">Opslaan</button>
+                <button onClick={ handleClick }>Voertuig toevoegen</button>
             </form>
 
             <table>
