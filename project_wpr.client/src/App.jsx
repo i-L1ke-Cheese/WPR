@@ -1,3 +1,4 @@
+
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Header from './components/Header';
@@ -17,6 +18,7 @@ import EditVehicles from './pages/EditVehicles';
 import AddVehicle from './pages/AddVehicle';
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
+import CreateCompany from './pages/CreateCompany'
 
 function App() {
 
@@ -39,6 +41,8 @@ function App() {
                                 <li><Link to="/dashboard">Dashboard</Link></li> { /* Alleen weergeven als je ingelogd bent */}
                                 <li><Link to="/Company">Company</Link></li>
                                 <li><Link to="/EditVehicles">Voertuigen aanpassen</Link></li> {/* Alleen weergeven als backoffice medewerker */ }
+                                <li><Link to="/dashboard">Dashboard</Link></li>{ /* Alleen weergeven als je ingelogd bent */}
+                                <li><Link to="/company">Company</Link></li>
                             </ul>
                         </nav>
                     </div>
@@ -58,6 +62,7 @@ function App() {
                             <Route path="/edituserdata" element={<EditUserData />} />
                             <Route path="/editvehicles" element={<EditVehicles />} />
                             <Route path="/addvehicle" element={<AddVehicle />} />
+                            <Route path="/createcompany" element={<CreateCompany />} />
                         </Routes>
                     </div>
                 </div>

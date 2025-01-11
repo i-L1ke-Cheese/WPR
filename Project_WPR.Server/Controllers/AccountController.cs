@@ -48,6 +48,21 @@ namespace Project_WPR.Server.Controllers {
             if (businessRenter != null)
             {
                 var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == businessRenter.CompanyId);
+
+                if (businessRenter.CompanyId == 0)
+                {
+                    return Ok(new
+                    {
+                        Email = user.Email,
+                        FName = user.FirstName,
+                        LName = user.LastName,
+                        ID = user.Id,
+                        PhoneNr = user.PhoneNumber,
+                        Address = user.Address,
+                        Place = user.Place,
+                        LicenseNumber = user.LicenseNumber
+                    });
+                }
                 return Ok(new
                 {
                     Email = user.Email,
@@ -67,8 +82,21 @@ namespace Project_WPR.Server.Controllers {
             var companyAdmin = await _dbContext.CompanyAdmin.FirstOrDefaultAsync(ca => ca.Id == userID);
             if (companyAdmin != null)
             {
+
                 var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyAdmin.CompanyId);
-                return Ok(new
+
+                if (companyAdmin.CompanyId == 0)
+                {
+                    return Ok(new
+                    {
+                        Email = user.Email,
+                        FName = user.FirstName,
+                        LName = user.LastName,
+                        ID = user.Id,
+                        role = "CompanyAdmin",
+                    });
+                }
+                return Ok(new 
                 {
                     Email = user.Email,
                     FName = user.FirstName,
