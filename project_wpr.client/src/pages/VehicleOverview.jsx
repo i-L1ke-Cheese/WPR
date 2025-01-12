@@ -13,6 +13,8 @@ function VehicleOverview() {
     const [vehicles, setVehicles] = useState([]);
     const [filterVehicleType, setFilterVehicleType] = useState(localStorage.getItem('filterVehicleType') || '');
 
+    const [rentalRequests, setRentalRequests] = useState([]);
+
     const [brands, setBrands] = useState([]);
     const [filterBrand, setFilterBrand] = useState(localStorage.getItem('filterBrand') || '');
 
@@ -22,16 +24,26 @@ function VehicleOverview() {
     const [colors, setColors] = useState([]);
     const [filterColor, setFilterColor] = useState(localStorage.getItem('filterColor') || '');
 
+    const [startDate, setStartDate] = useState([]);
+    const [filterStartDate, setFilterStartDate] = useState(localStorage.getItem('filterStartDate') || '');
+
+    const [endDate, setEndDate] = useState([]);
+    const [filterEndDate, setFilterEndDate] = useState(localStorage.getItem('filterEndDate') || '');
+
+    const [userRole, setUserRole] = useState('');
+
     const navigate = useNavigate();
     var selectedVehicle = null;
 
     /**
-     * useEffect hook om de voertuigen op te halen uit de API.
+     * useEffect hook om de voertuigen en reserveringen op te halen uit de API.
      */
     useEffect(() => {
         const fetchVehicles = async () => {
+
             try {
-                const response = await fetch("https://localhost:7289/api/Vehicle/alle-voertuigen")
+                const response = await fetch(`https://localhost:7289/api/AvailableVehicle/beschikbare-voertuigen`);
+
                 if (response.ok) {
                     const data = await response.json();
                     //console.log(data);
@@ -44,8 +56,27 @@ function VehicleOverview() {
             }
         };
 
+        const fetchReservations = async () => {
+            try {
+                const response = await fetch(`https://localhost:7289/api/RentalRequest/reserveringen-van-alle-autos`);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    //console.log(data);
+                    setRentalRequests(data);
+                } else {
+                    console.error("Failed to fetch rental requests");
+                }
+            } catch (error) {
+                console.error("Error: ", error);
+            }
+        }
+
         fetchVehicles();
+        fetchReservations();
     }, []);
+
+
 
     /**
      * useEffect hook om de unieke merken, types en kleuren van de gefilterde voertuigen op te halen zodat deze in de filter dropdowns getoond kunnen worden.
@@ -63,7 +94,7 @@ function VehicleOverview() {
 
         const uniqueTypes = [...new Set(filteredVehicles.map(vehicle => vehicle.type))].sort();
         setTypes(uniqueTypes);
-        
+
         const uniqueColors = [...new Set(filteredVehicles.map(vehicle => vehicle.color))].sort();
         setColors(uniqueColors);
     }, [vehicles, filterVehicleType, filterBrand, filterType, filterColor]);
@@ -107,13 +138,33 @@ function VehicleOverview() {
     }
 
     /**
-     * Functie die wordt aangeroepen wanneer de filter voor de kleur wordt aangepast.
-     * @param {any} event
-     */
+    * Functie die wordt aangeroepen wanneer de filter voor de kleur wordt aangepast.
+    * @param {any} event
+    */
     const handleFilterColorChange = (event) => {
         const value = event.target.value;
         setFilterColor(value);
         localStorage.setItem('filterColor', value);
+    }
+
+    /**
+    * Functie die wordt aangeroepen wanneer de filter voor de startDate wordt aangepast.
+    * @param {any} event
+    */
+    const handleFilterStartDateChange = (event) => {
+        const value = event.target.value;
+        setFilterStartDate(value);
+        localStorage.setItem('filterStartDate', value);
+    }
+
+    /**
+    * Functie die wordt aangeroepen wanneer de filter voor de endDate wordt aangepast.
+    * @param {any} event
+    */
+    const handleFilterEndDateChange = (event) => {
+        const value = event.target.value;
+        setFilterEndDate(value);
+        localStorage.setItem('filterEndDate', value);
     }
 
     /**
@@ -124,20 +175,42 @@ function VehicleOverview() {
         setFilterBrand('');
         setFilterType('');
         setFilterColor('');
+        setFilterStartDate('');
+        setFilterEndDate('');
         localStorage.removeItem('filterVehicleType');
         localStorage.removeItem('filterBrand');
         localStorage.removeItem('filterType');
         localStorage.removeItem('filterColor');
+        localStorage.removeItem('filterStartDate');
+        localStorage.removeItem('filterEndDate');
     }
-     /**
-      * Filter de voertuigen op basis van de geselecteerde filters.
-      */
+    /**
+     * Filter de voertuigen op basis van de geselecteerde filters.
+     */
     const filteredVehicles = vehicles.filter(vehicle => {
-        return (filterVehicleType ? vehicle.vehicleType.toLowerCase() === filterVehicleType.toLowerCase() : true) &&
+        const vehicleRentalRequests = rentalRequests.filter(request => request.vehicleId === vehicle.id);
+        const isAvailable = vehicleRentalRequests.every(request => {
+            const requestStartDate = new Date(request.startDate);
+            const requestEndDate = new Date(request.endDate);
+            const filterStart = filterStartDate ? new Date(filterStartDate) : null;
+            const filterEnd = filterEndDate ? new Date(filterEndDate) : null;
+
+            if (filterStart && filterEnd) {
+                return (requestEndDate < filterStart || requestStartDate > filterEnd);
+            } else if (filterStart) {
+                return requestEndDate < filterStart;
+            } else if (filterEnd) {
+                return requestStartDate > filterEnd;
+            }
+            return true;
+        });
+
+        return isAvailable &&
+            (filterVehicleType ? vehicle.vehicleType.toLowerCase() === filterVehicleType.toLowerCase() : true) &&
             (filterBrand ? vehicle.brand.toLowerCase() === filterBrand.toLowerCase() : true) &&
             (filterType ? vehicle.type.toLowerCase() === filterType.toLowerCase() : true) &&
-        (filterColor ? vehicle.color.toLowerCase() === filterColor.toLowerCase() : true);
-    });
+            (filterColor ? vehicle.color.toLowerCase() === filterColor.toLowerCase() : true);
+    });     
 
     return (
         <div className="vehicle-overview">
@@ -149,7 +222,7 @@ function VehicleOverview() {
                     <option value="car">Auto</option>
                     <option value="camper">Camper</option>
                     <option value="caravan">Caravan</option>
-                </select> <br/>
+                </select> <br />
                 <label htmlFor="brand">Filter op merk: </label>
                 <select id="brand" value={filterBrand} onChange={handleFilterBrandChange}>
                     <option value="">Alle merken</option>
@@ -162,15 +235,29 @@ function VehicleOverview() {
                     <option value="">Alle modellen</option>
                     {types.map(type => (
                         <option key={type} value={type}>{type}</option>
-                    )) }
+                    ))}
                 </select> <br />
                 <label htmlFor="color">Filteren op kleur: </label>
                 <select id="color" value={filterColor} onChange={handleFilterColorChange}>
                     <option value="">Alle kleuren</option>
                     {colors.map(color => (
                         <option key={color} value={color}>{color}</option>
-                    )) }
+                    ))}
                 </select> <br />
+                <label htmlFor="startDate">Startdatum: </label>
+                <input
+                    type="date"
+                    id="startDate"
+                    value={filterStartDate}
+                    onChange={handleFilterStartDateChange}
+                /> <br />
+                <label htmlFor="endDate">Einddatum: </label>
+                <input
+                    type="date"
+                    id="endDate"
+                    value={filterEndDate}
+                    onChange={handleFilterEndDateChange}
+                /> <br />
                 <button onClick={handleResetFilters}>Reset filters</button>
             </div>
             <div className="container">
@@ -183,11 +270,11 @@ function VehicleOverview() {
                             onClick={() => handleVehicleClick(vehicle)}
                         />
                         <p style={{ color: 'black' }}>{vehicle.vehicleType + ": " + vehicle.brand + " " + vehicle.type}</p>
-                        <p style={{ color: 'black' }}>{vehicle.licensePlate + " (" + vehicle.color + ")" }</p>
+                        <p style={{ color: 'black' }}>{vehicle.licensePlate + " (" + vehicle.color + ")"}</p>
                     </div>
                 ))}
             </div>
-        </div>
+        </div >
     );
 }
 

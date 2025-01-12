@@ -16,9 +16,9 @@ import Company from './pages/Company';
 import EditUserData from './pages/EditUserData';
 import EditVehicles from './pages/EditVehicles';
 import AddVehicle from './pages/AddVehicle';
+import CreateCompany from './pages/CreateCompany'
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
-import CreateCompany from './pages/CreateCompany'
 
 function App() {
 
@@ -41,8 +41,6 @@ function App() {
                                 <li><Link to="/dashboard">Dashboard</Link></li> { /* Alleen weergeven als je ingelogd bent */}
                                 <li><Link to="/Company">Company</Link></li>
                                 <li><Link to="/EditVehicles">Voertuigen aanpassen</Link></li> {/* Alleen weergeven als backoffice medewerker */ }
-                                <li><Link to="/dashboard">Dashboard</Link></li>{ /* Alleen weergeven als je ingelogd bent */}
-                                <li><Link to="/company">Company</Link></li>
                             </ul>
                         </nav>
                     </div>
