@@ -24,7 +24,7 @@ namespace Project_WPR.Server.Controllers
         {
             // controleert of het de juiste bedrijf is zodat je niet medewerkers van een ander bedrijf ziet
             var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyIDset);
-
+            // Bedrijf bestaat niet error
             if (company == null)
             {
                 return BadRequest("Bedrijf bestaat niet");
@@ -39,10 +39,10 @@ namespace Project_WPR.Server.Controllers
                 u.Email,
                // u.MaxVehiclesPerBusinessRenter moet nog op null toegestaan gezet worden
             }).ToListAsync();
-
+            // 
             if (users == null || !users.Any())
             {
-                return BadRequest("Bedrijf bestaat niet");
+                return BadRequest("Gebruiker bestaat niet");
             }
 
             return Ok(users);

@@ -17,7 +17,7 @@ function CreateCompany() {
                 "Content-Type": "application/json",
             },
         });
-
+        // checks if the user is logged in, if it is true it also checks if the role of the user is correct so it is only available for those with the correct role
         if (loggedInCheckResponse.ok) {
             const stuff = await loggedInCheckResponse.json();
             if (stuff.role && stuff.role.includes("CompanyAdmin")) {
@@ -41,7 +41,7 @@ function CreateCompany() {
         const data = { Name: name, Adress: adress, KVK_number: KVK_number };
 
         try {
-            const response = await fetch(`https://localhost:7289/api/CompanyCreator/company?id=${userID}`, {
+            const response = await fetch(`https://localhost:7289/api/CompanyCreator/CreateCompany?id=${userID}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -49,6 +49,7 @@ function CreateCompany() {
                 body: JSON.stringify(data),
             });
 
+            
             if (response.ok) {
                 const result = await response.json();
                 console.log("Company created:", result);
