@@ -53,6 +53,7 @@ namespace Project_WPR.Server.Controllers {
                 {
                     return Ok(new
                     {
+                        role = "BusinessRenter",
                         Email = user.Email,
                         FName = user.FirstName,
                         LName = user.LastName,
@@ -65,6 +66,7 @@ namespace Project_WPR.Server.Controllers {
                 }
                 return Ok(new
                 {
+                    role = "BusinessRenter",
                     Email = user.Email,
                     FName = user.FirstName,
                     LName = user.LastName,

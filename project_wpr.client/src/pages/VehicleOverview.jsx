@@ -35,18 +35,42 @@ function VehicleOverview() {
     const navigate = useNavigate();
     var selectedVehicle = null;
 
+    useEffect(() => {
+        const getUserInfo = async () => {
+            const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
+                method: "GET",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (loggedInCheckResponse.ok) {
+                const user = await loggedInCheckResponse.json();
+                console.log(user);
+                setUserRole(user.role);
+            } else {
+                navigate("/login");
+            }
+        }
+
+        getUserInfo();
+    }, [navigate]);
+
     /**
      * useEffect hook om de voertuigen en reserveringen op te halen uit de API.
      */
     useEffect(() => {
         const fetchVehicles = async () => {
-
             try {
                 const response = await fetch(`https://localhost:7289/api/AvailableVehicle/beschikbare-voertuigen`);
 
                 if (response.ok) {
-                    const data = await response.json();
-                    //console.log(data);
+                    var data = await response.json();
+                    // Filter voertuigen als de gebruiker een BusinessRenter is
+                    if (userRole === "BusinessRenter") {
+                        data = data.filter(vehicle => vehicle.vehicleType === "car");
+                    }
                     setVehicles(data);
                 } else {
                     console.error("Failed to fetch vehicles");
@@ -62,7 +86,6 @@ function VehicleOverview() {
 
                 if (response.ok) {
                     const data = await response.json();
-                    //console.log(data);
                     setRentalRequests(data);
                 } else {
                     console.error("Failed to fetch rental requests");
@@ -72,9 +95,11 @@ function VehicleOverview() {
             }
         }
 
-        fetchVehicles();
-        fetchReservations();
-    }, []);
+        if (userRole == '' || userRole == "BusinessRenter") {
+            fetchVehicles();
+            fetchReservations();
+        }
+    }, [userRole]);
 
 
 
