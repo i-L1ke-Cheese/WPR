@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Project_WPR.Server.data {
     public interface IDatabaseContext
@@ -17,7 +18,7 @@ namespace Project_WPR.Server.data {
         DbSet<PrivateRenter> PrivateRenters { get; set; }
         DbSet<RentalRequest> RentalRequests { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-
+        EntityEntry Entry(object entity); // Add this line
     }
 
     public class DatabaseContext : IdentityDbContext, IDatabaseContext {
@@ -95,6 +96,10 @@ namespace Project_WPR.Server.data {
             return base.SaveChangesAsync(cancellationToken);
         }
 
+        public EntityEntry Entry(object entity) // Add this method
+        {
+            return base.Entry(entity);
+        }
     }
 
 }
