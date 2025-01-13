@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
+// De apis maken gebruik van een USERID eventueel in de toekomst zullen we gebruik maken van een gebruik zijn email adress voor dingen zoals voeg een gebruiker toe aan je bedrijf
+// sinds een USERID best lang en ingewikkeld is en een email adres simpel
 function Company() {
     const [users, setUsers] = useState([]);
     const navigate = useNavigate();
@@ -25,10 +27,10 @@ function Company() {
             const stuff = await loggedInCheckResponse.json();
             // Controleer of de gebruiker de rol 'CompanyAdmin' heeft
             if (stuff.role && stuff.role.includes("CompanyAdmin")) {
-                setCompanyName(stuff.companyName);
+                setCompanyName(stuff.companyName); // Zorgt ervoor dat companyName correct wordt ingesteld
                 setCompanyId(stuff.companyId); // Zorg ervoor dat companyId correct wordt ingesteld
-                handleFetch(stuff.companyId);
-                handleCompanyLimit(stuff.companyId);
+                handleFetch(stuff.companyId); // Haalt maximale voertuigen op voor een gebruiker
+                handleCompanyLimit(stuff.companyId); // haalt maximale voertuigen voor een bedrijf op
             } else {
                 navigate("/login");
             }
@@ -41,6 +43,7 @@ function Company() {
         getUserInfo();// get user info, but also check if user is logged in, and if not, go to login page
     }, []);
 
+    // Haalt maximale voertuigen op voor een gebruiker
     const handleFetch = async (companyId) => {
         try {
             const response = await fetch(`https://localhost:7289/api/CompanyWorkers/GetCompanyWorkers?companyIDset=${companyId}`, {
@@ -67,12 +70,15 @@ function Company() {
         }
     };
 
+    // Zorgt ervoor dat de nieuwe maximale voertuigen worden getoond zonder refresh
     const handleInputChange = (id, event) => {
         const newTempMaxVehicles = { ...tempMaxVehicles };
         newTempMaxVehicles[id] = event.target.value;
         setTempMaxVehicles(newTempMaxVehicles);
     };
 
+
+    // Zet een voertuigen limiet op een gebruiker
     const handleSave = async (businessRenterId) => {
         try {
             const response = await fetch('https://localhost:7289/api/VehicleLimit/SetBusinessRenterVehicleLimit', {
@@ -84,8 +90,8 @@ function Company() {
             });
             if (response.ok) {
                 alert('Max vehicles updated successfully');
-                setEditUserId(null); // Reset edit mode
-                // Update the users state with the new value
+                setEditUserId(null);
+                // Zet de nieuwe user neer
                 setUsers(users.map(user =>
                     user.id === businessRenterId ? { ...user, maxVehiclesPerBusinessRenter: tempMaxVehicles[businessRenterId] } : user
                 ));
@@ -98,6 +104,8 @@ function Company() {
         }
     };
 
+
+    // Voegt een user toe aan een bedrijf
     const handleAdd = async (event) => {
         event.preventDefault();
         try {
@@ -120,6 +128,7 @@ function Company() {
         }
     };
 
+    // Verwijder een gebruiker van een bedrijf
     const handleDelete = async (event) => {
         event.preventDefault();
         try {
@@ -142,6 +151,7 @@ function Company() {
         }
     };
 
+    // Pakt het huidige huur limiet van een bedrijf
     const handleCompanyLimit = async (companyId) => {
         try {
             const response = await fetch(`https://localhost:7289/api/VehicleLimit/GetCompanyRenterVehicleLimit?companyId=${companyId}`, {

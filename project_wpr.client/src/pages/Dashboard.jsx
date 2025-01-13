@@ -10,8 +10,8 @@ import './Dashboard.css';
 function Dashboard() {
     const navigate = useNavigate();
 
-    const [reservations, setreservations] = useState(null);
-    const [hasReservations, sethasReservations] = useState(false);
+    const [reservations, setReservations] = useState(null);
+    const [hasReservations, setHasReservations] = useState(false);
 
     const fetchVehicleReservations = async () => {
         try {
@@ -21,12 +21,12 @@ function Dashboard() {
             });
             if (response.ok) {
                 const data = await response.json();
-                setreservations(data);
+                setReservations(data);
                 console.log(reservations);
-                sethasReservations(true);
+                setHasReservations(true);
             } else {
-                if (response.status == 404) {
-                    sethasReservations(false);
+                if (response.status === 404) {
+                    setHasReservations(false);
                 } else {
                     console.error("Failed to fetch vehicle reservations");
                 }
@@ -46,9 +46,14 @@ function Dashboard() {
         });
 
         if (loggedInCheckResponse.ok) {
-            const stuff = await loggedInCheckResponse.json();
-            console.log(stuff)
-            document.getElementById("DashboardFName").innerHTML = stuff.fName;
+            const user = await loggedInCheckResponse.json();
+            console.log(user);
+            document.getElementById("DashboardFName").innerHTML = user.fName;
+
+            // Check if the user is a CompanyAdmin and if they have a companyId
+            if (user.role === "CompanyAdmin" && !user.companyId) {
+                navigate("/createcompany");
+            }
         } else {
             navigate("/login");
         }
@@ -57,7 +62,7 @@ function Dashboard() {
     useEffect(() => {
         getUserInfo();
         fetchVehicleReservations();
-    }, [])
+    }, []);
 
     const handleEditUserDataClick = () => {
         navigate('/edituserdata');
@@ -67,7 +72,7 @@ function Dashboard() {
         <div className="dashboard">
             <h2>Welkom op je dashboard, <span id="DashboardFName">gebruiker</span></h2>
             <div className="dashboard-panel-container">
-                
+
                 {/*<h3>Uw Reserveringen:</h3>     &apos; = '  */}
                 {!hasReservations && (<div className="dashboard-panel dashboard-panel-fullwidth">
                     <p>U heeft nog geen auto&apos;s gehuurd</p>

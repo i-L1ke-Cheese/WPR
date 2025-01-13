@@ -107,7 +107,6 @@ function VehicleDetails() {
     /**
      * useEffect hook om de voertuigdetails op te halen uit de API.
      */
-
     useEffect(() => {
         const fetchVehicle = async () => {
             try {

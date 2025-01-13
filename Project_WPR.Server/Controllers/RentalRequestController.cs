@@ -35,6 +35,19 @@ namespace Project_WPR.Server.Controllers
             return Ok(reservations);
         }
 
+        [HttpGet("reserveringen-van-alle-autos")]
+        public async Task<IActionResult> getAllVehicleReservations()
+        {
+            var reservations = await _context.RentalRequests.ToListAsync();
+
+            if (reservations == null)
+            {
+                return NotFound(new { message = "No reservations found" });
+            }
+
+            return Ok(reservations);
+        }
+
         [HttpGet("reserveringen-van-gebruiker")]
         [Authorize]
         public async Task<IActionResult> getVehicleReservationsOfCurrentUser() {

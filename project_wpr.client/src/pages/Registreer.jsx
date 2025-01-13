@@ -1,7 +1,6 @@
 import React, { useState } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
-import * as topBTNmanager from './updateTopBtns.js'
 
 function Registreer() {
     const navigate = useNavigate();
@@ -11,6 +10,7 @@ function Registreer() {
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
     const [dateOfBirth, setdateOfBirth] = useState("");
+    const [renter, setRenter] = useState("");
 
 
     const handleSubmit = async (event) => {
@@ -19,7 +19,7 @@ function Registreer() {
         const data = { email, password, firstName, lastName, dateOfBirth };
 
         try {
-            const response = await fetch("https://localhost:7289/api/Register/register", {
+            const response = await fetch(`https://localhost:7289/api/Register/register?renter=${renter}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -42,7 +42,12 @@ function Registreer() {
     };
     return (
         <form className="form" onSubmit={handleSubmit}>
-            <p className="form-title">Log hier in</p>
+            <p className="form-title">Registeer hier</p>
+            <div className="button-container">
+                <button type="button" onClick={() => setRenter("Private")}>Private</button>
+                <button type="button" onClick={() => setRenter("Business")}>Business</button>
+                <button type="button" onClick={() => setRenter("Admin")}>Company</button>
+            </div>
             <div className="input-container">
                 <label htmlFor="email" className="visually-hidden">emailadres:</label>
                 <input
@@ -86,7 +91,7 @@ function Registreer() {
                     type="text"
                     id="dateOfBirth"
                     name="dateOfBirth"
-                    placeholder="Voer uw gebootedatum in"
+                    placeholder="Voer uw geboortedatum in"
                     value={dateOfBirth}
                     onChange={(e) => setdateOfBirth(e.target.value)}
                     required />

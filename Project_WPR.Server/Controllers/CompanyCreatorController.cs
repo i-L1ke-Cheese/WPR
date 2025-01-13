@@ -3,10 +3,11 @@ using Project_WPR.Server.data.DTOs;
 using Project_WPR.Server.data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 
 namespace Project_WPR.Server.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class CompanyCreatorController : ControllerBase
@@ -16,34 +17,56 @@ namespace Project_WPR.Server.Controllers
         public CompanyCreatorController(DatabaseContext context)
         {
             _context = context;
+
         }
-    [HttpPost("company")]
-        public async Task<IActionResult> Company([FromBody] CompanyDTO request)
-        { 
 
-            var company = new Company
-            {
+       
+        // maakt een bedrijf aan na het inloggen bij een companyAdmin account
+        [HttpPost("CreateCompany")]
+        public async Task<IActionResult> CreateCompany([FromBody] CompanyDTO request, string id)
+        {
+            // controleert wie is ingelogt
+                var companyAdmin = await _context.CompanyAdmin
+                    .FirstOrDefaultAsync(ca => ca.Id == id);
+                // Gebruiker bestaat niet
+                if (companyAdmin == null)
+                {
+                    return BadRequest("No admin found");
+                }
+                // Gebruiker is geen companyAdmin
+                if (id == null)
+                {
+                    return Unauthorized("User not authenticated");
+                }
+                // maakt het bedrijf aan
+                var company = new Company
+                {
+                    Name = request.Name,
+                    Adress = request.Adress,
+                    KVK_number = request.KVK_number,
+                    SubscriptionId = 2, // placeholder wordt gefixt wanneer subscribtions is gefixt
+                    MaxVehiclesPerCompany = 0 // placeholder wordt gefixt wanneer subscribtions is gefixt
+                };
+                
+                // controleert of een ander bedrijf niet al het zelfde heeft
+                var newCompany = await _context.Companies
+                    .FirstOrDefaultAsync(c => c.Name == request.Name || c.KVK_number == request.KVK_number || c.Adress == request.Adress);
+                // Bedrijf bestaat al error
+                if (newCompany != null)
+                {
+                    return BadRequest("Er is iets mis gegaan bij het voegen van de company: company bestaat al");
+                }
 
-                Name = request.Name,
-                Adress = request.Adress,
-                KVK_number = request.KVK_number,
-                SubscriptionId = request.SubscriptionId
-            };
+                // Slaat het bedrijf op
+                _context.Companies.Add(company);
+                await _context.SaveChangesAsync();
 
-            var newCompany = await _context.Companies
-                   .FirstOrDefaultAsync(c => c.Name == request.Name && c.KVK_number == request.KVK_number && c.Adress == request.Adress);
+                // Voegt companyAdmin toe aan het bedrijf
+                companyAdmin.CompanyId = company.Id;
+                await _context.SaveChangesAsync();
 
-            if (newCompany != null)
-            {
-                return BadRequest("Er is iets mis gegaan bij het voegen van de company: company bestaat al");
-            }
-
-            _context.Companies.Add(company);
-            await _context.SaveChangesAsync();
-
-            
-
-            return Ok(new { Message = "Company registered successfully" });
+                return Ok(new { Message = "Company registered successfully" });
+          
         }
     }
 }
