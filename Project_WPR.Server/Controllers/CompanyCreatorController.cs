@@ -44,12 +44,13 @@ namespace Project_WPR.Server.Controllers
                     Name = request.Name,
                     Adress = request.Adress,
                     KVK_number = request.KVK_number,
-                    SubscriptionId = 2, // placeholder
-                    MaxVehiclesPerCompany = 0 // placeholder
+                    SubscriptionId = 2, // placeholder wordt gefixt wanneer subscribtions is gefixt
+                    MaxVehiclesPerCompany = 0 // placeholder wordt gefixt wanneer subscribtions is gefixt
                 };
-
+                
+                // controleert of een ander bedrijf niet al het zelfde heeft
                 var newCompany = await _context.Companies
-                    .FirstOrDefaultAsync(c => c.Name == request.Name && c.KVK_number == request.KVK_number && c.Adress == request.Adress && c.SubscriptionId == 2 && c.MaxVehiclesPerCompany == 0);
+                    .FirstOrDefaultAsync(c => c.Name == request.Name || c.KVK_number == request.KVK_number || c.Adress == request.Adress);
                 // Bedrijf bestaat al error
                 if (newCompany != null)
                 {
