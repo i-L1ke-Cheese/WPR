@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 import { render, screen, fireEvent } from '@testing-library/react';
 import EditUserData from '../src/pages/EditUserData';
 import { BrowserRouter } from 'react-router-dom';
