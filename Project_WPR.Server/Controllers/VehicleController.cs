@@ -12,14 +12,14 @@ namespace Project_WPR.Server.Controllers
     public class VehicleController : ControllerBase
 
     {
-        private readonly data.DatabaseContext _context;
+        private readonly data.IDatabaseContext _context;
         private readonly ILogger<VehicleController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="VehicleController"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public VehicleController(data.DatabaseContext context, ILogger<VehicleController> logger)
+        public VehicleController(data.IDatabaseContext context, ILogger<VehicleController> logger)
         {
             _context = context;
             _logger = logger;
@@ -33,18 +33,12 @@ namespace Project_WPR.Server.Controllers
         [HttpGet("alle-voertuigen")]
         public async Task<IActionResult> GetVehicles(int i)
         {
-            var businessRenter = await _context.BusinessRenters.FirstOrDefaultAsync(x => x.BusinessRenterId == i);
 
             try
             {
                 var cars = _context.Cars.ToList();
                 var campers = _context.Campers.ToList();
                 var caravans = _context.Caravans.ToList();
-
-                if (businessRenter != null)
-                {
-                    return Ok(cars);
-                }
 
                 return Ok(new { cars, campers, caravans });
             }
