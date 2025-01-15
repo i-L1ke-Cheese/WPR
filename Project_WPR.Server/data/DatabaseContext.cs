@@ -18,7 +18,7 @@ namespace Project_WPR.Server.data {
         DbSet<PrivateRenter> PrivateRenters { get; set; }
         DbSet<RentalRequest> RentalRequests { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-        EntityEntry Entry(object entity); // Add this line
+        EntityEntry Entry(object entity);
     }
 
     public class DatabaseContext : IdentityDbContext, IDatabaseContext {
@@ -56,7 +56,7 @@ namespace Project_WPR.Server.data {
                 .HasOne(rr => rr.Vehicle)
                 .WithMany()
                 .HasForeignKey(rr => rr.VehicleId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
 
             b.Entity<RentalRequest>()
                 .HasOne(rr => rr.BusinessRenter)
@@ -96,7 +96,7 @@ namespace Project_WPR.Server.data {
             return base.SaveChangesAsync(cancellationToken);
         }
 
-        public EntityEntry Entry(object entity) // Add this method
+        public EntityEntry Entry(object entity)
         {
             return base.Entry(entity);
         }

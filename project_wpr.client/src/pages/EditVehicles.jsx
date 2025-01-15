@@ -5,6 +5,7 @@ import './EditVehicles.css';
 const EditVehicles = () => {
     const navigate = useNavigate();
     const [vehicles, setVehicles] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
     const [formData, setFormData] = useState({
         id: '',
         brand: '',
@@ -22,6 +23,7 @@ const EditVehicles = () => {
         transmissionType: ''
     });
 
+
     // Fetch vehicles from the API
     useEffect(() => {
         const fetchVehicles = async () => {
@@ -36,8 +38,6 @@ const EditVehicles = () => {
                     ];
                     console.log(combinedArray);
                     setVehicles(combinedArray);
-                    //setVehicles(Array.isArray(data) ? data : []);
-
                 } else {
                     console.error("Failed to fetch vehicles");
                 }
@@ -137,6 +137,23 @@ const EditVehicles = () => {
     const handleClick = () => {
         navigate("/addvehicle");
     }
+
+    // Handle search
+    const handleSearch = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
+    // Filter voertuigen op zoekopdracht
+    const filteredVehicles = vehicles.filter((vehicle) => {
+        const query = searchQuery.toLowerCase();
+        return (
+            vehicle.brand.toLowerCase().includes(query) ||
+            vehicle.type.toLowerCase().includes(query) ||
+            vehicle.licensePlate.toLowerCase().includes(query) ||
+            vehicle.description.toLowerCase().includes(query) ||
+            (vehicle.brand.toLowerCase() + ' ' + vehicle.type.toLowerCase()).includes(query)
+        );
+    });
 
     return (
         <div className="vehicle-page">
@@ -267,52 +284,61 @@ const EditVehicles = () => {
                     </select>
                 </div>
                 <button type="submit">Opslaan</button>
-                <button onClick={ handleClick }>Voertuig toevoegen</button>
+                <button onClick={handleClick}>Voertuig toevoegen</button>
             </form>
+            <label htmlFor="search">Zoeken</label>
+            <input // Input om te zoeken op kenteken, merk, model of merk en model 
+                name="search"
+                value={searchQuery}
+                onChange={handleSearch}
+                placeholder="Zoeken op kenteken, merk en/of model"
+            />
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Kenteken</th>
-                        <th>Merk</th>
-                        <th>Model</th>
-                        <th>Kleur</th>
-                        <th>Aankoopjaar</th>
-                        <th>Beschrijving</th>
-                        <th>Huurprijs</th>
-                        <th>Voertuigtype</th>
-                        <th>Versnellingsbak</th>
-                        <th>Rijbewijs</th>
-                        <th>Beschikbaar</th>
-                        <th>Beschadigd</th>
-                        <th>Acties</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {vehicles.map((vehicle) => (
-                        <tr key={vehicle.id}>
-                            <td>{vehicle.id}</td>
-                            <td>{vehicle.licensePlate}</td>
-                            <td>{vehicle.brand}</td>
-                            <td>{vehicle.type}</td>
-                            <td>{vehicle.color}</td>
-                            <td>{vehicle.yearOfPurchase}</td>
-                            <td>{vehicle.description}</td>
-                            <td>{vehicle.rentalPrice}</td>
-                            <td>{vehicle.vehicleType}</td>
-                            <td>{vehicle.transmissionType || vehicle.camperTransmissionType || "Geen"}</td>
-                            <td>{vehicle.requiredLicenseType || "Geen"}</td>
-                            <td>{vehicle.isAvailable ? "Ja" : "Nee"}</td>
-                            <td>{vehicle.isDamaged ? "Ja" : "Nee"}</td>
-                            <td>
-                                <button onClick={() => handleEdit(vehicle)}>Bewerken</button>
-                                <button onClick={() => handleDelete(vehicle.id)}>Verwijderen</button>
-                            </td>
+            <div
+                style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}
+            >
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Kenteken</th>
+                            <th>Merk</th>
+                            <th>Model</th>
+                            <th>Kleur</th>
+                            <th>Aankoopjaar</th>
+                            <th>Beschrijving</th>
+                            <th>Huurprijs</th>
+                            <th>Voertuigtype</th>
+                            <th>Versnellingsbak</th>
+                            <th>Rijbewijs</th>
+                            <th>Beschikbaar</th>
+                            <th>Beschadigd</th>
+                            <th>Acties</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {filteredVehicles.map((vehicle) => (
+                            <tr key={vehicle.id}>
+                                <td>{vehicle.licensePlate}</td>
+                                <td>{vehicle.brand}</td>
+                                <td>{vehicle.type}</td>
+                                <td>{vehicle.color}</td>
+                                <td>{vehicle.yearOfPurchase}</td>
+                                <td>{vehicle.description}</td>
+                                <td>{vehicle.rentalPrice}</td>
+                                <td>{vehicle.vehicleType}</td>
+                                <td>{vehicle.transmissionType || vehicle.camperTransmissionType || "Geen"}</td>
+                                <td>{vehicle.requiredLicenseType || "Geen"}</td>
+                                <td>{vehicle.isAvailable ? "Ja" : "Nee"}</td>
+                                <td>{vehicle.isDamaged ? "Ja" : "Nee"}</td>
+                                <td>
+                                    <button onClick={() => handleEdit(vehicle)}>Bewerken</button>
+                                    <button onClick={() => handleDelete(vehicle.id)}>Verwijderen</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

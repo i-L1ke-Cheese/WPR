@@ -33,7 +33,6 @@ namespace Project_WPR.Server.Controllers
         [HttpGet("alle-voertuigen")]
         public async Task<IActionResult> GetVehicles(int i)
         {
-
             try
             {
                 var cars = _context.Cars.ToList();
@@ -238,7 +237,7 @@ namespace Project_WPR.Server.Controllers
         {
             var vehicle = await _context.Cars.FindAsync(id) as data.Vehicle
                         ?? await _context.Campers.FindAsync(id) as data.Vehicle
-                        ?? await _context.Caravans.FindAsync(id) as data.Vehicle;
+                        ?? await _context.Caravans.FindAsync(id);
 
             if (vehicle == null)
             {
@@ -247,9 +246,16 @@ namespace Project_WPR.Server.Controllers
 
             try
             {
-                // Verwijder gerelateerde RentalRequests
+                //// Verwijder gerelateerde RentalRequests
+                //var rentalRequests = _context.RentalRequests.Where(rr => rr.VehicleId == id);
+                //_context.RentalRequests.RemoveRange(rentalRequests);
+
                 var rentalRequests = _context.RentalRequests.Where(rr => rr.VehicleId == id);
-                _context.RentalRequests.RemoveRange(rentalRequests);
+                foreach (var rr in rentalRequests)
+                {
+                    rr.IsDeleted = true;
+                    _context.Entry(rr).State = EntityState.Modified;
+                }
 
                 // Verwijder gerelateerde DamageReports
                 var damageReports = _context.DamageReports.Where(dr => dr.VehicleId == id);
