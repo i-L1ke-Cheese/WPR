@@ -98,7 +98,10 @@ namespace Project_WPR.Server.data {
 
     public class RentalRequest {
         public int Id { get; set; }
-        public int VehicleId { get; set; }
+        public int? VehicleId { get; set; }
+        public string VehicleBrand { get; set; }
+        public string VehicleType { get; set; }
+        public string VehicleColor { get; set; }
         public string? BusinessRenterId { get; set; }
         public BusinessRenter BusinessRenter { get; set; }
         public string? PrivateRenterId { get; set; }
@@ -108,7 +111,8 @@ namespace Project_WPR.Server.data {
         public int SuspectedKm { get; set; }
         public DateOnly StartDate { get; set; }
         public DateOnly EndDate { get; set; }
-        public Vehicle Vehicle { get; set; }
+        public Vehicle? Vehicle { get; set; }
+        public bool IsDeleted { get; set; }
     }
 
     public class Subscription {

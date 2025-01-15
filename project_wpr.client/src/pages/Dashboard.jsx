@@ -83,11 +83,16 @@ function Dashboard() {
                             <div key={index} className="dashboard-panel dashboard-panel-halfwidth darkgraybg">
                                 <img src="Standaardauto.jpg" alt="Vehicle" className="reservation-image" />
                                 <div className="reservation-details">
-                                    <h3>{reservation.vehicleBrand} {reservation.vehicleModel} ({reservation.vehicleColor})</h3>
+                                    <h3>{reservation.vehicleBrand} {reservation.vehicleType} ({reservation.vehicleColor})</h3>
                                     <p>{reservation.startDate} tot {reservation.endDate}</p>
                                     <p>Gebruiken voor: {reservation.intention}</p>
                                     <p>Geschatte afstand: {reservation.suspectedKm}</p>
-                                    <Link to={`/vehicle?id=${reservation.vehicleId}`}>Pagina van voertuig</Link>
+                                    {reservation.isDeleted == 0 && (
+                                        <Link to={`/vehicle?id=${reservation.vehicleId}`}>Pagina van voertuig</Link>
+                                    )}
+                                    {reservation.isDeleted == 1 && (
+                                        <p><b>Voertuig is niet meer beschikbaar</b></p>
+                                    )}
                                 </div>
                             </div>
                         ))}

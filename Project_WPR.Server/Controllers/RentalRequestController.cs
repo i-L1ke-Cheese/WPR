@@ -70,11 +70,15 @@ namespace Project_WPR.Server.Controllers
             var reservations = await _context.RentalRequests
                 .Where(rr => rr.PrivateRenterId == userID || rr.BusinessRenterId == userID)
                 .Select(rr => new VehicleReservationDashboardDTO {
-                    VehicleId = rr.VehicleId,
+                    VehicleId = rr.VehicleId ?? 0,
+                    VehicleBrand = rr.VehicleBrand,
+                    VehicleType = rr.VehicleType,
+                    VehicleColor = rr.VehicleColor,
                     StartDate = rr.StartDate,
                     EndDate = rr.EndDate,
                     Intention = rr.Intention,
                     SuspectedKm = rr.SuspectedKm,
+                    IsDeleted = rr.IsDeleted
                 })
                 .ToListAsync();
 
@@ -97,9 +101,9 @@ namespace Project_WPR.Server.Controllers
                 .Cast<Vehicle>()
                 .FirstOrDefaultAsync();
 
-                r.VehicleBrand = tempvehicle.Brand;
-                r.VehicleModel = tempvehicle.Type;
-                r.VehicleColor = tempvehicle.Color;
+                //r.VehicleBrand = tempvehicle.Brand;
+                //r.VehicleType = tempvehicle.Type;
+                //r.VehicleColor = tempvehicle.Color;
             }
 
             return Ok(reservations);
@@ -212,6 +216,10 @@ namespace Project_WPR.Server.Controllers
             RR.Intention = request.intention;
             RR.SuspectedKm = request.suspectedKm;
             RR.FarthestDestination = request.FarthestDestination;
+            RR.VehicleBrand = vehicle.Brand;
+            RR.VehicleType = vehicle.Type;
+            RR.VehicleColor = vehicle.Color;
+            RR.IsDeleted = false;
             _context.Add(RR);
 
             await _context.SaveChangesAsync();
