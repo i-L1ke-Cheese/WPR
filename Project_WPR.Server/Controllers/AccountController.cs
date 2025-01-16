@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Project_WPR.Server.data;
 using Project_WPR.Server.data.DTOs;
 using System.Security.Claims;
@@ -172,6 +173,22 @@ namespace Project_WPR.Server.Controllers {
             }
 
             return Ok(new { Message = "Phone number changed.", PhoneNumber = request.newPhoneNumber });
+        }
+
+        [HttpGet("getUser")]
+        public async Task<IActionResult> getUser([FromQuery] string userID)
+        {
+            var user = await _userManager.FindByIdAsync(userID);
+            if (user == null)
+            {
+                return NotFound(new { Msg = "User not found" });
+            }
+
+            return Ok(new
+            {
+                FName = user.FirstName,
+                LName = user.LastName,
+            });
         }
     }
 }

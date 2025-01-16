@@ -83,7 +83,7 @@ namespace Project_WPR.Server.data {
         public int Id { get; set; }
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
         public string Description { get; set; }
         public string EmployeeId { get; set; }
         public CA_Employee Employee { get; set; }
