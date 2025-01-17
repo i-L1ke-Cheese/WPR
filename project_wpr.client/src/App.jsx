@@ -63,7 +63,6 @@ function App() {
                             <Route path="/editvehicles" element={<EditVehicles />} />
                             <Route path="/addvehicle" element={<AddVehicle />} />
                             <Route path="/createcompany" element={<CreateCompany />} />
-                            <Route path="/frontoffice" element={<FrontOffice />} />
                             <Route path="/privacyverklaring" element={<Privacyverklaring /> } />
                         </Routes>
                     </div>
