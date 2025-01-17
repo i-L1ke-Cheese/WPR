@@ -19,6 +19,7 @@ import AddVehicle from './pages/AddVehicle';
 import CreateCompany from './pages/CreateCompany'
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
+import Subscriptions from './pages/Subscriptions';
 
 function App() {
 
@@ -61,6 +62,7 @@ function App() {
                             <Route path="/editvehicles" element={<EditVehicles />} />
                             <Route path="/addvehicle" element={<AddVehicle />} />
                             <Route path="/createcompany" element={<CreateCompany />} />
+                            <Route path="/subscriptions" element={<Subscriptions />} />
                         </Routes>
                     </div>
                 </div>
