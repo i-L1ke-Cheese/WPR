@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -78,7 +77,8 @@ namespace Project_WPR.Server.Controllers
                     EndDate = rr.EndDate,
                     Intention = rr.Intention,
                     SuspectedKm = rr.SuspectedKm,
-                    IsDeleted = rr.IsDeleted
+                    IsDeleted = rr.IsDeleted,
+                    Status = rr.Status
                 })
                 .ToListAsync();
 
@@ -220,11 +220,40 @@ namespace Project_WPR.Server.Controllers
             RR.VehicleType = vehicle.Type;
             RR.VehicleColor = vehicle.Color;
             RR.IsDeleted = false;
+            RR.Status = request.Status;
             _context.Add(RR);
 
             await _context.SaveChangesAsync();
 
             return Ok(new { message = $"{vehicle.Brand} {vehicle.Type} is verhuurd." });
+        }
+
+        [HttpPut("update-huuraanvraag/{id}")]
+        public async Task<IActionResult> UpdateRentalRequest(int id, [FromBody] RentalRequestDTO rentalRequestDTO)
+        {
+            var rentalRequest = await _context.RentalRequests.FindAsync(id);
+            if (rentalRequest == null)
+            {
+                return NotFound(new { message = "rental request not found" });
+            }
+
+            rentalRequest.Status = rentalRequestDTO.Status;
+
+            try
+            {
+                _context.Entry(rentalRequest).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                return StatusCode(500, new { message = "An unexpected error occurred." });
+            }
+            return Ok(new { message = "Damage report updated successfully.", rentalRequest });
         }
     }
 }

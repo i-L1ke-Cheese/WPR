@@ -28,7 +28,7 @@ const EditVehicles = () => {
     useEffect(() => {
         const fetchVehicles = async () => {
             try {
-                const response = await fetch("https://localhost:7289/api/Vehicle/alle-voertuigen?i=1")
+                const response = await fetch("https://localhost:7289/api/Vehicle/alle-voertuigen?i=1");
                 if (response.ok) {
                     const data = await response.json();
                     const combinedArray = [
@@ -300,6 +300,7 @@ const EditVehicles = () => {
                 <table>
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Kenteken</th>
                             <th>Merk</th>
                             <th>Model</th>
@@ -318,6 +319,7 @@ const EditVehicles = () => {
                     <tbody>
                         {filteredVehicles.map((vehicle) => (
                             <tr key={vehicle.id}>
+                                <td>{vehicle.id}</td>
                                 <td>{vehicle.licensePlate}</td>
                                 <td>{vehicle.brand}</td>
                                 <td>{vehicle.type}</td>

@@ -22,7 +22,7 @@ function Dashboard() {
             if (response.ok) {
                 const data = await response.json();
                 setReservations(data);
-                console.log(reservations);
+                console.log(data);
                 setHasReservations(true);
             } else {
                 if (response.status === 404) {
@@ -83,6 +83,7 @@ function Dashboard() {
                             <div key={index} className="dashboard-panel dashboard-panel-halfwidth darkgraybg">
                                 <img src="Standaardauto.jpg" alt="Vehicle" className="reservation-image" />
                                 <div className="reservation-details">
+                                    <p><b>Status: {reservation.status}</b></p>
                                     <h3>{reservation.vehicleBrand} {reservation.vehicleType} ({reservation.vehicleColor})</h3>
                                     <p>{reservation.startDate} tot {reservation.endDate}</p>
                                     <p>Gebruiken voor: {reservation.intention}</p>
