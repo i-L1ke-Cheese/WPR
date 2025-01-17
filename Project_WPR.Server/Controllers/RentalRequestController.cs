@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -70,11 +69,16 @@ namespace Project_WPR.Server.Controllers
             var reservations = await _context.RentalRequests
                 .Where(rr => rr.PrivateRenterId == userID || rr.BusinessRenterId == userID)
                 .Select(rr => new VehicleReservationDashboardDTO {
-                    VehicleId = rr.VehicleId,
+                    VehicleId = rr.VehicleId ?? 0,
+                    VehicleBrand = rr.VehicleBrand,
+                    VehicleType = rr.VehicleType,
+                    VehicleColor = rr.VehicleColor,
                     StartDate = rr.StartDate,
                     EndDate = rr.EndDate,
                     Intention = rr.Intention,
                     SuspectedKm = rr.SuspectedKm,
+                    IsDeleted = rr.IsDeleted,
+                    Status = rr.Status
                 })
                 .ToListAsync();
 
@@ -97,9 +101,9 @@ namespace Project_WPR.Server.Controllers
                 .Cast<Vehicle>()
                 .FirstOrDefaultAsync();
 
-                r.VehicleBrand = tempvehicle.Brand;
-                r.VehicleModel = tempvehicle.Type;
-                r.VehicleColor = tempvehicle.Color;
+                //r.VehicleBrand = tempvehicle.Brand;
+                //r.VehicleType = tempvehicle.Type;
+                //r.VehicleColor = tempvehicle.Color;
             }
 
             return Ok(reservations);
@@ -212,11 +216,44 @@ namespace Project_WPR.Server.Controllers
             RR.Intention = request.intention;
             RR.SuspectedKm = request.suspectedKm;
             RR.FarthestDestination = request.FarthestDestination;
+            RR.VehicleBrand = vehicle.Brand;
+            RR.VehicleType = vehicle.Type;
+            RR.VehicleColor = vehicle.Color;
+            RR.IsDeleted = false;
+            RR.Status = request.Status;
             _context.Add(RR);
 
             await _context.SaveChangesAsync();
 
             return Ok(new { message = $"{vehicle.Brand} {vehicle.Type} is verhuurd." });
+        }
+
+        [HttpPut("update-huuraanvraag/{id}")]
+        public async Task<IActionResult> UpdateRentalRequest(int id, [FromBody] RentalRequestDTO rentalRequestDTO)
+        {
+            var rentalRequest = await _context.RentalRequests.FindAsync(id);
+            if (rentalRequest == null)
+            {
+                return NotFound(new { message = "rental request not found" });
+            }
+
+            rentalRequest.Status = rentalRequestDTO.Status;
+
+            try
+            {
+                _context.Entry(rentalRequest).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                return StatusCode(500, new { message = "An unexpected error occurred." });
+            }
+            return Ok(new { message = "Damage report updated successfully.", rentalRequest });
         }
     }
 }

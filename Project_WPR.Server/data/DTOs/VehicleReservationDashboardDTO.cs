@@ -7,6 +7,11 @@
         public int SuspectedKm { get; set; }
         public string VehicleBrand { get; set; }
         public string VehicleModel { get; set; }
+        public string VehicleType { get; set; }
         public string VehicleColor { get; set; }
+        public bool IsDeleted { get; set; }
+        public string? BusinessRenterId { get; set; }
+        public string? PrivateRenterId { get; set; }
+        public string Status { get; set; }
     }
 }

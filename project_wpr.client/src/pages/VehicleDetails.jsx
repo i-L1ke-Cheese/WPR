@@ -63,10 +63,12 @@ function VehicleDetails() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    "startDate": startDate, "endDate": endDate,
+                    "startDate": startDate,
+                    "endDate": endDate,
                     "vehicleId": vehicleId,
                     "intention": intention, "suspectedKm": suspectedKm,
-                    "FarthestDestination": FarthestDestination
+                    "FarthestDestination": FarthestDestination,
+                    "Status": "in behandeling"
                 }),
             });
             const data = await response.json();
