@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -40,13 +40,34 @@ function Registreer() {
             console.error("Error:", error);
         }
     };
+
+    const handleUserTypeSelection = async (userType, e) => {
+        setRenter(userType);
+        const clickedButton = e.currentTarget;
+        const buttons = document.querySelectorAll('.userTypeSelectionBtn');
+        buttons.forEach((button) => {
+            if (button === clickedButton) {
+                button.classList.add('darkblue');
+            } else {
+                button.classList.remove('darkblue');
+            }
+        });
+    };
+
+    useEffect(() => {
+        setRenter("Private");
+    }, []);
+
     return (
         <form className="form" onSubmit={handleSubmit}>
             <p className="form-title">Registeer hier</p>
             <div className="button-container">
-                <button type="button" onClick={() => setRenter("Private")}>Private</button>
-                <button type="button" onClick={() => setRenter("Business")}>Business</button>
-                <button type="button" onClick={() => setRenter("Admin")}>Company</button>
+                <button className="userTypeSelectionBtn darkblue" type="button" onClick={(e) => handleUserTypeSelection("Private", e)}>PrivateRenter</button>
+                <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("Business", e)}>BusinessRenter</button>
+                <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("Admin", e)}>CompanyAdmin</button>
+                <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("VehicleManager", e)}>VehicleManager</button>
+                <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("FrontOffice", e)}>FrontOffice</button>
+                <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("BackOffice", e)}>BackOffice</button>
             </div>
             <div className="input-container">
                 <label htmlFor="email" className="visually-hidden">emailadres:</label>
