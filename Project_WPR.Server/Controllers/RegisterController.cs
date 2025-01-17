@@ -34,10 +34,8 @@ namespace Project_WPR.Server.Controllers
 
             User user = null;
 
-            if (renter.Equals("Private"))
-            {
-                user = new PrivateRenter
-                {
+            if (renter.Equals("Private")) {
+                user = new PrivateRenter {
                     UserName = request.Email,
                     Email = request.Email,
                     FirstName = request.FirstName,
@@ -45,29 +43,23 @@ namespace Project_WPR.Server.Controllers
                     BirthDate = request.dateOfBirth
 
                 };
-            }
-            else if (renter.Equals("Business"))
-            {
-                user = new BusinessRenter
-                {
+            } else if (renter.Equals("Business")) {
+                user = new BusinessRenter {
                     UserName = request.Email,
                     Email = request.Email,
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     BirthDate = request.dateOfBirth
                 };
-            }
-            else if (renter.Equals("Admin"))
-            {
-                user = new CompanyAdmin
-                {
+            } else if (renter.Equals("Admin")) {
+                user = new CompanyAdmin {
                     UserName = request.Email,
                     Email = request.Email,
                     FirstName = request.FirstName,
                     LastName = request.LastName,
                     BirthDate = request.dateOfBirth,
                     CompanyId = 0
-                
+
                 };
             } else if (renter.Equals("VehicleManager")) {
                 user = new VehicleManager {
@@ -78,11 +70,29 @@ namespace Project_WPR.Server.Controllers
                     BirthDate = request.dateOfBirth,
                     CompanyId = 0
                 };
+            } else if (renter.Equals("FrontOffice")) {
+                user = new CA_Employee {
+                    UserName = request.Email,
+                    Email = request.Email,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    BirthDate = request.dateOfBirth,
+                    Department = "Frontoffice"
+                };
+            } else if (renter.Equals("BackOffice")) {
+                user = new CA_Employee {
+                    UserName = request.Email,
+                    Email = request.Email,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    BirthDate = request.dateOfBirth,
+                    Department = "Backoffice"
+                };
             }
 
             if (user == null)
             {
-                return BadRequest("User is empty");
+                return BadRequest("Unsupported user type");
             }
 
             var result = await _userManager.CreateAsync(user, request.Password);

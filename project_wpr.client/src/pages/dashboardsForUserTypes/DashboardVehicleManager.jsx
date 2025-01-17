@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
  * 
  * @returns {JSX.Element} Het gerenderde component dat het dashboard toont.
  */
-function DashboardBusinessRenter() {
+function DashboardVehicleManager() {
 
     return (
         <div className="dashboard">
@@ -15,4 +15,4 @@ function DashboardBusinessRenter() {
     );
 }
 
-export default DashboardBusinessRenter;
+export default DashboardVehicleManager;

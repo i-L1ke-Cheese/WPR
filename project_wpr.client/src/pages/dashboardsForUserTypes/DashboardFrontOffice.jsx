@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './Frontoffice.css';
+import './DashboardFrontoffice.css';
 
-function FrontOffice() {
+function DashboardFrontOffice() {
     const [carId, setCarId] = useState('');
     const [action, setAction] = useState('issue');
     const [status, setStatus] = useState('Beschadigd');
@@ -359,4 +359,4 @@ function FrontOffice() {
     );
 }
 
-export default FrontOffice;
+export default DashboardFrontOffice;
