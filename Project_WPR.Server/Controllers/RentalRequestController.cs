@@ -77,7 +77,8 @@ namespace Project_WPR.Server.Controllers
                     EndDate = rr.EndDate,
                     Intention = rr.Intention,
                     SuspectedKm = rr.SuspectedKm,
-                    IsDeleted = rr.IsDeleted
+                    IsDeleted = rr.IsDeleted,
+                    Status = rr.Status
                 })
                 .ToListAsync();
 
