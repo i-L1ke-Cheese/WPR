@@ -83,10 +83,11 @@ namespace Project_WPR.Server.data {
         public int Id { get; set; }
         public int VehicleId { get; set; }
         public Vehicle Vehicle { get; set; }
-        public DateTime Date { get; set; }
+        public DateOnly Date { get; set; }
         public string Description { get; set; }
         public string EmployeeId { get; set; }
         public CA_Employee Employee { get; set; }
+        public string Status { get; set; }
     }
 
     public class DamageReportPicture {
@@ -113,6 +114,7 @@ namespace Project_WPR.Server.data {
         public DateOnly EndDate { get; set; }
         public Vehicle? Vehicle { get; set; }
         public bool IsDeleted { get; set; }
+        public string Status { get; set; }
     }
 
     public class Subscription {

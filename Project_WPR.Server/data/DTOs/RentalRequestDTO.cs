@@ -8,5 +8,6 @@
         public string intention { get; set; }
         public int suspectedKm { get; set; }
         public string FarthestDestination { get; set; }
+        public string Status { get; set; }
     }
 }
