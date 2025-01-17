@@ -42,7 +42,8 @@ namespace Project_WPR.Server.Controllers
                 VehicleId = damageReportDTO.VehicleId,
                 Date = damageReportDTO.Date,
                 Description = damageReportDTO.Description,
-                EmployeeId = employeeID
+                EmployeeId = employeeID,
+                Status = damageReportDTO.Status
             };
 
             try
@@ -64,17 +65,6 @@ namespace Project_WPR.Server.Controllers
             return Ok(new { message = "Damage report created successfully.", damageReport });
         }
 
-        //var employee = await _userManager.FindByIdAsync(employeeID);
-        //if (employee == null)
-        //{
-        //    return NotFound(new { Msg = "User not found" });
-        //}
-
-        //var frontofficeEmployee = await _context.CA_Employees.FirstOrDefaultAsync(e => e.Id == employee.Id);
-        //if (frontofficeEmployee == null)
-        //{
-        //    return Unauthorized(new { Msg = "User is not a frontoffice employee." });
-        //}
         [HttpGet("alle-voertuigen")]
         public async Task<IActionResult> GetAllDamageReports()
         {
@@ -101,6 +91,62 @@ namespace Project_WPR.Server.Controllers
             }
 
             return Ok(damageReports);
+        }
+
+        [HttpPut("update-schademelding/{id}")]
+        public async Task<IActionResult> UpdateDamageReport(int id, [FromBody] DamageReportDTO damageReportDTO)
+        {
+            var damageReport = await _context.DamageReports.FindAsync(id);
+            if (damageReport == null)
+            {
+                return NotFound(new { message = "Damage report not found" });
+            }
+
+            damageReport.Description = damageReportDTO.Description;
+            damageReport.Status = damageReportDTO.Status;
+
+            try
+            {
+                _context.Entry(damageReport).State = EntityState.Modified;
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                return StatusCode(500, new { message = "An unexpected error occurred." });
+            }
+
+            return Ok(new { message = "Damage report updated successfully.", damageReport });
+        }
+
+        [HttpDelete("delete-schademelding/{id}")]
+        public async Task<IActionResult> DeleteDamageReport(int id)
+        {
+            var report = await _context.DamageReports.FindAsync(id);
+
+            if (report == null)
+            {
+                return NotFound("Schademelding niet gevonden");
+            }
+
+            try
+            {
+                _context.DamageReports.Remove(report);
+                await _context.SaveChangesAsync();
+                return Ok("Schademelding succesvol verwijderd");
+            } catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting the vehicle: {ex.Message}");
+            }
         }
     }
 }
