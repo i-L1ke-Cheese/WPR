@@ -69,6 +69,15 @@ namespace Project_WPR.Server.Controllers
                     CompanyId = 0
                 
                 };
+            } else if (renter.Equals("VehicleManager")) {
+                user = new VehicleManager {
+                    UserName = request.Email,
+                    Email = request.Email,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    BirthDate = request.dateOfBirth,
+                    CompanyId = 0
+                };
             }
 
             if (user == null)

@@ -17,6 +17,7 @@ namespace Project_WPR.Server.data {
         DbSet<BusinessRenter> BusinessRenters { get; set; }
         DbSet<PrivateRenter> PrivateRenters { get; set; }
         DbSet<RentalRequest> RentalRequests { get; set; }
+        DbSet<VehicleManager> vehicleManagers { get; set; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         EntityEntry Entry(object entity);
     }
@@ -90,6 +91,7 @@ namespace Project_WPR.Server.data {
         public DbSet<CompanyAdmin> CompanyAdmin { get; set; }
         public DbSet<PrivateRenter> PrivateRenters { get; set; }
         public DbSet<RentalRequest> RentalRequests { get; set; }
+        public DbSet<VehicleManager> vehicleManagers { get; set; }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
