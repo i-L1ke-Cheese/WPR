@@ -269,7 +269,7 @@ function FrontOffice() {
                 )}
                 {(action === 'reportDamage' || action === 'editDamageReport') && (
                     <div>
-                        <label htmlFor="reportStatus">Status:</label>
+                        <label htmlFor="status">Status:</label>
                         <select
                             id="status"
                             value={status}
