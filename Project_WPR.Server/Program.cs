@@ -2,6 +2,7 @@ using Project_WPR.Server.data;
 using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Project_WPR.Server.Controllers;
 
 public class Program
 {
@@ -39,6 +40,7 @@ public class Program
 
         builder.Services.AddAuthentication();
         builder.Services.AddLogging();
+        builder.Services.AddHttpClient(); // For mail
 
 
         builder.Services.AddOpenApi();
@@ -80,5 +82,6 @@ public class Program
         //}
 
         app.Run();
+
         }
 }

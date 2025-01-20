@@ -30,6 +30,8 @@ function VehicleDetails() {
     const queryParams = new URLSearchParams(location.search);
     const vehicleId = queryParams.get("id");
 
+    const [email, setEmail] = useState("");
+
     const fetchVehicleReservations = async () => {
         try {
             const response = await fetch(`https://localhost:7289/api/RentalRequest/reserveringen-van-auto?vehicleId=${vehicleId}`);
@@ -76,6 +78,27 @@ function VehicleDetails() {
                 console.log('Response:', data);
                 document.getElementById("rentalRequestConfirmationMessage").innerHTML = "<strong><span style='color: green;'>Success!</span></strong>";
                 fetchVehicleReservations();
+                // mail via endpoint versturen
+                const emailResponse = await fetch('https://localhost:7289/api/Email/send-email', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        from: "carandall@2a3e198781496c5c.maileroo.org",
+                        to: `${email}`,
+                        subject: `Huuraanvraag ingediend: ${vehicle.brand} ${vehicle.type}`,
+                        templateId: "862",
+                        templateData: JSON.stringify({ Name: "Template"
+                        })
+                    }),
+                });
+
+                if (emailResponse.ok) {
+                    console.log("Email sent successfully");
+                } else {
+                    console.error("Failed to send email");
+                }
             } else {
                 document.getElementById("rentalRequestConfirmationMessage").innerHTML = "<strong><span style='color: red;'>Failed: " + data.message + "</span></strong>";
             }
@@ -98,6 +121,7 @@ function VehicleDetails() {
             if (loggedInCheckResponse.ok) {
                 const stuff = await loggedInCheckResponse.json();
                 setCurrentUserId(stuff.UserId);
+                setEmail(stuff.mail);
             } else {
                 setCurrentUserId("None");
             }

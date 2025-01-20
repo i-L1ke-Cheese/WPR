@@ -6,8 +6,10 @@ function CreateCompany() {
     const navigate = useNavigate();
     const [name, setName] = useState("");
     const [adress, setAdress] = useState("");
-    const [KVK_number, setKVK] = useState(""); 
+    const [KVK_number, setKVK] = useState("");
     const [userID, setUserID] = useState("");
+    const [bedrijfsNaam, setBedrijfsNaam] = useState("");
+    const [email, setMail] = useState("");
 
     const getUserInfo = async () => {
         const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
@@ -17,12 +19,12 @@ function CreateCompany() {
                 "Content-Type": "application/json",
             },
         });
-        // checks if the user is logged in, if it is true it also checks if the role of the user is correct so it is only available for those with the correct role
         if (loggedInCheckResponse.ok) {
             const stuff = await loggedInCheckResponse.json();
             if (stuff.role && stuff.role.includes("CompanyAdmin")) {
                 console.log(stuff);
                 setUserID(stuff.id);
+                setMail(stuff.email);
             } else {
                 navigate("/dashboard");
             }
@@ -32,7 +34,7 @@ function CreateCompany() {
     }
 
     useEffect(() => {
-        getUserInfo();// get user info, but also check if user is logged in, and if not, go to login page
+        getUserInfo();
     }, []);
 
     const handleSubmit = async (event) => {
@@ -49,15 +51,40 @@ function CreateCompany() {
                 body: JSON.stringify(data),
             });
 
-            
             if (response.ok) {
                 const result = await response.json();
                 console.log("Company created:", result);
                 document.getElementById("RegisterConfirmationMessageTag").innerHTML = "Uw bedrijf is aangemaakt";
+
+                // mail via endpoint versturen
+                const emailResponse = await fetch('https://localhost:7289/api/Email/send-email', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({  
+                        from: "carandall@2a3e198781496c5c.maileroo.org",
+                        to: `${email}`,
+                        subject: `Bedrijf aangemaakt: ${name}`,
+                        templateId: "862",
+                        templateData: JSON.stringify({
+                            naam: result.name,
+                            adres: result.adress,
+                            kvk: result.KVK_number
+                        })
+                    }),
+                });
+
+                if (emailResponse.ok) {
+                    console.log("Email sent successfully");
+                } else {
+                    console.error("Failed to send email");
+                }
+
                 navigate("/dashboard");
             } else {
-                console.error("registering failed");
-                document.getElementById("RegisterConfirmationMessageTag").innerHTML = "failed";
+                console.error("Registering failed");
+                document.getElementById("RegisterConfirmationMessageTag").innerHTML = "Failed";
             }
         } catch (error) {
             console.error("Error:", error);
@@ -112,3 +139,4 @@ function CreateCompany() {
 }
 
 export default CreateCompany;
+

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import './EditVehicles.css';
 
+/**
+ * Component for editing vehicles.
+ * @returns {JSX.Element} The EditVehicles component.
+ */
 const EditVehicles = () => {
     const navigate = useNavigate();
     const [vehicles, setVehicles] = useState([]);
@@ -23,8 +27,10 @@ const EditVehicles = () => {
         transmissionType: ''
     });
 
-
     // Fetch vehicles from the API
+    /**
+     * Fetches vehicles from the API and sets the state.
+     */
     useEffect(() => {
         const fetchVehicles = async () => {
             try {
@@ -50,12 +56,20 @@ const EditVehicles = () => {
     }, []);
 
     // Handle form changes
+    /**
+     * Handles changes in the form inputs.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The change event.
+     */
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
     // Handle update
+    /**
+     * Handles the form submission for updating a vehicle.
+     * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
+     */
     const handleSubmit = (e) => {
         e.preventDefault();
         const method = 'PUT';
@@ -103,6 +117,10 @@ const EditVehicles = () => {
     };
 
     // Handle delete
+    /**
+     * Handles the deletion of a vehicle.
+     * @param {string} vehicleId - The ID of the vehicle to delete.
+     */
     async function handleDelete(vehicleId) {
         try {
             const response = await fetch(`https://localhost:7289/api/vehicle/verwijder-voertuig/${vehicleId}`, {
@@ -129,21 +147,35 @@ const EditVehicles = () => {
     }
 
     // Handle edit
+    /**
+     * Handles the editing of a vehicle.
+     * @param {Object} vehicle - The vehicle to edit.
+     */
     const handleEdit = (vehicle) => {
         setFormData(vehicle);
     };
 
     // Handle Click
+    /**
+     * Handles the click event to navigate to the add vehicle page.
+     */
     const handleClick = () => {
         navigate("/addvehicle");
     }
 
     // Handle search
+    /**
+     * Handles the search input change.
+     * @param {React.ChangeEvent<HTMLInputElement>} e - The change event.
+     */
     const handleSearch = (e) => {
         setSearchQuery(e.target.value);
     };
 
     // Filter voertuigen op zoekopdracht
+    /**
+     * Filters the vehicles based on the search query.
+     */
     const filteredVehicles = vehicles.filter((vehicle) => {
         const query = searchQuery.toLowerCase();
         return (
@@ -346,37 +378,3 @@ const EditVehicles = () => {
 };
 
 export default EditVehicles;
-
-
-
-
-
-
-
-
-//import React, { useState, useEffect } from 'react';
-//import './EditUserData.css';
-//import { useNavigate } from 'react-router-dom';
-
-//const EditUserata = () => {
-//    const navigate = useNavigate();
-
-//    const [vehicleData, setVehicleData] = useState({
-//        brand: '',
-//        type: '',
-//        color: '',
-//        yearOfPurchase: '',
-//        licensePlate: '',
-//        description: '',
-//        rentalPrice: '',
-//        isAvailable: '',
-//        isDamaged: '',
-//        vehicleType: '',
-//        camperTransmission: '',
-//        requiredLicense: '',
-//        carTransmission: ''
-//    });
-
-//    const [errors, setErrors] = useState({});
-
-//    const getVehicleInfo = async () => {
