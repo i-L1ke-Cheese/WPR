@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Subscriptions() {
     const [subscriptions, setSubscriptions] = useState([]);
     const [companyName, setCompanyName] = useState('');
     const [companyId, setCompanyId] = useState('');
     const [currentSub, setCurrentSub] = useState('');
+    const [email, setMail] = useState('');
     const navigate = useNavigate();
 
     const getUserInfo = async () => {
@@ -19,10 +21,10 @@ function Subscriptions() {
 
         if (loggedInCheckResponse.ok) {
             const stuff = await loggedInCheckResponse.json();
-            // Check if the user has the role 'CompanyAdmin'
             if (stuff.role && stuff.role.includes("CompanyAdmin")) {
-                setCompanyName(stuff.companyName); // Ensure companyName is set correctly
-                setCompanyId(stuff.companyId); // Ensure companyId is set correctly
+                setCompanyName(stuff.companyName);
+                setCompanyId(stuff.companyId);
+                setMail(stuff.email);
             } else {
                 navigate("/login");
             }
@@ -88,6 +90,36 @@ function Subscriptions() {
                     setSubscriptions(updatedSubscriptions);
                     setCurrentSub(subscriptionId);
                     alert("Subscription updated successfully");
+
+                    // Find the selected subscription details
+                    const selectedSubscription = subscriptions.find(sub => sub.id === subscriptionId);
+
+                    // stuur via back end een email
+                    const emailResponse = await fetch('https://localhost:7289/api/Email/send-email', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            from: "carandall@2a3e198781496c5c.maileroo.org",
+                            to: `${email}`,
+                            subject: `Subscription Updated: ${selectedSubscription.description}`,
+                            templateId: "862",
+                            templateData: JSON.stringify({
+                                subscriptionId: selectedSubscription.id,
+                                description: selectedSubscription.description,
+                                price: selectedSubscription.price,
+                                duration: selectedSubscription.duration
+                            })
+                        }),
+                    });
+
+                    if (emailResponse.ok) {
+                        console.log(await emailResponse.json());
+                    } else {
+                        console.error("Failed to send email");
+                        console.error(await emailResponse.text());
+                    }
                 } else {
                     console.error("Failed to update subscription");
                 }
@@ -125,7 +157,7 @@ function Subscriptions() {
                         <p><strong>Subscription ID:</strong> {subscriptionInfo.id}</p>
                         <p><strong>Description:</strong> {subscriptionInfo.description}</p>
                         <p><strong>Price:</strong> {subscriptionInfo.price}</p>
-                        <p><strong>Duration:</strong> {subscriptionInfo.duration}</p> {/* Display the duration */}
+                        <p><strong>Duration:</strong> {subscriptionInfo.duration}</p>
                     </div>
                 ))}
             </div>
