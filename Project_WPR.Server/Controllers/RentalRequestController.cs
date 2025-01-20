@@ -109,7 +109,62 @@ namespace Project_WPR.Server.Controllers
             return Ok(reservations);
         }
 
-        [HttpPost("huur-auto")]
+        [HttpGet("reserveringen-van-company")]
+        [Authorize]
+        public async Task<IActionResult> getVehicleReservationsOfCurrentCompany() {
+            // get currently logged in user from cookie
+            if (User == null || !User.Identity.IsAuthenticated) {
+                return Unauthorized(new { Msg = "no user logged in" });
+            }
+
+            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userID == null) {
+                return Unauthorized(new { Msg = "no user logged in" });
+            }
+            var user = await _userManager.FindByIdAsync(userID);
+            if (user == null) {
+                return NotFound();
+            }
+
+            var businessRenter = await _context.BusinessRenters.FirstOrDefaultAsync(u => u.Id == userID);
+            var companyAdmin = await _context.CompanyAdmin.FirstOrDefaultAsync(u => u.Id == userID);
+            var vehicleManager = await _context.vehicleManagers.FirstOrDefaultAsync(u => u.Id == userID);
+            CompanyAccount currentUser;
+
+            if (businessRenter != null) {
+                currentUser = businessRenter;
+            } else if (companyAdmin != null) {
+                currentUser = companyAdmin;
+            } else if (vehicleManager != null) {
+                currentUser = vehicleManager;
+            } else {
+                return BadRequest("You are not logged into a company account!");
+            }
+
+            var CompanyId = currentUser.CompanyId;
+
+            var reservations = await _context.RentalRequests
+                .Where(rr => _context.BusinessRenters.FirstOrDefault(br => br.Id == rr.BusinessRenterId).CompanyId == CompanyId)
+                .Select(rr => new VehicleReservationDashboardDTO {
+                    VehicleId = rr.VehicleId ?? 0,
+                    VehicleBrand = rr.VehicleBrand,
+                    VehicleType = rr.VehicleType,
+                    VehicleColor = rr.VehicleColor,
+                    StartDate = rr.StartDate,
+                    EndDate = rr.EndDate,
+                    Intention = rr.Intention,
+                    SuspectedKm = rr.SuspectedKm,
+                    IsDeleted = rr.IsDeleted,
+                    Status = rr.Status
+                })
+                .ToListAsync();
+            if(reservations.Count == 0) {
+                return NotFound("No reservations found for your company.");
+            }
+            return Ok(reservations);
+        }
+
+            [HttpPost("huur-auto")]
         public async Task<IActionResult> Rental([FromBody] RentalRequestDTO request) {
 
             // get currently logged in user from cookie
