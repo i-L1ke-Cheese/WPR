@@ -223,7 +223,7 @@ function DashboardFrontOffice() {
 
     return (
         <div className='div'>
-            <h2>Front Office</h2>
+            <h2>Vehicle Manager</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="carId">Car ID:</label>

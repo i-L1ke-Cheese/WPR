@@ -17,7 +17,6 @@ import EditUserData from './pages/EditUserData';
 import EditVehicles from './pages/EditVehicles';
 import AddVehicle from './pages/AddVehicle';
 import CreateCompany from './pages/CreateCompany'
-import FrontOffice from './pages/FrontOffice';
 import Privacyverklaring from './pages/Privacyverklaring';
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
