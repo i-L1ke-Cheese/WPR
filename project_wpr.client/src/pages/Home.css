@@ -1,22 +1,38 @@
-.container {
-    color: aquamarine;
-    flex-grow: 1;
-    height: 450px;
+.home-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: 50px;
+    height: 80vh;
+    background-color: #f0f0f0;
+    padding: 20px;
+    text-align: center;
 }
 
-.container img {
-    width: 200px; /* Specifieer de gewenste breedte */
-    height: 200px; /* Specifieer de gewenste hoogte */
-    object-fit: cover;
-    border-radius: 10px;
-    border: 2px solid rgba(255, 255, 255, 0.6);
-    transition: ease-in-out 0.5s; /* Apply transition to opacity, width, and height */
-}
+    .home-container h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: #333;
+    }
 
-.container img:hover {
-    width: 220px; /* Increase width on hover */
-    height: 220px; /* Increase height on hover */
-}
+    .home-container .tekst {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: #666;
+        max-width: 600px;
+    }
+
+    .home-container .login-button {
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #fff;
+        background-color: #007bff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .home-container .login-button:hover {
+            background-color: #0056b3;
+        }
