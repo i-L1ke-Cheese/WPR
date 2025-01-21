@@ -14,6 +14,7 @@ function DashboardFrontOffice() {
     const [rentalRequestIntention, setRentalRequestIntention] = useState('');
     const [rentalRequestFarthestDestination, setRentalRequestFarthestDestination] = useState('');
     const [rentalRequestStatus, setRentalRequestStatus] = useState('in behandeling');
+    const [email, setEmail] = useState('');
 
     const currentDate = new Date();
 
@@ -33,12 +34,14 @@ function DashboardFrontOffice() {
                                 userId = request.businessRenterId;
                             }
                             console.log(userId, request.businessRenterId, request.privateRenterId);
+
                             if (userId) {
                                 const userResponse = await fetch(`https://localhost:7289/api/Account/getUser?userID=${userId}`, {
                                     credentials: 'include',
                                 });
                                 if (userResponse.ok) {
                                     const userData = await userResponse.json();
+                                    setEmail(userData.email);
                                     return {
                                         ...request,
                                         renterFirstName: userData.fName,
@@ -136,7 +139,33 @@ function DashboardFrontOffice() {
                         request.id === rentalRequestId ? { ...request, status: rentalRequestStatus } : request
                     );
                     setRentalRequests(updatedRequests);
+
+                    // mail via endpoint versturen
+                    const emailResponse = await fetch('https://localhost:7289/api/Email/send-email', {
+                        method: "POST",
+                        credentials: "include",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            from: "carandall@2a3e198781496c5c.maileroo.org",
+                            to: `${email}`,
+                            subject: `Huuraanvraag ${action}`,
+                            templateId: "862",
+                            templateData: JSON.stringify({
+                            })
+                        }),
+                    });
+
+                    if (emailResponse.ok) {
+                        console.log("Email sent successfully");
+                    } else {
+                        console.error("Failed to send email");
+                    }
                     return (alert('Huuraanvraag succesvol bijgewerkt'));
+
+
+
                 } else {
                     console.log('Response: ', data);
                     return (alert('Er is iets mis gegeaan'));

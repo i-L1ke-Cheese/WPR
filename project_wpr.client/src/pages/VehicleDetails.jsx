@@ -78,9 +78,11 @@ function VehicleDetails() {
                 console.log('Response:', data);
                 document.getElementById("rentalRequestConfirmationMessage").innerHTML = "<strong><span style='color: green;'>Success!</span></strong>";
                 fetchVehicleReservations();
+
                 // mail via endpoint versturen
                 const emailResponse = await fetch('https://localhost:7289/api/Email/send-email', {
                     method: "POST",
+                    credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
                     },
@@ -89,8 +91,7 @@ function VehicleDetails() {
                         to: `${email}`,
                         subject: `Huuraanvraag ingediend: ${vehicle.brand} ${vehicle.type}`,
                         templateId: "862",
-                        templateData: JSON.stringify({ Name: "Template"
-                        })
+                        templateData: JSON.stringify({ Name: "Template" })
                     }),
                 });
 
@@ -121,7 +122,7 @@ function VehicleDetails() {
             if (loggedInCheckResponse.ok) {
                 const stuff = await loggedInCheckResponse.json();
                 setCurrentUserId(stuff.UserId);
-                setEmail(stuff.mail);
+                setEmail(stuff.email);
             } else {
                 setCurrentUserId("None");
             }

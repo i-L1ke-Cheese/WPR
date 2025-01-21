@@ -223,6 +223,7 @@ namespace Project_WPR.Server.Controllers {
             {
                 FName = user.FirstName,
                 LName = user.LastName,
+                Email = user.Email
             });
         }
     }

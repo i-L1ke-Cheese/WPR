@@ -59,6 +59,7 @@ function CreateCompany() {
                 // mail via endpoint versturen
                 const emailResponse = await fetch('https://localhost:7289/api/Email/send-email', {
                     method: "POST",
+                    credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
                     },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
@@ -31,6 +31,29 @@ function Registreer() {
                 const result = await response.json();
                 console.log("registering successful:", result);
                 document.getElementById("RegisterConfirmationMessageTag").innerHTML = "Registration succesfull. you can now log in with your new account.";
+
+                // mail via endpoint versturen
+                const emailResponse = await fetch('https://localhost:7289/api/Email/send-email', {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        from: "carandall@2a3e198781496c5c.maileroo.org",
+                        to: `${email}`,
+                        subject: `Registratie compleet`,
+                        templateId: "862",
+                        templateData: JSON.stringify({
+                        })
+                    }),
+                });
+
+                if (emailResponse.ok) {
+                    console.log("Email sent successfully");
+                } else {
+                    console.error("Failed to send email");
+                }   
 
             } else {
                 console.error("registering failed");
