@@ -6,4 +6,8 @@
         public string LastName { get; set; }
         public System.DateOnly dateOfBirth { get; set; }
     }
+
+    public class CaRegisterDTO : RegisterDTO{
+        public string Department { get; set; }
+    }
 }

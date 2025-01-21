@@ -52,7 +52,7 @@ function Login() {
 
 	useEffect(() => {
 		check();
-	});
+	}, []);
 
 	return (
 		<form className="form" onSubmit={handleSubmit}>

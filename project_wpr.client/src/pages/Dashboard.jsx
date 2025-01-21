@@ -6,6 +6,7 @@ import DashboardBusinessRenter from './dashboardsForUserTypes/DashboardBusinessR
 import DashboardCompanyAdmin from './dashboardsForUserTypes/DashboardCompanyAdmin';
 import DashboardFrontoffice from './dashboardsForUserTypes/DashboardFrontOffice';
 import DashboardVehicleManager from './dashboardsForUserTypes/DashboardVehicleManager';
+import DashboardBackoffice from './dashboardsForUserTypes/DashboardBackoffice';
 
 
 
@@ -63,11 +64,22 @@ function Dashboard() {
         );
     } else if (userType === "EmployeeFrontOffice") {
         return (
-            <DashboardFrontoffice />
+            <div>
+                <h2>FrontOffice</h2>
+                <DashboardFrontoffice />
+            </div>
         );
     } else if (userType === "VehicleManager") {
         return (
             <DashboardVehicleManager />
+        );
+    } else if (userType === "EmployeeBackOffice") {
+        return (
+            <div>
+                <h2>BackOffice</h2>
+                <DashboardBackoffice />
+                <DashboardFrontoffice />
+            </div>
         );
     }
 }

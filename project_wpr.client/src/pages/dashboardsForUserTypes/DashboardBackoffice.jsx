@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
  * 
  * @returns {JSX.Element} Het gerenderde component dat het dashboard toont.
  */
-function DashboardCompanyAdmin() {
+function DashboardBackoffice() {
 
     const [formData, setFormData] = useState({
         email: "",
@@ -14,6 +14,7 @@ function DashboardCompanyAdmin() {
         firstName: "",
         lastName: "",
         dateOfBirth: "",
+        department: "", // For the switchable option
     });
 
     const [message, setMessage] = useState("");
@@ -56,8 +57,13 @@ function DashboardCompanyAdmin() {
             return;
         }
 
+        if (formData.department === "") {
+            setMessage("Please select a department.");
+            return;
+        }
+
         try {
-            const response = await fetch("https://localhost:7289/api/Register/register-business-renter", {
+            const response = await fetch("https://localhost:7289/api/Register/register-employee-account", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -90,7 +96,7 @@ function DashboardCompanyAdmin() {
 
     return (
         <div>
-            <h2>Create new Business Renter account</h2>
+            <h2>Create new employee account</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Email:</label>
@@ -147,6 +153,20 @@ function DashboardCompanyAdmin() {
                     />
                 </div>
 
+                <div>
+                    <label>Department:</label>
+                    <select
+                        name="department"
+                        value={formData.department}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">Select Department</option>
+                        <option value="Frontoffice">Front Office</option>
+                        <option value="Backoffice">Back Office</option>
+                    </select>
+                </div>
+
                 <button type="submit">Register</button>
 
                 <p style={{ color: isSuccess ? "green" : "red" }}>{message}</p>
@@ -155,4 +175,4 @@ function DashboardCompanyAdmin() {
     );
 }
 
-export default DashboardCompanyAdmin;
+export default DashboardBackoffice;
