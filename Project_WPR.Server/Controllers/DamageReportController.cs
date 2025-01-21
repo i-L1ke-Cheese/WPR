@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Project_WPR.Server.data;
@@ -23,6 +24,7 @@ namespace Project_WPR.Server.Controllers
         }
 
         [HttpPost("maak-schademelding")]
+        [Authorize]
         public async Task<IActionResult> CreateDamageReport([FromBody] DamageReportDTO damageReportDTO)
         {
             // get currently logged in user from cookie

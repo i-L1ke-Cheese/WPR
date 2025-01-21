@@ -17,7 +17,6 @@ import EditUserData from './pages/EditUserData';
 import EditVehicles from './pages/EditVehicles';
 import AddVehicle from './pages/AddVehicle';
 import CreateCompany from './pages/CreateCompany'
-import FrontOffice from './pages/FrontOffice';
 import Privacyverklaring from './pages/Privacyverklaring';
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
@@ -65,7 +64,6 @@ function App() {
                             <Route path="/addvehicle" element={<AddVehicle />} />
                             <Route path="/createcompany" element={<CreateCompany />} />
                             <Route path="/subscriptions" element={<Subscriptions />} />
-                            <Route path="/frontoffice" element={<FrontOffice />} />
                             <Route path="/privacyverklaring" element={<Privacyverklaring /> } />
                         </Routes>
                     </div>

@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Project_WPR.Server.data;
 using Project_WPR.Server.data.DTOs;
+using System.Data;
 using System.Security.Claims;
 using System.Text;
 using System.Xml.Linq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Project_WPR.Server.Controllers {
     [Route("api/[controller]")]
@@ -55,61 +57,93 @@ namespace Project_WPR.Server.Controllers {
                     return Ok(new
                     {
                         role = "BusinessRenter",
-                        Email = user.Email,
-                        FName = user.FirstName,
-                        LName = user.LastName,
-                        ID = user.Id,
-                        PhoneNr = user.PhoneNumber,
-                        Address = user.Address,
-                        Place = user.Place,
+                        Email = businessRenter.Email,
+                        FName = businessRenter.FirstName,
+                        LName = businessRenter.LastName,
+                        ID = businessRenter.Id,
+                        PhoneNr = businessRenter.PhoneNumber,
+                        Address = businessRenter.Address,
+                        Place = businessRenter.Place,
                         LicenseNumber = user.LicenseNumber
                     });
                 }
                 return Ok(new
                 {
                     role = "BusinessRenter",
-                    Email = user.Email,
-                    FName = user.FirstName,
-                    LName = user.LastName,
-                    ID = user.Id,
+                    Email = businessRenter.Email,
+                    FName = businessRenter.FirstName,
+                    LName = businessRenter.LastName,
+                    ID = businessRenter.Id,
                     CompanyId = businessRenter.CompanyId,
                     CompanyName = company.Name,
 					
 					// Toegevoegd tijdens merge
-					PhoneNr = user.PhoneNumber,
-					Address = user.Address,
-					Place = user.Place,
+					PhoneNr = businessRenter.PhoneNumber,
+					Address = businessRenter.Address,
+					Place = businessRenter.Place,
 					LicenseNumber = user.LicenseNumber
                 });
             }
             var companyAdmin = await _dbContext.CompanyAdmin.FirstOrDefaultAsync(ca => ca.Id == userID);
-            if (companyAdmin != null)
-            {
+            if (companyAdmin != null) {
 
                 var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyAdmin.CompanyId);
 
-                if (companyAdmin.CompanyId == 0)
-                {
-                    return Ok(new
-                    {
-                        Email = user.Email,
-                        FName = user.FirstName,
-                        LName = user.LastName,
-                        ID = user.Id,
+                if (companyAdmin.CompanyId == 0) {
+                    return Ok(new {
+                        Email = companyAdmin.Email,
+                        FName = companyAdmin.FirstName,
+                        LName = companyAdmin.LastName,
+                        ID = companyAdmin.Id,
                         role = "CompanyAdmin",
                     });
                 }
-                return Ok(new 
-                {
-                    Email = user.Email,
-                    FName = user.FirstName,
-                    LName = user.LastName,
-                    ID = user.Id,
+                return Ok(new {
+                    Email = companyAdmin.Email,
+                    FName = companyAdmin.FirstName,
+                    LName = companyAdmin.LastName,
+                    ID = companyAdmin.Id,
                     role = "CompanyAdmin",
                     CompanyId = companyAdmin.CompanyId,
                     CompanyName = company.Name
                 });
-            } 
+            }
+            var privateRenter = await _dbContext.PrivateRenters.FirstOrDefaultAsync(pr => pr.Id == userID);
+            if(privateRenter != null) {
+                return Ok(new {
+                    Email = privateRenter.Email,
+                    FName = privateRenter.FirstName,
+                    LName = privateRenter.LastName,
+                    ID = privateRenter.Id,
+                    role = "PrivateRenter"
+                });
+            }
+            var employee = await _dbContext.CA_Employees.FirstOrDefaultAsync(e => e.Id == userID);
+            if(employee != null) {
+                var role = "";
+                if(employee.Department == "Frontoffice") {
+                    role = "EmployeeFrontOffice";
+                } else if(employee.Department == "Backoffice") {
+                    role = "EmployeeBackOffice";
+                }
+                return Ok(new {
+                    Email = employee.Email,
+                    FName = employee.FirstName,
+                    LName = employee.LastName,
+                    ID = employee.Id,
+                    role = role
+                });
+            }
+            var vehicleManager = await _dbContext.vehicleManagers.FirstOrDefaultAsync(vm => vm.Id == userID);
+            if(vehicleManager != null) {
+                return Ok(new {
+                    Email = vehicleManager.Email,
+                    FName = vehicleManager.FirstName,
+                    LName = vehicleManager.LastName,
+                    ID = vehicleManager.Id,
+                    role = "VehicleManager"
+                });
+            }
             
             return Ok(new 
             {
@@ -120,7 +154,8 @@ namespace Project_WPR.Server.Controllers {
                 PhoneNr = user.PhoneNumber,
                 Address = user.Address,
                 Place = user.Place,
-                LicenseNumber = user.LicenseNumber
+                LicenseNumber = user.LicenseNumber,
+                role = "Unknown"
             });
         }
 

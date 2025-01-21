@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './Frontoffice.css';
+import './DashboardFrontoffice.css';
 
-function FrontOffice() {
+function DashboardFrontOffice() {
     const [carId, setCarId] = useState('');
     const [action, setAction] = useState('issue');
     const [status, setStatus] = useState('Beschadigd');
@@ -223,7 +223,6 @@ function FrontOffice() {
 
     return (
         <div className='div'>
-            <h2>Front Office</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="carId">Car ID:</label>
@@ -269,7 +268,7 @@ function FrontOffice() {
                 )}
                 {(action === 'reportDamage' || action === 'editDamageReport') && (
                     <div>
-                        <label htmlFor="reportStatus">Status:</label>
+                        <label htmlFor="status">Status:</label>
                         <select
                             id="status"
                             value={status}
@@ -359,4 +358,4 @@ function FrontOffice() {
     );
 }
 
-export default FrontOffice;
+export default DashboardFrontOffice;

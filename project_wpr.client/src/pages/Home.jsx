@@ -1,36 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
 function Home() {
-    // Array van auto's met afbeeldingen
-    const cars = [
-        { id: 1, name: 'Toyota', imageSrc: 'supra.jpg' },
-        { id: 2, name: 'BMW', imageSrc: 'bmwtouring.jpeg    ' },
-        { id: 3, name: 'Audi', imageSrc: 'rs7.jpg' },
-        { id: 4, name: 'Mercedes', imageSrc: '2023-mercedes-s63-amg-1.jpg' }
-    ];
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
-    // State om de geselecteerde auto bij te houden
-    const [selectedCar, setSelectedCar] = useState(null); // null betekent geen geselecteerde auto
+    const getUserInfo = async () => {
+        const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
-    // Functie voor het aanklikken van een auto
-    const handleClick = (car) => {
-        setSelectedCar(car.id === selectedCar ? null : car.id); // Als dezelfde auto wordt aangeklikt, deselecteer
-    };
+        if (loggedInCheckResponse.ok) {
+            setIsLoggedIn(true);
+        } 
+    }
+
+    useEffect(() => {
+        // Controleer of de gebruiker is ingelogd
+        getUserInfo();
+    }, []);
 
     return (
-        <div className="container">
-            {/*Itereer over de lijst van auto's en toon ze */}
-            {cars.map((car) => (
-                <div key={car.id}>
-                    <img
-                        src={car.imageSrc}
-                        alt={car.name}
-                        className={selectedCar === car.id ? 'selected' : ''} // Voeg de 'selected' klasse toe als de auto is geselecteerd
-                        onClick={() => handleClick(car)}
-                    />
-                </div>
-            ))}
+        <div className="home-container">
+            <h2>Welkom bij CarAndAll</h2>
+            <p className="tekst">
+                Bij CarAndAll draait alles om mobiliteit. Wij zijn de partner voor iedereen die op zoek is naar flexibele, betrouwbare en betaalbare oplossingen voor voertuigverhuur.
+            </p>
+            <p className="tekst">
+                Of u nu een auto nodig heeft om een project uit te voeren, een camper om te touren door Nederland, of een caravan voor een vakantie op de camping, wij staan voor u klaar.
+            </p>
+            {!isLoggedIn && (
+                <button className="login-button" onClick={() => navigate('/login')}>
+                    Inloggen
+                </button>
+            )}
+            {isLoggedIn && (
+                <button className="login-button" onClick={() => navigate('/dashboard')}>
+                    Dashboard
+                </button>
+            )}
         </div>
     );
 }
