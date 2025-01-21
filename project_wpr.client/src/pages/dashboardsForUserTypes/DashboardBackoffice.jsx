@@ -96,7 +96,8 @@ function DashboardBackoffice() {
 
     return (
         <div>
-            <h2>Create new employee account</h2>
+            <h3 style={{ color: 'black', textAlign: "center" }}>Create new employee account</h3>
+            <br />
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Email:</label>
