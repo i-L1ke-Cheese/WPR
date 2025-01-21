@@ -134,7 +134,7 @@ namespace Project_WPR.Server.Controllers
                 return BadRequest(result.Errors);
             }
 
-            //[API CALL NAAR BUSINESSRENTER.EMAIL: UW ACCOUNT IS AANGEMAAKT MET WACHTWOORD "WACHTWOORD" KLINK HIER OM HET TE WIJZIGEN "LINK NAAR WACHTWOORD WIJZIGEN PAGINA"]
+            //[EMAIL API CALL NAAR BUSINESSRENTER.EMAIL: UW ACCOUNT IS AANGEMAAKT MET WACHTWOORD "WACHTWOORD" KLINK HIER OM HET TE WIJZIGEN "LINK NAAR WACHTWOORD WIJZIGEN PAGINA"]
 
             return Ok(new { Message = "BusinessRenter account successfully created for company", CompanyId = businessRenter.CompanyId });
         }
