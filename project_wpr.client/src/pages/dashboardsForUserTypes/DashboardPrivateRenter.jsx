@@ -45,7 +45,7 @@ function DashboardPrivateRenter() {
 
     return (
         <div className="dashboard">
-            <h2>Welkom op je dashboard, <span id="DashboardFName">gebruiker</span></h2>
+            <h2>Welkom op je dashboard, <span id="DashboardFName"></span></h2>
             <div className="dashboard-panel-container">
 
                 {/*<h3>Uw Reserveringen:</h3>     &apos; = '  */}
@@ -58,6 +58,7 @@ function DashboardPrivateRenter() {
                             <div key={index} className="dashboard-panel dashboard-panel-halfwidth darkgraybg">
                                 <img src="Standaardauto.jpg" alt="Vehicle" className="reservation-image" />
                                 <div className="reservation-details">
+                                    <p><b>Status: {reservation.status}</b></p>
                                     <h3>{reservation.vehicleBrand} {reservation.vehicleType} ({reservation.vehicleColor})</h3>
                                     <p>{reservation.startDate} tot {reservation.endDate}</p>
                                     <p>Gebruiken voor: {reservation.intention}</p>
