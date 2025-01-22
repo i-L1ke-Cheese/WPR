@@ -81,6 +81,8 @@ public class Program
         //    DataSeeder.Run(dbc);
         //}
 
+        
+
         app.Run();
 
         }

@@ -142,6 +142,8 @@ namespace Project_WPR.Server.data {
         public string KVK_number { get; set; }
         public int SubscriptionId { get; set; }
         public Subscription Subscription { get; set; }
+        public DateTime SubscriptionStartDate { get; set; }
+        public DateTime SubscriptionEndDate { get; set; }
         public int MaxVehiclesPerCompany { get; set; }
         public ICollection<RentalRequest> ActiveRentalRequests { get; set; } = new List<RentalRequest>();
     }

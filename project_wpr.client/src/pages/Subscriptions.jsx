@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 function Subscriptions() {
     const [subscriptions, setSubscriptions] = useState([]);
@@ -76,18 +75,30 @@ function Subscriptions() {
         const confirmed = window.confirm("Weet u zeker dat u deze subscription wilt kiezen?");
         if (confirmed) {
             try {
+                const nextMonth = new Date();
+                nextMonth.setMonth(nextMonth.getMonth() + 1);
+                nextMonth.setDate(1);
+                const endOfNextMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0);
+
+                console.log("Sending subscription update request:", {
+                    companyId,
+                    subscriptionId,
+                    startDate: nextMonth.toISOString(),
+                    endDate: endOfNextMonth.toISOString()
+                });
+
                 const response = await fetch('https://localhost:7289/api/Subscription/PostSubscriptionDetails', {
                     method: "POST",
                     credentials: "include",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ companyId, subscriptionId }),
+                    body: JSON.stringify({ companyId, subscriptionId, startDate: nextMonth.toISOString(), endDate: endOfNextMonth.toISOString() }),
                 });
 
                 if (response.ok) {
                     const updatedSubscriptions = await response.json();
-                    setSubscriptions(updatedSubscriptions);
+                    console.log("Subscription update response:", updatedSubscriptions);
                     setCurrentSub(subscriptionId);
                     alert("Subscription updated successfully");
 
@@ -109,22 +120,23 @@ function Subscriptions() {
                                 subscriptionId: selectedSubscription.id,
                                 description: selectedSubscription.description,
                                 price: selectedSubscription.price,
-                                duration: selectedSubscription.duration
+                                duration: selectedSubscription.duration,
+                                startDate: nextMonth.toISOString().split('T')[0], // Include the start date in the email
+                                endDate: endOfNextMonth.toISOString().split('T')[0] // Include the end date in the email
                             })
                         }),
                     });
 
                     if (emailResponse.ok) {
-                        console.log(await emailResponse.json());
+                        console.log("Email sent successfully:", await emailResponse.json());
                     } else {
-                        console.error("Failed to send email");
-                        console.error(await emailResponse.text());
+                        console.error("Failed to send email:", await emailResponse.text());
                     }
                 } else {
-                    console.error("Failed to update subscription");
+                    console.error("Failed to update subscription:", await response.text());
                 }
             } catch (error) {
-                console.error("Error:", error);
+                console.error("Error in handleSubscriptionClick:", error);
             }
         }
     };
