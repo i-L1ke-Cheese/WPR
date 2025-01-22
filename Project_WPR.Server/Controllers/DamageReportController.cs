@@ -147,7 +147,7 @@ namespace Project_WPR.Server.Controllers
                 {
                     Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
                 }
-                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting the vehicle: {ex.Message}");
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting the damage report: {ex.Message}");
             }
         }
     }

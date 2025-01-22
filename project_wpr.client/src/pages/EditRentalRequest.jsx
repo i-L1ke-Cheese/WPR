@@ -59,7 +59,7 @@ const EditRentalRequest = () => {
 
     return (
         <div>
-            <h1>Edit Rental Request</h1>
+            <h2>Edit Rental Request</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Start Date:</label>

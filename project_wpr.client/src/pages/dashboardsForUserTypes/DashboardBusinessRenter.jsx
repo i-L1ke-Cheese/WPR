@@ -1,30 +1,12 @@
-//import React, { useEffect, useState } from 'react';
-//import { Link, useNavigate } from 'react-router-dom';
-
-///**
-// * Dashboard component voor business renters
-// * 
-// * @returns {JSX.Element} Het gerenderde component dat het dashboard toont.
-// */
-//function DashboardBusinessRenter() {
-
-//    return (
-//        <div className="dashboard">
-//            <h2>Business renter dashboard</h2>
-//        </div>
-//    );
-//}
-
-//export default DashboardBusinessRenter; 
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 /**
- * Dashboard component voor private renters
+ * Dashboard component voor business renters
  * 
  * @returns {JSX.Element} Het gerenderde component dat het dashboard toont.
  */
-function DashboardPrivateRenter() {
+function DashboardBusinessRenter() {
     const navigate = useNavigate();
 
     const [reservations, setReservations] = useState(null);
@@ -53,8 +35,24 @@ function DashboardPrivateRenter() {
         }
     }
 
+    const getUserInfo = async () => {
+        const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (loggedInCheckResponse.ok) {
+            const user = await loggedInCheckResponse.json();
+            document.getElementById("DashboardFName").innerHTML = user.fName;
+        }
+    }
+
     useEffect(() => {
         fetchVehicleReservations();
+        getUserInfo();
     }, []);
 
     const handleEditUserDataClick = () => {
@@ -63,7 +61,7 @@ function DashboardPrivateRenter() {
 
     return (
         <div className="dashboard">
-            <h2>Welkom op je dashboard, <span id="DashboardFName">gebruiker</span></h2>
+            <h2>Welkom op je dashboard, <span id="DashboardFName"></span></h2>
             <div className="dashboard-panel-container">
 
                 {/*<h3>Uw Reserveringen:</h3>     &apos; = '  */}
@@ -76,6 +74,7 @@ function DashboardPrivateRenter() {
                             <div key={index} className="dashboard-panel dashboard-panel-halfwidth darkgraybg">
                                 <img src="Standaardauto.jpg" alt="Vehicle" className="reservation-image" />
                                 <div className="reservation-details">
+                                    <p><b>Status: {reservation.status}</b></p>
                                     <h3>{reservation.vehicleBrand} {reservation.vehicleType} ({reservation.vehicleColor})</h3>
                                     <p>{reservation.startDate} tot {reservation.endDate}</p>
                                     <p>Gebruiken voor: {reservation.intention}</p>
@@ -86,6 +85,10 @@ function DashboardPrivateRenter() {
                                     {reservation.isDeleted == 1 && (
                                         <p><b>Voertuig is niet meer beschikbaar</b></p>
                                     )}
+                                    {/*{reservation.startDate > new Date().toISOString() && */}
+                                    <button onClick={() => navigate(`/edit-rental-request/${reservation.id}`)}>Wijzig reservering</button> 
+                                    {/*//<button onClick={() => handleDeleteReservation(reservation.id)}>Annuleer reservering</button>*/}
+                                    {/*}*/}
                                 </div>
                             </div>
                         ))}
@@ -100,4 +103,4 @@ function DashboardPrivateRenter() {
     );
 }
 
-export default DashboardPrivateRenter;
+export default DashboardBusinessRenter;
