@@ -35,8 +35,24 @@ function DashboardPrivateRenter() {
         }
     }
 
+    const getUserInfo = async () => {
+        const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (loggedInCheckResponse.ok) {
+            const user = await loggedInCheckResponse.json();
+            document.getElementById("DashboardFName").innerHTML = user.fName;
+        }
+    }
+
     useEffect(() => {
         fetchVehicleReservations();
+        getUserInfo();
     }, []);
 
     const handleEditUserDataClick = () => {
