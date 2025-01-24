@@ -76,6 +76,7 @@ function DashboardPrivateRenter() {
     useEffect(() => {
         getUserInfo();
         fetchVehicleReservations();
+        getUserInfo();
     }, []);
 
     const handleDeleteReservation = (id) => {
