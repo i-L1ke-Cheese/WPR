@@ -10,7 +10,9 @@ const EditRentalRequest = () => {
         endDate: '',
         intention: '',
         farthestDestination: '',
-        suspectedKm: ''
+        suspectedKm: '',
+        privateRenterId: '',
+        businessRenterId: ''
     });
 
     const location = useLocation();
@@ -25,21 +27,9 @@ const EditRentalRequest = () => {
                 const response = await fetch(`https://localhost:7289/api/RentalRequest/${rentalId}`);
                 const data = await response.json();
 
-                setRentalRequest({
-                    startDate: data.startDate,
-                    endDate: data.endDate,
-                    intention: data.intention,
-                    farthestDestination: data.farthestDestination,
-                    suspectedKm: data.suspectedKm
-                });
+                setRentalRequest(data);
 
-                console.log(rentalRequest);
-                if (!(rentalRequest.privateRenterId == null)) {
-                    setRentalUserId(rentalRequest.privateRenterId);
-                } else if (!(rentalRequest.businessRenterId == null)) {
-                    setRentalUserId(rentalRequest.businessRenterId);
-                }
-                console.log("UserId: ", rentalUserId);
+
 
             } catch (error) {
                 console.error('Error fetching rental request:', error);
@@ -50,6 +40,16 @@ const EditRentalRequest = () => {
         getUserInfo();
     }, [id]);
 
+    useEffect(() => {
+        if (!(rentalRequest.privateRenterId == null)) {
+            setRentalUserId(rentalRequest.privateRenterId);
+        } else if (!(rentalRequest.businessRenterId == null)) {
+            setRentalUserId(rentalRequest.businessRenterId);
+        }
+
+        console.log("Rental UserId: ", rentalUserId);
+
+    }, [rentalRequest]);
 
     const getUserInfo = async () => {
         try {
@@ -63,11 +63,8 @@ const EditRentalRequest = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                setCurrentUserId(data.UserId);
+                setCurrentUserId(data.id);
             }
-
-            console.log("Current userid: ", currentUserId);
-
         } catch (error) {
             console.error("Error: ", error);
         }
@@ -104,68 +101,68 @@ const EditRentalRequest = () => {
         }
     };
 
-    //if (!(currentUserId == rentalUserId)) {
-    //    return <div><p style={{ color: 'black' }}>Uw account komt niet overeen met het account van deze huuraanvraag.</p></div>
-    //} //else {
-        return (
-            <div>
-                <h2>Edit Rental Request</h2>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Start Date:</label>
-                        <input
-                            type="date"
-                            name="startDate"
-                            value={rentalRequest.startDate}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>End Date:</label>
-                        <input
-                            type="date"
-                            name="endDate"
-                            value={rentalRequest.endDate}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Intention:</label>
-                        <input
-                            type="text"
-                            name="intention"
-                            value={rentalRequest.intention}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Farthest Destination:</label>
-                        <input
-                            type="text"
-                            name="farthestDestination"
-                            value={rentalRequest.farthestDestination}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label>Suspected Km:</label>
-                        <input
-                            type="number"
-                            name="suspectedKm"
-                            value={rentalRequest.suspectedKm}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <button type="submit">Update Rental Request</button>
-                </form>
-            </div>
-        );
-   // }
+    if (!(currentUserId == rentalUserId)) {
+        return <div><p style={{ color: 'black' }}>Uw account komt niet overeen met het account van deze huuraanvraag.</p></div>
+    } else {
+    return (
+        <div>
+            <h2>Edit Rental Request</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Start Date:</label>
+                    <input
+                        type="date"
+                        name="startDate"
+                        value={rentalRequest.startDate}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>End Date:</label>
+                    <input
+                        type="date"
+                        name="endDate"
+                        value={rentalRequest.endDate}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Intention:</label>
+                    <input
+                        type="text"
+                        name="intention"
+                        value={rentalRequest.intention}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Farthest Destination:</label>
+                    <input
+                        type="text"
+                        name="farthestDestination"
+                        value={rentalRequest.farthestDestination}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label>Suspected Km:</label>
+                    <input
+                        type="number"
+                        name="suspectedKm"
+                        value={rentalRequest.suspectedKm}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <button type="submit">Update Rental Request</button>
+            </form>
+        </div>
+    );
+     }
 };
 
 export default EditRentalRequest;
