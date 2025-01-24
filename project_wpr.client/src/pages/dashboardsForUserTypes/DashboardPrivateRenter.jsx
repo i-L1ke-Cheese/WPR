@@ -11,7 +11,6 @@ function DashboardPrivateRenter() {
 
     const [reservations, setReservations] = useState(null);
     const [hasReservations, setHasReservations] = useState(false);
-    const [reservationId, setReservationId] = useState('');
 
     const fetchVehicleReservations = async () => {
         try {
@@ -19,10 +18,8 @@ function DashboardPrivateRenter() {
                 method: "GET",
                 credentials: "include"
             });
-
             if (response.ok) {
                 const data = await response.json();
-                console.log(data);
                 setReservations(data.reverse());
                 setHasReservations(true);
             } else {
@@ -125,16 +122,12 @@ function DashboardPrivateRenter() {
                                             <button onClick={() => handleDeleteReservation(reservation.id)}>Annuleer reservering</button>
                                         </div>
                                     }
-
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
                 <div className="dashboard-panel dashboard-panel-fullwidth pointer" onClick={handleEditUserDataClick}>Gegevens inzien/veranderen</div>
-                <div className="dashboard-panel dashboard-panel-halfwidth darkgraybg">
-                    <p>placeholder</p>
-                </div>
             </div>
         </div>
     );

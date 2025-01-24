@@ -20,8 +20,7 @@ function DashboardBusinessRenter() {
             });
             if (response.ok) {
                 const data = await response.json();
-                setReservations(data);
-                console.log(reservations);
+                setReservations(data.reverse());
                 setHasReservations(true);
             } else {
                 if (response.status === 404) {
@@ -50,10 +49,38 @@ function DashboardBusinessRenter() {
         }
     }
 
+    async function deleteReservation(reservationId) {
+        try {
+            const response = await fetch(`https://localhost:7289/api/RentalRequest/verwijder-huuraanvraag/${reservationId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Error: ', errorText);
+                alert("Er is iets mis gegaan");
+            } else {
+                const result = await response.text();
+                console.log('Success: ', result);
+                alert("Huuraanvraag succesvol verwijderd");
+                setReservations((prev) => prev.filter((d) => d.id !== reservationId));
+            }
+        } catch (error) {
+            console.error('Error: ', error);
+            alert('Er is een fout opgetreden bij het verwijderen van de huuraanvraag');
+        }
+    }
+
     useEffect(() => {
         fetchVehicleReservations();
         getUserInfo();
     }, []);
+
+    const handleDeleteReservation = (id) => {
+        deleteReservation(id);
+    }
 
     const handleEditUserDataClick = () => {
         navigate('/edituserdata');
@@ -85,19 +112,22 @@ function DashboardBusinessRenter() {
                                     {reservation.isDeleted == 1 && (
                                         <p><b>Voertuig is niet meer beschikbaar</b></p>
                                     )}
-                                    {/*{reservation.startDate > new Date().toISOString() && */}
-                                    <button onClick={() => navigate(`/edit-rental-request/${reservation.id}`)}>Wijzig reservering</button> 
-                                    {/*//<button onClick={() => handleDeleteReservation(reservation.id)}>Annuleer reservering</button>*/}
-                                    {/*}*/}
+                                    {reservation.startDate > new Date().toISOString() &&
+                                        <div>
+                                            <button onClick={() => navigate(`/edit-rental-request?id=${reservation.id}`)}>Wijzig reservering</button>
+                                        </div>
+                                    }
+                                    {reservation.startDate > new Date().toISOString() &&
+                                        <div>
+                                            <button onClick={() => handleDeleteReservation(reservation.id)}>Annuleer reservering</button>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
                 <div className="dashboard-panel dashboard-panel-fullwidth pointer" onClick={handleEditUserDataClick}>Gegevens inzien/veranderen</div>
-                <div className="dashboard-panel dashboard-panel-halfwidth darkgraybg">
-                    <p>placeholder</p>
-                </div>
             </div>
         </div>
     );
