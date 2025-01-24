@@ -336,6 +336,11 @@ namespace Project_WPR.Server.Controllers
             }
 
             rentalRequest.Status = rentalRequestDTO.Status;
+            rentalRequest.StartDate = rentalRequestDTO.startDate;
+            rentalRequest.EndDate = rentalRequestDTO.endDate;
+            rentalRequest.Intention = rentalRequestDTO.intention;
+            rentalRequest.FarthestDestination = rentalRequestDTO.FarthestDestination;
+            rentalRequest.SuspectedKm = rentalRequestDTO.suspectedKm;
 
             try
             {
