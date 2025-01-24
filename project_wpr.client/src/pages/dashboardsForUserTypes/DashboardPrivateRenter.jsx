@@ -77,6 +77,7 @@ function DashboardPrivateRenter() {
     }
 
     useEffect(() => {
+        getUserInfo();
         fetchVehicleReservations();
     }, []);
 
@@ -90,7 +91,7 @@ function DashboardPrivateRenter() {
 
     return (
         <div className="dashboard">
-            <h2>Welkom op je dashboard, <span id="DashboardFName">gebruiker (FIRSTNAME NOG TOEVOEGEN)</span></h2>
+            <h2>Welkom op je dashboard, <span id="DashboardFName"></span></h2>
             <div className="dashboard-panel-container">
 
                 {/*<h3>Uw Reserveringen:</h3>     &apos; = '  */}
@@ -116,7 +117,7 @@ function DashboardPrivateRenter() {
                                     )}
                                     {reservation.startDate > new Date().toISOString() &&
                                         <div>
-                                            <button onClick={() => navigate(`/edit-rental-request/${reservation.id}`)}>Wijzig reservering</button>
+                                            <button onClick={() => navigate(`/edit-rental-request?id=${reservation.id}`)}>Wijzig reservering</button>
                                         </div>
                                     }
                                     {reservation.startDate > new Date().toISOString() &&

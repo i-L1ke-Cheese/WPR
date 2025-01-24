@@ -66,7 +66,7 @@ function App() {
                             <Route path="/createcompany" element={<CreateCompany />} />
                             <Route path="/subscriptions" element={<Subscriptions />} />
                             <Route path="/privacyverklaring" element={<Privacyverklaring />} />
-                            <Route path="/edit-rental-request/:id" element={<EditRentalRequest />} />
+                            <Route path="/edit-rental-request" element={<EditRentalRequest />} />
                         </Routes>
                     </div>
                 </div>

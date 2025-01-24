@@ -166,6 +166,47 @@ namespace Project_WPR.Server.Controllers
             return Ok(reservations);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetRentalRequest(int id)
+        {
+            try
+            {
+                var request = await _context.RentalRequests.FindAsync(id);
+                if (request == null)
+                {
+                    return NotFound(new { message = "Rental request not found" });
+                }
+
+                var rentalRequestDTO = new RentalRequestDetailsDTO
+                {
+                    Id = request.Id,
+                    VehicleId = request.VehicleId,
+                    VehicleBrand = request.VehicleBrand,
+                    VehicleType = request.VehicleType,
+                    VehicleColor = request.VehicleColor,
+                    Intention = request.Intention,
+                    FarthestDestination = request.FarthestDestination,
+                    SuspectedKm = request.SuspectedKm,
+                    StartDate = request.StartDate,
+                    EndDate = request.EndDate,
+                    Status = request.Status,
+                    PrivateRenterId = request.PrivateRenterId,
+                    BusinessRenterId = request.BusinessRenterId
+                };
+
+                return Ok(rentalRequestDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                return StatusCode(500, new { message = "An unexpected error occurred." });
+            }
+        }
+
         [HttpPost("huur-auto")]
         public async Task<IActionResult> Rental([FromBody] RentalRequestDTO request) {
 
