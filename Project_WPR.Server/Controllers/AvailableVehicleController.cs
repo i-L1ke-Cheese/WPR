@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Project_WPR.Server.data.DTOs;
 using Project_WPR.Server.data;
+using Newtonsoft.Json.Serialization;
 
 
 namespace Project_WPR.Server.Controllers
@@ -25,11 +26,11 @@ namespace Project_WPR.Server.Controllers
                 .Select(car => new { car.Id, car.Brand, car.Type, car.LicensePlate, car.Color, car.VehicleType });
 
             var availableCampers = _context.Campers
-                .Where(camper => camper.IsAvailable)
+                .Where(camper => camper.IsAvailable && !camper.IsDamaged)
                 .Select(camper => new { camper.Id, camper.Brand, camper.Type, camper.LicensePlate, camper.Color, camper.VehicleType });
 
             var availableCaravans = _context.Caravans
-                .Where(caravan => caravan.IsAvailable)
+                .Where(caravan => caravan.IsAvailable && caravan.IsDamaged)
                 .Select(caravan => new { caravan.Id, caravan.Brand, caravan.Type, caravan.LicensePlate, caravan.Color, caravan.VehicleType });
 
             // Combineer de resultaten van Cars, Campers en Caravans
