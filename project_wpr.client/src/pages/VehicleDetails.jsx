@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { Link, useNavigate } from 'react-router-dom';
+import { DateTime } from 'luxon';
 import './VehicleDetails.css';
 
 /**
@@ -14,7 +15,7 @@ function VehicleDetails() {
     const navigate = useNavigate();
     const [vehicle, setVehicle] = useState(null);
 
-    const [reservations, setreservations] = useState(null);
+    const [reservations, setReservations] = useState(null);
 
     const [showForm, setShowForm] = useState(false);
     const [hasReservations, sethasReservations] = useState(false);
@@ -37,7 +38,9 @@ function VehicleDetails() {
             const response = await fetch(`https://localhost:7289/api/RentalRequest/reserveringen-van-auto?vehicleId=${vehicleId}`);
             if (response.ok) {
                 const data = await response.json();
-                setreservations(data);
+                const today = DateTime.now();
+                const filteredReservations = data.filter(reservation => DateTime.fromISO(reservation.endDate) >= today);
+                setReservations(filteredReservations);
                 console.log(reservations);
                 sethasReservations(true);
             } else {
@@ -188,7 +191,7 @@ function VehicleDetails() {
                 {!hasReservations && (<p><strong>Dit voertuig is nog niet gereserveerd!</strong></p>)}
                 {hasReservations && (<p><strong>Al gereserveerd op de volgende dagen:</strong></p>)}
                 {hasReservations && (
-                    reservations.map((reservation, index) => (
+                    reservations.sort((a, b) => new Date(a.startDate) - new Date(b.startDate)).map((reservation, index) => (
                     <p key={index}>{reservation.startDate} - {reservation.endDate}</p>
                     )))}
                 
