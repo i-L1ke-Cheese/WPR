@@ -2,6 +2,7 @@
 {
     public class RentalRequestDTO
     {
+        public int Id { get; set; }
         public int VehicleId { get; set; }
         public DateOnly startDate { get; set; }
         public DateOnly endDate { get; set; }

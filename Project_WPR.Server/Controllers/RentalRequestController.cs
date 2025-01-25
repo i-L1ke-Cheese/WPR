@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Project_WPR.Server.data;
 using Project_WPR.Server.data.DTOs;
 using System.ComponentModel;
@@ -78,7 +79,8 @@ namespace Project_WPR.Server.Controllers
                     Intention = rr.Intention,
                     SuspectedKm = rr.SuspectedKm,
                     IsDeleted = rr.IsDeleted,
-                    Status = rr.Status
+                    Status = rr.Status,
+                    Id = rr.Id
                 })
                 .ToListAsync();
 
@@ -164,7 +166,48 @@ namespace Project_WPR.Server.Controllers
             return Ok(reservations);
         }
 
-            [HttpPost("huur-auto")]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetRentalRequest(int id)
+        {
+            try
+            {
+                var request = await _context.RentalRequests.FindAsync(id);
+                if (request == null)
+                {
+                    return NotFound(new { message = "Rental request not found" });
+                }
+
+                var rentalRequestDTO = new RentalRequestDetailsDTO
+                {
+                    Id = request.Id,
+                    VehicleId = request.VehicleId,
+                    VehicleBrand = request.VehicleBrand,
+                    VehicleType = request.VehicleType,
+                    VehicleColor = request.VehicleColor,
+                    Intention = request.Intention,
+                    FarthestDestination = request.FarthestDestination,
+                    SuspectedKm = request.SuspectedKm,
+                    StartDate = request.StartDate,
+                    EndDate = request.EndDate,
+                    Status = request.Status,
+                    PrivateRenterId = request.PrivateRenterId,
+                    BusinessRenterId = request.BusinessRenterId
+                };
+
+                return Ok(rentalRequestDTO);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                return StatusCode(500, new { message = "An unexpected error occurred." });
+            }
+        }
+
+        [HttpPost("huur-auto")]
         public async Task<IActionResult> Rental([FromBody] RentalRequestDTO request) {
 
             // get currently logged in user from cookie
@@ -293,6 +336,11 @@ namespace Project_WPR.Server.Controllers
             }
 
             rentalRequest.Status = rentalRequestDTO.Status;
+            rentalRequest.StartDate = rentalRequestDTO.startDate;
+            rentalRequest.EndDate = rentalRequestDTO.endDate;
+            rentalRequest.Intention = rentalRequestDTO.intention;
+            rentalRequest.FarthestDestination = rentalRequestDTO.FarthestDestination;
+            rentalRequest.SuspectedKm = rentalRequestDTO.suspectedKm;
 
             try
             {
@@ -309,6 +357,33 @@ namespace Project_WPR.Server.Controllers
                 return StatusCode(500, new { message = "An unexpected error occurred." });
             }
             return Ok(new { message = "Damage report updated successfully.", rentalRequest });
+        }
+
+        [HttpDelete("verwijder-huuraanvraag/{id}")]
+        public async Task<IActionResult> DeleteRentalRequest(int id)
+        {
+            var request = await _context.RentalRequests.FindAsync(id);
+
+            if (request == null)
+            {
+                return NotFound("Huuraanvraag niet gevonden");
+            }
+
+            try
+            {
+                _context.RentalRequests.Remove(request);
+                await _context.SaveChangesAsync();
+                return Ok("Huuraanvraag succesvol verwijderd");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected Error: {ex.Message}");
+                if (ex.InnerException != null)
+                {
+                    Console.WriteLine($"Inner Exception: {ex.InnerException.Message}");
+                }
+                return StatusCode(StatusCodes.Status500InternalServerError, $"An error occurred while deleting the rental request: {ex.Message}");
+            }
         }
     }
 }

@@ -13,5 +13,6 @@
         public string? BusinessRenterId { get; set; }
         public string? PrivateRenterId { get; set; }
         public string Status { get; set; }
+        public int Id { get; set; }
     }
 }

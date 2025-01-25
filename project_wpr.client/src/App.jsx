@@ -18,6 +18,7 @@ import EditVehicles from './pages/EditVehicles';
 import AddVehicle from './pages/AddVehicle';
 import CreateCompany from './pages/CreateCompany'
 import Privacyverklaring from './pages/Privacyverklaring';
+import EditRentalRequest from './pages/EditRentalRequest';
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
 import Subscriptions from './pages/Subscriptions';
@@ -64,7 +65,8 @@ function App() {
                             <Route path="/addvehicle" element={<AddVehicle />} />
                             <Route path="/createcompany" element={<CreateCompany />} />
                             <Route path="/subscriptions" element={<Subscriptions />} />
-                            <Route path="/privacyverklaring" element={<Privacyverklaring /> } />
+                            <Route path="/privacyverklaring" element={<Privacyverklaring />} />
+                            <Route path="/edit-rental-request" element={<EditRentalRequest />} />
                         </Routes>
                     </div>
                 </div>
