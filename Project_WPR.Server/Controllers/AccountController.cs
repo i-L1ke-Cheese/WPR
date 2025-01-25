@@ -14,15 +14,18 @@ using System.Text;
 using System.Xml.Linq;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace Project_WPR.Server.Controllers {
+namespace Project_WPR.Server.Controllers
+{
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class AccountController : ControllerBase {
+    public class AccountController : ControllerBase
+    {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signinManager;
         private readonly DatabaseContext _dbContext;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signinManager, DatabaseContext dbContext) {
+        public AccountController(UserManager<User> userManager, SignInManager<User> signinManager, DatabaseContext dbContext)
+        {
             _userManager = userManager;
             _signinManager = signinManager;
             _dbContext = dbContext;
@@ -35,7 +38,7 @@ namespace Project_WPR.Server.Controllers {
             {
                 return Unauthorized(new { Msg = "no user logged in" });
             }
-            
+
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userID == null)
             {
@@ -76,21 +79,24 @@ namespace Project_WPR.Server.Controllers {
                     ID = businessRenter.Id,
                     CompanyId = businessRenter.CompanyId,
                     CompanyName = company.Name,
-					
-					// Toegevoegd tijdens merge
-					PhoneNr = businessRenter.PhoneNumber,
-					Address = businessRenter.Address,
-					Place = businessRenter.Place,
-					LicenseNumber = user.LicenseNumber
+
+                    // Toegevoegd tijdens merge
+                    PhoneNr = businessRenter.PhoneNumber,
+                    Address = businessRenter.Address,
+                    Place = businessRenter.Place,
+                    LicenseNumber = user.LicenseNumber
                 });
             }
             var companyAdmin = await _dbContext.CompanyAdmin.FirstOrDefaultAsync(ca => ca.Id == userID);
-            if (companyAdmin != null) {
+            if (companyAdmin != null)
+            {
 
                 var company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == companyAdmin.CompanyId);
 
-                if (companyAdmin.CompanyId == 0) {
-                    return Ok(new {
+                if (companyAdmin.CompanyId == 0)
+                {
+                    return Ok(new
+                    {
                         Email = companyAdmin.Email,
                         FName = companyAdmin.FirstName,
                         LName = companyAdmin.LastName,
@@ -98,7 +104,8 @@ namespace Project_WPR.Server.Controllers {
                         role = "CompanyAdmin",
                     });
                 }
-                return Ok(new {
+                return Ok(new
+                {
                     Email = companyAdmin.Email,
                     FName = companyAdmin.FirstName,
                     LName = companyAdmin.LastName,
@@ -109,8 +116,10 @@ namespace Project_WPR.Server.Controllers {
                 });
             }
             var privateRenter = await _dbContext.PrivateRenters.FirstOrDefaultAsync(pr => pr.Id == userID);
-            if(privateRenter != null) {
-                return Ok(new {
+            if (privateRenter != null)
+            {
+                return Ok(new
+                {
                     Email = privateRenter.Email,
                     FName = privateRenter.FirstName,
                     LName = privateRenter.LastName,
@@ -119,14 +128,19 @@ namespace Project_WPR.Server.Controllers {
                 });
             }
             var employee = await _dbContext.CA_Employees.FirstOrDefaultAsync(e => e.Id == userID);
-            if(employee != null) {
+            if (employee != null)
+            {
                 var role = "";
-                if(employee.Department == "Frontoffice") {
+                if (employee.Department == "Frontoffice")
+                {
                     role = "EmployeeFrontOffice";
-                } else if(employee.Department == "Backoffice") {
+                }
+                else if (employee.Department == "Backoffice")
+                {
                     role = "EmployeeBackOffice";
                 }
-                return Ok(new {
+                return Ok(new
+                {
                     Email = employee.Email,
                     FName = employee.FirstName,
                     LName = employee.LastName,
@@ -135,8 +149,10 @@ namespace Project_WPR.Server.Controllers {
                 });
             }
             var vehicleManager = await _dbContext.vehicleManagers.FirstOrDefaultAsync(vm => vm.Id == userID);
-            if(vehicleManager != null) {
-                return Ok(new {
+            if (vehicleManager != null)
+            {
+                return Ok(new
+                {
                     Email = vehicleManager.Email,
                     FName = vehicleManager.FirstName,
                     LName = vehicleManager.LastName,
@@ -144,10 +160,10 @@ namespace Project_WPR.Server.Controllers {
                     role = "VehicleManager"
                 });
             }
-            
-            return Ok(new 
+
+            return Ok(new
             {
-				ID = user.Id,
+                ID = user.Id,
                 Email = user.Email,
                 FName = user.FirstName,
                 LName = user.LastName,
@@ -192,17 +208,21 @@ namespace Project_WPR.Server.Controllers {
         }
 
         [HttpPost("changePhoneNr")]
-        public async Task<IActionResult> changePhoneNr([FromBody] changePhoneNumberDTO request) {
+        public async Task<IActionResult> changePhoneNr([FromBody] changePhoneNumberDTO request)
+        {
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userID == null) {
+            if (userID == null)
+            {
                 return Unauthorized(new { Msg = "no user logged in" });
             }
             var user = await _userManager.FindByIdAsync(userID);
-            if (user == null) {
+            if (user == null)
+            {
                 return NotFound();
             }
 
-            if(request.oldPhoneNumber == user.PhoneNumber) {
+            if (request.oldPhoneNumber == user.PhoneNumber)
+            {
                 user.PhoneNumber = request.newPhoneNumber;
                 _dbContext.SaveChanges();
             }

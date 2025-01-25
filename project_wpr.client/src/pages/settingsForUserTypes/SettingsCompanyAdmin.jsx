@@ -18,10 +18,11 @@ const SettingsCompanyAdmin = () => {
     });
 
     const [companyData, setCompanyData] = useState({
-        companyName: '',
+        name: '',
         adress: '',
-        companyPhone: ''
-    })
+        companyPhone: '',
+        kVK_number: '',
+    });
 
     const [errors, setErrors] = useState({});
 
@@ -40,11 +41,11 @@ const SettingsCompanyAdmin = () => {
         if (response.ok) {
             const data = await response.json();
             setUserData({
-                firstname: data.fName,
-                lastname: data.lName,
-                email: data.email,
-                phone: data.phoneNr,
-                companyId: data.companyId
+                firstname: data.fName || '',
+                lastname: data.lName || '',
+                email: data.email || '',
+                phone: data.phoneNr || '',
+                companyId: data.companyId || 0
             })
 
         } else {
@@ -63,11 +64,11 @@ const SettingsCompanyAdmin = () => {
         
         if (response.ok) {
             const data = await response.json();
-            console.log(data);
             setCompanyData({
-                companyName: data.name,
-                adress: data.adress,
-                companyPhone: data.companyPhone
+                name: data.name || '',
+                adress: data.adress || '',
+                companyPhone: data.companyPhone || '',
+                kVK_number: data.kVK_number || '',
             })
         } else {
             console.error("Er is iets misgegaan")
@@ -111,41 +112,37 @@ const SettingsCompanyAdmin = () => {
      * @returns {Object} An object containing validation errors, if any.
      */
     const validate = () => {
-        //const errors = {};
-        ////voornaam
-        //if (!userData.firstname) {
-        //    errors.firstname = 'Voornaam is verplicht';
-        //}
-        ////achternaam
-        //if (!userData.lastname) {
-        //    errors.lastname = 'Achternaam is verplicht';
-        //}
-        ////email
-        //if (!userData.email) {
-        //    errors.email = 'Email is verplicht';
-        //} else if (userData.email && !/\S+@\S+\.\S+/.test(userData.email)) {
-        //    errors.email = 'Email is ongeldig';
-        //}
-        ////telefoonnummer
-        //if (userData.phone && !/^\d{10,15}$/.test(userData.phone)) {
-        //    errors.phone = 'Telefoonnummer moet tussen 10 en 15 cijfers zijn';
-        //}
-        ////adres
-        //if (userData.address && !/^\w{1,50}\s\d{1,5}$/.test(userData.address)) {
-        //    errors.address = 'Adres is ongeldig';
-        //} else if (!userData.place && userData.address) {
-        //    errors.address = 'Plaatsnaam is verplicht als adres is ingevoerd';
-        //}
-        ////plaatsnaam
-        //if (userData.place && !/^[A-Za-z]+$/.test(userData.place)) {
-        //    errors.place = 'Adres is ongeldig'
-        //} else if (!userData.address && userData.place) {
-        //    errors.place = 'Adres is verplicht als plaatsnaam is ingevoerd';
-        //}
-        ////rijbewijsnummer
-        //if (userData.licensenumber && !/^\d{10}$/.test(userData.licensenumber)) {
-        //    errors.licensenumber = 'Rijbewijsnummer moet 10 cijfers zijn';
-        //}
+        const errors = {};
+        //voornaam
+        if (!userData.firstname) {
+            errors.firstname = 'Voornaam is verplicht';
+        }
+        //achternaam
+        if (!userData.lastname) {
+            errors.lastname = 'Achternaam is verplicht';
+        }
+        //email
+        if (!userData.email) {
+            errors.email = 'Email is verplicht';
+        } else if (userData.email && !/\S+@\S+\.\S+/.test(userData.email)) {
+            errors.email = 'Email is ongeldig';
+        }
+        //telefoonnummer gebruiker
+        if (userData.phone && !/^\d{10,15}$/.test(userData.phone)) {
+            errors.phone = 'Admintelefoonnummer moet tussen 10 en 15 cijfers zijn';
+        }
+        //bedrijfsnaam
+        if (!companyData.name) {
+            errors.name = 'Bedrijfsnaam is verplicht';
+        }
+        //bedrijfsadres
+        if (!companyData.adress) {
+            errors.adress = 'Adres is verplicht';
+        }
+        //telefoonnummer bedrijf
+        if (companyData.companyPhone && !/^\d{10,15}$/.test(companyData.companyPhone)) {
+            errors.companyPhone= 'Bedrijfstelefoonnummer moet tussen 10 en 15 cijfers zijn';
+        }
         console.log('errors: ', errors);
 
         return errors;
@@ -170,7 +167,6 @@ const SettingsCompanyAdmin = () => {
         if (!companyData.companyPhone) {
             companyData.companyPhone = "";
         }
-
         const userResponse = await fetch("https://localhost:7289/api/Account/updateUser", {
             method: "POST",
             credentials: "include",
@@ -182,11 +178,13 @@ const SettingsCompanyAdmin = () => {
                 Lastname: userData.lastname,
                 Email: userData.email,
                 Phone: userData.phone,
+                Address: "",
+                Place: "",
+                LicenseNumber: "",
             })
         });
-
         const companyResponse = await fetch(`https://localhost:7289/api/Company/update-company/${userData.companyId}`, {
-            method: "POST",
+            method: "PUT",
             credentials: "include",
             headers: {
                 "Content-Type": "application/json",
@@ -195,19 +193,17 @@ const SettingsCompanyAdmin = () => {
                 Name: companyData.name,
                 Adress: companyData.adress,
                 CompanyPhone: companyData.companyPhone,
+                KVK_number: companyData.kVK_number,
             })
         });
 
         if (userResponse.ok && companyResponse.ok) {
             setErrors({});
-            const result = await response.json();
-            console.log('updated user data: ', result);
             alert('Gegevens succesvol bijgewerkt.');
         } else {
             console.error('Failed to update user data')
             setErrors({ api: 'Bijwerken van gegevens mislukt.' });
         }
-        console.log('Updated user data:', userData);
     };
 
     return (
@@ -255,12 +251,12 @@ const SettingsCompanyAdmin = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="companyName">Bedrijfsnaam: </label>
+                    <label htmlFor="name">Bedrijfsnaam: </label>
                     <input
-                        id="companyName"
+                        id="name"
                         type="text"
-                        name="companyName"
-                        value={companyData.companyName}
+                        name="name"
+                        value={companyData.name}
                         onChange={handleCompanyChange}
                     />
                 </div>
@@ -284,13 +280,13 @@ const SettingsCompanyAdmin = () => {
                         onChange={handleCompanyChange}
                     />
                 </div>
-                {/*{errors.firstname && <p className="error">{errors.firstname}</p>}*/}
-                {/*{errors.lastname && <p className="error">{errors.lastname}</p>}*/}
-                {/*{errors.email && <p className="error">{errors.email}</p>}*/}
-                {/*{errors.phone && <p className="error">{errors.phone}</p>}*/}
-                {/*{errors.address && <p className="error">{errors.address}</p>}*/}
-                {/*{errors.place && <p className="error">{errors.place}</p>}*/}
-                {/*{errors.licensenumber && <p className="error">{errors.licensenumber}</p>}*/}
+                {errors.firstname && <p className="error">{errors.firstname}</p>}
+                {errors.lastname && <p className="error">{errors.lastname}</p>}
+                {errors.email && <p className="error">{errors.email}</p>}
+                {errors.phone && <p className="error">{errors.phone}</p>}
+                {errors.name && <p className="error">{errors.name}</p>}
+                {errors.adress && <p className="error">{errors.adress}</p>}
+                {errors.companyPhone && <p className="error">{errors.companyPhone}</p>}
 
                 <button type="submit">Gegevens opslaan</button>
             </form>

@@ -26,11 +26,9 @@ function Dashboard() {
 
         if (loggedInCheckResponse.ok) {
             const user = await loggedInCheckResponse.json();
-            console.log(user);
             //document.getElementById("DashboardFName").innerHTML = user.fName;
 
             setUserType(user.role);
-            console.log("setUserType: ", user.role)
 
             // Check if the user is a CompanyAdmin and if they have a companyId
             if (user.role === "CompanyAdmin" && !user.companyId) {
