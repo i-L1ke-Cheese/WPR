@@ -14,6 +14,8 @@ function DashboardFrontOffice() {
     const [rentalRequestIntention, setRentalRequestIntention] = useState('');
     const [rentalRequestFarthestDestination, setRentalRequestFarthestDestination] = useState('');
     const [rentalRequestStatus, setRentalRequestStatus] = useState('in behandeling');
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
     const currentDate = new Date();
 
@@ -101,7 +103,7 @@ function DashboardFrontOffice() {
                     body: JSON.stringify({
                         vehicleId: carId,
                         description: damageDescription,
-                        employeeId: 'currentEmployeeId',
+                        employeeId: employeeId,
                         status: status
                     }),
                 });
@@ -125,7 +127,9 @@ function DashboardFrontOffice() {
                         vehicleId: carId,
                         status: rentalRequestStatus,
                         intention: rentalRequestIntention,
-                        farthestDestination: rentalRequestFarthestDestination
+                        farthestDestination: rentalRequestFarthestDestination,
+                        startDate: startDate,
+                        endDate: endDate
                     }),
                 });
                 const data = await response.json();
@@ -211,6 +215,8 @@ function DashboardFrontOffice() {
         setRentalRequestStatus(request.status);
         setRentalRequestIntention(request.intention);
         setRentalRequestFarthestDestination(request.farthestDestination);
+        setStartDate(request.startDate);
+        setEndDate(request.endDate);
     };
 
     const handleEditDamageReport = (report) => {
