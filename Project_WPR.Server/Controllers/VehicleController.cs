@@ -261,10 +261,6 @@ namespace Project_WPR.Server.Controllers
                 var damageReports = _context.DamageReports.Where(dr => dr.VehicleId == id);
                 _context.DamageReports.RemoveRange(damageReports);
 
-                // Verwijder gerelateerde VehiclePictures
-                var vehiclePictures = _context.VehiclePictures.Where(vp => vp.VehicleId == id);
-                _context.VehiclePictures.RemoveRange(vehiclePictures);
-
                 if (vehicle is data.Car)
                 {
                     _context.Cars.Remove(vehicle as data.Car);

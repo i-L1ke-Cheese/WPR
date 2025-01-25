@@ -32,14 +32,12 @@ namespace Project_WPR.Server.data {
     }
 
     public class BusinessRenter : CompanyAccount {
-        public int BusinessRenterId { get; set; }
         public string InvoiceAdress { get; set; }
         public int MaxVehiclesPerBusinessRenter { get; set; } // Property to store max vehicles per business renter
         public ICollection<RentalRequest> ActiveRentalRequests { get; set; } = new List<RentalRequest>(); // Collection to store active rental requests
     }
 
     public class PrivateRenter : User {
-        public int PrivateRenterId { get; set; }
         public string ? PaymentDetails { get; set; }
     }
 
@@ -55,7 +53,6 @@ namespace Project_WPR.Server.data {
         public Boolean IsDamaged { get; set; }
         public double RentalPrice { get; set; }
         public string ? VehicleType { get; set; }
-        public ICollection<VehiclePicture> ? Pictures { get; set; }
     }
 
     public class Car : Vehicle {
@@ -71,14 +68,6 @@ namespace Project_WPR.Server.data {
 
     }
 
-    public class VehiclePicture {
-        public int Id { get; set; }
-        public int VehicleId { get; set; }
-        public Vehicle Vehicle { get; set; }
-        public string FilePath { get; set; }
-    }
-
-
     public class DamageReport {
         public int Id { get; set; }
         public int VehicleId { get; set; }
@@ -88,13 +77,6 @@ namespace Project_WPR.Server.data {
         public string EmployeeId { get; set; }
         public CA_Employee Employee { get; set; }
         public string Status { get; set; }
-    }
-
-    public class DamageReportPicture {
-        public int Id { get; set; }
-        public int DamageReportId { get; set; }
-        public DamageReport DamageReport { get; set; }
-        public string FilePath { get; set; }
     }
 
     public class RentalRequest {

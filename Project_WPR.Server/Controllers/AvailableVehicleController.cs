@@ -21,7 +21,7 @@ namespace Project_WPR.Server.Controllers
         {
             // Haal alle beschikbare voertuigen op van Cars, Campers en Caravans
             var availableCars = _context.Cars
-                .Where(car => car.IsAvailable)
+                .Where(car => car.IsAvailable && !car.IsDamaged)
                 .Select(car => new { car.Id, car.Brand, car.Type, car.LicensePlate, car.Color, car.VehicleType });
 
             var availableCampers = _context.Campers

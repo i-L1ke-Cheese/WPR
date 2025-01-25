@@ -11,9 +11,7 @@ namespace Project_WPR.Server.data {
         DbSet<Caravan> Caravans { get; set; }
         DbSet<Company> Companies { get; set; }
         DbSet<Subscription> Subscriptions { get; set; }
-        DbSet<VehiclePicture> VehiclePictures { get; set; }
         DbSet<DamageReport> DamageReports { get; set; }
-        DbSet<DamageReportPicture> DamageReportPictures { get; set; }
         DbSet<BusinessRenter> BusinessRenters { get; set; }
         DbSet<PrivateRenter> PrivateRenters { get; set; }
         DbSet<RentalRequest> RentalRequests { get; set; }
@@ -34,18 +32,6 @@ namespace Project_WPR.Server.data {
 
         protected override void OnModelCreating(ModelBuilder b) { 
             base.OnModelCreating(b);
-
-            //b.Entity<Company>()
-            //    .HasOne(c => c.Subscription)
-            //    //.WithMany(s => s.Company)
-            //    .HasForeignKey<Company>(c => c.SubscriptionId)
-            //    .OnDelete(DeleteBehavior.Cascade);
-
-            b.Entity<VehiclePicture>()
-                .HasOne(vp => vp.Vehicle)
-                .WithMany(v => v.Pictures)
-                .HasForeignKey(vp => vp.VehicleId)
-                .OnDelete(DeleteBehavior.Cascade);
 
             b.Entity<DamageReport>()
                 .HasOne(dr => dr.Employee)
@@ -84,9 +70,7 @@ namespace Project_WPR.Server.data {
         public DbSet<Caravan> Caravans { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Subscription> Subscriptions { get; set; }
-        public DbSet<VehiclePicture> VehiclePictures { get; set; }
         public DbSet<DamageReport> DamageReports { get; set; }
-        public DbSet<DamageReportPicture> DamageReportPictures { get; set; }
         public DbSet<BusinessRenter> BusinessRenters { get; set; }
         public DbSet<CompanyAdmin> CompanyAdmin { get; set; }
         public DbSet<PrivateRenter> PrivateRenters { get; set; }
