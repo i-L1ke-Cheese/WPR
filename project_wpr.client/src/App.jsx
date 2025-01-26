@@ -19,7 +19,6 @@ import Privacyverklaring from './pages/Privacyverklaring';
 import EditRentalRequest from './pages/EditRentalRequest';
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
-import Subscriptions from './pages/Subscriptions';
 
 /**
  * App component is de hoofdcomponent van de applicatie.
@@ -66,7 +65,6 @@ function App() {
                             <Route path="/editvehicles" element={<EditVehicles />} />
                             <Route path="/addvehicle" element={<AddVehicle />} />
                             <Route path="/createcompany" element={<CreateCompany />} />
-                            <Route path="/subscriptions" element={<Subscriptions />} />
                             <Route path="/privacyverklaring" element={<Privacyverklaring />} />
                             <Route path="/edit-rental-request" element={<EditRentalRequest />} />
                         </Routes>

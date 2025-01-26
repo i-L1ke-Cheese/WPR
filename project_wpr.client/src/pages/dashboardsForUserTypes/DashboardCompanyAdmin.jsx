@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import Subscriptions from '../Subscriptions';
+
 /**
  * Dashboard component voor companhy admins
  * 
@@ -398,6 +400,7 @@ function DashboardCompanyAdmin() {
                     ))}
                 </div>
             </div>
+            <Subscriptions />
         </div>
 
     );
