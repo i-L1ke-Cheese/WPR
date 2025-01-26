@@ -12,16 +12,38 @@ function DashboardFrontOffice() {
     const [rentalRequests, setRentalRequests] = useState([]);
     const [rentalRequestId, setRentalRequestId] = useState('');
     const [rentalRequestIntention, setRentalRequestIntention] = useState('');
-    const [rentalRequestFarthestDestination, setRentalRequestFarthestDestination] = useState('');
+    const [rentalRequestFarthestDestination, setRentalRequestFarthestDestination] = useState(0);
     const [rentalRequestStatus, setRentalRequestStatus] = useState('in behandeling');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+
+    const [userDepartment, setUserDepartment] = useState('');
 
     const currentDate = new Date();
 
     /**
      * Fetches rental requests and damage reports from the API.
      */
+    useEffect(() => {
+        const fetchUserDepartment = async () => {
+            try {
+                const response = await fetch(`https://localhost:7289/api/Account/getCurrentAccount`, {
+                    credentials: 'include',
+                })
+                if (response.ok) {
+                    const data = await response.json();
+                    setUserDepartment(data.role);
+                } else {
+                    console.error("Failed to fetch user department");
+                }
+            } catch (error) {
+                console.error("Error: ", error);
+            }
+        };
+
+        fetchUserDepartment();
+    }, []);
+
     useEffect(() => {
         const fetchRentalRequests = async () => {
             try {
@@ -36,7 +58,7 @@ function DashboardFrontOffice() {
                             } else if (request.businessRenterId) {
                                 userId = request.businessRenterId;
                             }
-                            console.log(userId, request.businessRenterId, request.privateRenterId);
+                            console.log(data);
                             if (userId) {
                                 const userResponse = await fetch(`https://localhost:7289/api/Account/getUser?userID=${userId}`, {
                                     credentials: 'include',
@@ -47,6 +69,9 @@ function DashboardFrontOffice() {
                                         ...request,
                                         renterFirstName: userData.fName,
                                         renterLastName: userData.lName,
+                                        intention: userDepartment === 'EmployeeBackOffice' ? request.intention : undefined,
+                                        farthestDestination: userDepartment === 'EmployeeBackOffice' ? request.farthestDestination : undefined,
+                                        suspectedKm: userDepartment === 'EmployeeBackOffice' ? request.suspectedKm : undefined,
                                     };
                                 }
                             }
@@ -64,7 +89,7 @@ function DashboardFrontOffice() {
 
         fetchRentalRequests();
         handleViewDamageReports();
-    }, []);
+    }, [userDepartment]);
 
     /**
      * Handles form submission, performs validation, and sends a request to the API.
@@ -332,6 +357,13 @@ function DashboardFrontOffice() {
                         <th>Voertuig</th>
                         <th>Van</th>
                         <th>Tot</th>
+                        {userDepartment === 'EmployeeBackOffice' &&
+                        <>
+                            <th>Intentie</th>
+                            <th>Verste bestemming</th>
+                            <th>Verwachte km</th>
+                        </>
+                        }
                         <th>Huurder</th>
                         <th>Status</th>
                         <th>Aanpassen</th>
@@ -346,8 +378,15 @@ function DashboardFrontOffice() {
                                 <td>{request.vehicleBrand} {request.vehicleType} ({request.vehicleId})</td>
                                 <td>{request.startDate}</td>
                                 <td>{request.endDate}</td>
+                                {userDepartment === 'EmployeeBackOffice' &&
+                                    <>
+                                    <td>{request.intention}</td>
+                                    <td>{request.farthestDestination}</td>
+                                    <td>{request.suspectedKm}</td>
+                                    </>
+                                }
                                 <td>{request.renterFirstName} {request.renterLastName}</td>
-                                <td>{request.status}</td>{/* STATUS NOG TOEVOEGEN*/}
+                                <td>{request.status}</td>
                                 <td><button onClick={() => handleEditRentalRequest(request)}>Acties</button></td>
                             </tr>
                         ))}
