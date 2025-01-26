@@ -12,6 +12,10 @@ namespace Project_WPR.Server.Controllers
     {
         private readonly DatabaseContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SubscriptionController"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
         public SubscriptionController(DatabaseContext context)
         {
             _context = context;
