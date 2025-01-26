@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 /**
- * Dashboard component voor companhy admins
+ * Dashboard component voor company admins
  * 
  * @returns {JSX.Element} Het gerenderde component dat het dashboard toont.
  */
 function DashboardCompanyAdmin() {
+    const [subscriptions, setSubscriptions] = useState([]);
+    const [companyName, setCompanyName] = useState('');
+    const [companyId, setCompanyId] = useState('');
+    const [currentSub, setCurrentSub] = useState('');
+    const [email, setMail] = useState('');
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         email: "",
@@ -88,6 +94,127 @@ function DashboardCompanyAdmin() {
         }
     };
 
+    const getCompanyInfo = async (companyId) => {
+        const companyFound = await fetch(`https://localhost:7289/api/Company/getCurrentCompany?companyId=${companyId}`, {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (companyFound.ok) {
+            const company = await companyFound.json();
+            console.log(company);
+            const subscriptionEndDate = new Date(company.subscriptionEndDate);
+            const today = new Date();
+            const daysLeft = Math.ceil((subscriptionEndDate - today) / (1000 * 60 * 60 * 24));
+            console.log(daysLeft);
+
+            if (daysLeft < 0) {
+                console.log("Uw subscriptie is verlopen.");
+                return;
+            }
+
+            if (daysLeft < 7 && daysLeft > 3) {
+                alert(`Uw subscriptie verloopt over ${daysLeft} dagen`);
+            }
+
+            if (daysLeft < 3) {
+                alert(`Uw subscriptie verloopt over ${daysLeft} dagen wilt u gebruik maken van de huidige voordelen vernieuw het dan snel`);
+                const nextMonth = new Date();
+                nextMonth.setMonth(nextMonth.getMonth() + 1);
+                nextMonth.setDate(1);
+                const endOfNextMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0);
+
+                const response = await fetch('https://localhost:7289/api/Subscription/PostSubscriptionDetails', {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ companyId, subscriptionId: company.subscriptionId, startDate: nextMonth.toISOString(), endDate: endOfNextMonth.toISOString() }),
+                });
+
+                if (response.ok) {
+                    const updatedSubscriptions = await response.json();
+                    console.log("Subscriptie gewijzigd:", updatedSubscriptions);
+                    setCurrentSub(company.subscriptionId);
+                    alert("Subscriptie gewijzigd");
+
+                    // Find the selected subscription details
+                    const selectedSubscription = subscriptions.find(sub => sub.id === company.subscriptionId);
+
+                    // stuur via back end een email
+                    const emailResponse = await fetch('https://localhost:7289/api/Email/send-email', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            from: "carandall@2a3e198781496c5c.maileroo.org", 
+                            to: `${email}`,
+                            subject: `Subscription Updated: ${selectedSubscription.description}`,
+                            templateId: "862",
+                            templateData: JSON.stringify({
+                                subscriptionId: selectedSubscription.id,
+                                description: selectedSubscription.description,
+                                price: selectedSubscription.price,
+                                duration: selectedSubscription.duration,
+                                startDate: nextMonth.toISOString().split('T')[0],
+                                endDate: endOfNextMonth.toISOString().split('T')[0],
+                                leftDays: daysLeft
+                            })
+                        }),
+                    });
+
+                    if (emailResponse.ok) {
+                        console.log("Email sent successfully:", await emailResponse.json());
+                    } else {
+                        console.error("Failed to send email:", await emailResponse.text());
+                    }
+                } else {
+                    console.error("Failed to update subscription:", await response.text());
+                }
+            }
+        } else {
+            console.error("Failed to fetch company info");
+        }
+    };
+
+    const getUserInfo = async () => {
+        const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (loggedInCheckResponse.ok) {
+            const stuff = await loggedInCheckResponse.json();
+            if (stuff.role && stuff.role.includes("CompanyAdmin")) {
+                setCompanyName(stuff.companyName);
+                setCompanyId(stuff.companyId);
+                setMail(stuff.email);
+            } else {
+                navigate("/login");
+            }
+        } else {
+            navigate("/login");
+        }
+    };
+
+    useEffect(() => {
+        getUserInfo();
+    }, []);
+
+    useEffect(() => {
+        if (companyId) {
+            getCompanyInfo(companyId);
+        }
+    }, [companyId]);
+
     return (
         <div>
             <h2>Create new Business Renter account</h2>
@@ -156,3 +283,4 @@ function DashboardCompanyAdmin() {
 }
 
 export default DashboardCompanyAdmin;
+

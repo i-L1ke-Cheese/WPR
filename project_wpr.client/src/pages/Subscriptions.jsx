@@ -45,6 +45,60 @@ function Subscriptions() {
             const company = await companyFound.json();
             console.log(company);
             setCurrentSub(company.subscriptionId);
+            const subscriptionEndDate = new Date(company.subscriptionEndDate);
+            const today = new Date();
+            const daysLeft = Math.ceil((subscriptionEndDate - today) / (1000 * 60 * 60 * 24));
+            console.log(daysLeft);
+
+            if (daysLeft < 0) {
+                console.log("Subscription has already ended.");
+                return;
+            }
+
+            if (daysLeft < 7 && daysLeft > 3) {
+                alert(daysLeft);
+            }
+
+            if (daysLeft < 3) {
+                alert(daysLeft);
+                const nextMonth = new Date();
+                nextMonth.setMonth(nextMonth.getMonth() + 1);
+                nextMonth.setDate(1);
+                const endOfNextMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0);
+
+                    // Find the selected subscription details
+                    const selectedSubscription = subscriptions.find(sub => sub.id === company.subscriptionId);
+
+                    // stuur via back end een email
+                    const emailResponse = await fetch('https://localhost:7289/api/Email/send-email', {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            from: "carandall@2a3e198781496c5c.maileroo.org",
+                            to: `${email}`,
+                            subject: `Subscription Updated: ${selectedSubscription.description}`,
+                            templateId: "862",
+                            templateData: JSON.stringify({
+                                subscriptionId: selectedSubscription.id,
+                                description: selectedSubscription.description,
+                                price: selectedSubscription.price,
+                                duration: selectedSubscription.duration,
+                                startDate: nextMonth.toISOString().split('T')[0],   
+                                endDate: endOfNextMonth.toISOString().split('T')[0],
+                                leftDays: daysLeft
+                            })
+                        }),
+                    });
+
+                    if (emailResponse.ok) {
+                        console.log("Email sent successfully:", await emailResponse.json());
+                    } else {
+                        console.error("Failed to send email:", await emailResponse.text());
+                    }
+                
+            }
         } else {
             console.error("Failed to fetch company info");
         }
@@ -72,20 +126,20 @@ function Subscriptions() {
     };
 
     const handleSubscriptionClick = async (subscriptionId) => {
-        const confirmed = window.confirm("Weet u zeker dat u deze subscription wilt kiezen?");
+        const confirmed = window.confirm("Weet u zeker dat u deze abonnement wilt kiezen?");
         if (confirmed) {
             try {
-                const nextMonth = new Date();
-                nextMonth.setMonth(nextMonth.getMonth() + 1);
-                nextMonth.setDate(1);
-                const endOfNextMonth = new Date(nextMonth.getFullYear(), nextMonth.getMonth() + 1, 0);
+                const startDate = new Date();
+                const endDate = new Date(startDate);
+                endDate.setMonth(endDate.getMonth() + 1);
 
                 console.log("Sending subscription update request:", {
                     companyId,
                     subscriptionId,
-                    startDate: nextMonth.toISOString(),
-                    endDate: endOfNextMonth.toISOString()
+                    startDate: startDate.toISOString(),
+                    endDate: endDate.toISOString()
                 });
+
 
                 const response = await fetch('https://localhost:7289/api/Subscription/PostSubscriptionDetails', {
                     method: "POST",
@@ -93,7 +147,7 @@ function Subscriptions() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({ companyId, subscriptionId, startDate: nextMonth.toISOString(), endDate: endOfNextMonth.toISOString() }),
+                    body: JSON.stringify({ companyId, subscriptionId, startDate: startDate.toISOString(), endDate: endDate.toISOString() }),
                 });
 
                 if (response.ok) {
@@ -121,8 +175,8 @@ function Subscriptions() {
                                 description: selectedSubscription.description,
                                 price: selectedSubscription.price,
                                 duration: selectedSubscription.duration,
-                                startDate: nextMonth.toISOString().split('T')[0], // Include the start date in the email
-                                endDate: endOfNextMonth.toISOString().split('T')[0] // Include the end date in the email
+                                startDate: startDate.toISOString().split('T')[0],
+                                endDate: endDate.toISOString().split('T')[0]
                             })
                         }),
                     });
@@ -158,20 +212,19 @@ function Subscriptions() {
     return (
         <div className="container" style={{ color: 'black' }}>
             <p>Uw huidige subscription voor {companyName} is {currentSub}</p>
-            <div className="users-container" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
-                {subscriptions.map((subscriptionInfo, index) => (
-                    <div
-                        key={index}
-                        className="user-card"
-                        style={{ margin: '10px', padding: '10px', border: '1px solid #ccc', cursor: 'pointer' }}
-                        onClick={() => handleSubscriptionClick(subscriptionInfo.id)}
-                    >
-                        <p><strong>Subscription ID:</strong> {subscriptionInfo.id}</p>
-                        <p><strong>Description:</strong> {subscriptionInfo.description}</p>
-                        <p><strong>Price:</strong> {subscriptionInfo.price}</p>
-                        <p><strong>Duration:</strong> {subscriptionInfo.duration}</p>
-                    </div>
-                ))}
+            <div onClick={() => handleSubscriptionClick(6)}>
+            <stripe-buy-button 
+                buy-button-id="buy_btn_1QkoD1Gvad1OE93cX8Bziw3e"
+                publishable-key="pk_test_51QknyhGvad1OE93cOq5OCCpu1H0FK4CPFAnNlv0Y2enTgkpVk5RfYF5L16hfqtTP4P6mxQhOXIBCGEKxTPGsMwkk00WrUiaJH2"
+                >
+                </stripe-buy-button>
+            </div>
+            <div onClick={() => handleSubscriptionClick(6)}>
+            <stripe-buy-button
+                buy-button-id="buy_btn_1Qkr8VGvad1OE93cDI9nLcrd"
+                publishable-key="pk_test_51QknyhGvad1OE93cOq5OCCpu1H0FK4CPFAnNlv0Y2enTgkpVk5RfYF5L16hfqtTP4P6mxQhOXIBCGEKxTPGsMwkk00WrUiaJH2"
+            >
+                </stripe-buy-button>
             </div>
         </div>
     );
