@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Reflection.Emit;
 
 namespace Project_WPR.Server.data {
-    public interface IDatabaseContext
-    {
+    public interface IDatabaseContext {
         DbSet<CA_Employee> CA_Employees { get; set; }
         DbSet<Car> Cars { get; set; }
         DbSet<Camper> Campers { get; set; }
@@ -21,26 +22,16 @@ namespace Project_WPR.Server.data {
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         EntityEntry Entry(object entity);
     }
-
     public class DatabaseContext : IdentityDbContext, IDatabaseContext {
         public DatabaseContext(DbContextOptions<DatabaseContext> options)
-            : base(options)
-        {
+            : base(options) {
         }
 
-        /// <summary>
-        /// Called when [configuring].
-        /// </summary>
-        /// <param name="b">The b.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder b) {
-            b.UseSqlite("Data Source=database.db");
+            b.UseSqlServer("Server=database-carandall.clee44w6q7vn.eu-north-1.rds.amazonaws.com,1433;Database=database-carandall;User Id=admin;Password=AdminPassword123!;TrustServerCertificate=True;");
         }
 
-        /// <summary>
-        /// Called when [model creating].
-        /// </summary>
-        /// <param name="b">The b.</param>
-        protected override void OnModelCreating(ModelBuilder b) { 
+        protected override void OnModelCreating(ModelBuilder b) {
             base.OnModelCreating(b);
 
             b.Entity<DamageReport>()
@@ -48,6 +39,15 @@ namespace Project_WPR.Server.data {
                 .WithMany(e => e.DamageReports)
                 .HasForeignKey(dr => dr.EmployeeId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            b.Entity<Subscription>()
+                .Property(s => s.Price)
+                .HasColumnType("decimal(18,2)");
+
+            b.Entity<IdentityRole>(entity =>
+            {
+                entity.Property(e => e.Id).HasMaxLength(128);
+            });
 
             b.Entity<RentalRequest>()
                 .HasOne(rr => rr.Vehicle)
@@ -88,15 +88,12 @@ namespace Project_WPR.Server.data {
         public DbSet<VehicleManager> vehicleManagers { get; set; }
         public DbSet<PrivacyPolicyContent> PrivacyPolicyContent { get; set; }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
+        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) {
             return base.SaveChangesAsync(cancellationToken);
         }
 
-        public EntityEntry Entry(object entity)
-        {
+        public EntityEntry Entry(object entity) {
             return base.Entry(entity);
         }
     }
-
 }
