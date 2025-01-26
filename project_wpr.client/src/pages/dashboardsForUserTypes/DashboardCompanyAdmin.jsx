@@ -214,7 +214,7 @@ function DashboardCompanyAdmin() {
             console.log(formData);
             //console.log(accountType);
 
-            const response = await fetch("https://localhost:7289/api/Register/register-company-account", {
+            const response = await fetch(`https://localhost:7289/api/Register/register-company-account?renter=${formData.accountType}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

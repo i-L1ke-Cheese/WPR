@@ -102,7 +102,7 @@ namespace Project_WPR.Server.Controllers
         }
         [HttpPost("register-company-account")]
         [Authorize]
-        public async Task<IActionResult> RegisterCompanyAccount([FromBody] RegisterDTO request) {
+        public async Task<IActionResult> RegisterCompanyAccount([FromBody] RegisterDTO request, string renter) {
             if (User == null || !User.Identity.IsAuthenticated) {
                 return Unauthorized(new { Msg = "no user logged in" });
             }
@@ -120,7 +120,7 @@ namespace Project_WPR.Server.Controllers
                 return Unauthorized(new { Msg = "You do not have permission to create a business renter account." });
             }
 
-            if (request.AccountType == "businessRenter")
+            if (renter == "businessRenter")
             {
                 BusinessRenter businessRenter = new BusinessRenter();
                 businessRenter.CompanyId = companyAdmin.CompanyId;
@@ -140,7 +140,7 @@ namespace Project_WPR.Server.Controllers
                 return Ok(new { Message = "Business account successfully created for company", CompanyId = businessRenter.CompanyId });
 
             }
-            else if(request.AccountType == "vehicleManager")
+            else if(renter == "vehicleManager")
             {
                 VehicleManager vehicleManager = new VehicleManager();
                 vehicleManager.CompanyId = companyAdmin.CompanyId;

@@ -10,7 +10,7 @@ function Registreer() {
     const [firstName, setfirstName] = useState("");
     const [lastName, setlastName] = useState("");
     const [dateOfBirth, setdateOfBirth] = useState("");
-    const [renter, setRenter] = useState("");
+    const [renter, setRenter] = useState("")
 
 
     const handleSubmit = async (event) => {

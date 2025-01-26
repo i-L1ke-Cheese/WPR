@@ -40,7 +40,7 @@ function CreateCompany() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const data = { Name: name, Adress: adress, KVK_number: KVK_number };
+        const data = { Name: name, Adress: adress, KVK_number: KVK_number, CompanyPhone: "0611223344" };
 
         try {
             const response = await fetch(`https://localhost:7289/api/CompanyCreator/CreateCompany?id=${userID}`, {
