@@ -36,7 +36,7 @@ function Home() {
     }, []);
 
     return (
-        <div className="home-container">
+        <div className="Test">
             <h2>Welkom bij CarAndAll</h2>
             <p className="tekst">
                 Bij CarAndAll draait alles om mobiliteit. Wij zijn de partner voor iedereen die op zoek is naar flexibele, betrouwbare en betaalbare oplossingen voor voertuigverhuur.

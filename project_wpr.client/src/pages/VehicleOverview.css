@@ -26,3 +26,13 @@
     width: 220px; /* Increase width on hover */
     height: 220px; /* Increase height on hover */
 }
+.border {
+    background-color: #fff;
+    padding: 1rem;
+    width: 100%; /* Form width is 100% of the parent */
+    max-width: 15%; /* Max width to prevent stretching too much */
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 2);
+    margin: auto; /* Center the form horizontally */
+
+}

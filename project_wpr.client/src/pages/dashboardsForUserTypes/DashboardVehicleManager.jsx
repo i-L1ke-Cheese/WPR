@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './DashboardFrontoffice.css';
 import { Link, useNavigate } from 'react-router-dom';
+import '././LayoutDashboard.css'
 
 function DashboardVehicleManager() {
     const [rentalRequests, setRentalRequests] = useState([]);
@@ -77,9 +78,10 @@ function DashboardVehicleManager() {
     const sortedEmployeeNames = Object.keys(groupedReservations).sort();
 
     return (
-        <div className='div'>
-            <h2>Huuraanvragen van {companyName}</h2>
-            <table>
+        <div>
+            <h2 className='title' style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.35)' }} >Huuraanvragen van {companyName}</h2>
+            <div className='Test'>
+            <table >
                 <thead>
                     <tr>
                         <th>Voertuig</th>
@@ -101,12 +103,13 @@ function DashboardVehicleManager() {
                             </tr>
                         ))}
                 </tbody>
-            </table>
+                </table>
+            </div>
 
-            <h2>Huuraanvragen historie van {companyName}</h2>
+            <h2 className='title' style={{ paddingTop: '20px', textShadow: '2px 2px 4px rgba(0, 0, 0, 0.35)' }}>Huuraanvragen historie van {companyName}</h2>
             {sortedEmployeeNames.map(employeeName => (
-                <div key={employeeName}>
-                    <h3>{employeeName}</h3>
+                <div className='Test' key={employeeName}>
+                    <h3 style={{textShadow: '2px 2px 4px rgba(0, 0, 0, 0.2)' }}>{employeeName}</h3>
                     <table>
                         <thead>
                             <tr>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import './EditVehicles.css';
+import './Layout.css'
 
 /**
  * Component for editing vehicles.
@@ -10,6 +11,7 @@ const EditVehicles = () => {
     const navigate = useNavigate();
     const [vehicles, setVehicles] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [userType, setUserType] = useState('');
     const [formData, setFormData] = useState({
         id: '',
         brand: '',
@@ -26,6 +28,32 @@ const EditVehicles = () => {
         requiredLicenseType: '',
         transmissionType: ''
     });
+
+    /**
+     * Haal de gebruikersinformatie op en bepaal welk dashboard moet worden weergegeven.
+     */
+    const getUserInfo = async () => {
+        const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (loggedInCheckResponse.ok) {
+            const user = await loggedInCheckResponse.json();
+
+            // Check if the user is a CompanyAdmin and if they have a companyId
+            if (!(user.role === "EmployeeBackOffice")) {
+                navigate("/dashboard");
+            } else { setUserType(user.role); }
+
+        } else {
+            navigate("/login");
+        }
+
+    }
 
     // Fetch vehicles from the API
     /**
@@ -51,7 +79,7 @@ const EditVehicles = () => {
                 console.error("Error: ", error);
             }
         };
-
+        getUserInfo();
         fetchVehicles();
     }, []);
 
@@ -190,7 +218,7 @@ const EditVehicles = () => {
     return (
         <div className="vehicle-page">
             <h2>Voertuigbeheer</h2>
-            <form onSubmit={handleSubmit}>
+            <form className='border' onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="licensePlate">Kenteken:</label>
                     <input // Input voor kenteken
@@ -273,7 +301,7 @@ const EditVehicles = () => {
                     </div>}
                 {formData.vehicleType == "camper" &&
                     <div className="form-group">
-                        <label htmlFor="transmission">Versnellingsbak:</label>
+                        <label className='tekst' htmlFor="transmission">Versnellingsbak:</label>
                         <input // Input voor versnellingsbak bij camper
                             name="camperTransmissionType"
                             value={formData.transmissionType}
@@ -317,9 +345,10 @@ const EditVehicles = () => {
                 </div>
                 <button type="submit">Opslaan</button>
                 <button onClick={handleClick}>Voertuig toevoegen</button>
-            </form>
+            </form >
             <label htmlFor="search">Zoeken</label>
             <input // Input om te zoeken op kenteken, merk, model of merk en model 
+                className="form"
                 name="search"
                 value={searchQuery}
                 onChange={handleSearch}
@@ -327,7 +356,7 @@ const EditVehicles = () => {
             />
 
             <div
-                style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}
+                className='Test'style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}
             >
                 <table>
                     <thead>

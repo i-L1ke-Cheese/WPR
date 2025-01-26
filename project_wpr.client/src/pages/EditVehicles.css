@@ -28,7 +28,16 @@ form {
     form button {
         margin-right: 10px;
         padding: 5px;
+        border-color: black;
     }
+.form {
+    border: 1px solid black; /* Set the border color to black */
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 
 table {
     width: 100%;
