@@ -40,10 +40,10 @@ public class Program {
         var app = builder.Build();
 
         // Apply pending migrations
-        using (var scope = app.Services.CreateScope()) {
-            var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-            dbContext.Database.Migrate();
-        }
+        //using (var scope = app.Services.CreateScope()) {
+        //    var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
+        //    dbContext.Database.Migrate();
+        //}
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment()) {
@@ -61,7 +61,8 @@ public class Program {
         app.MapFallbackToFile("/index.html");
 
         // 1x runnen als de database leeg is
-        //using (var scope = app.Services.CreateScope()) {
+        //using (var scope = app.Services.CreateScope())
+        //{
         //    var dbc = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
         //    DataSeeder.Run(dbc);
         //}
