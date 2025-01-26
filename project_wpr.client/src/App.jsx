@@ -1,4 +1,3 @@
-
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Header from './components/Header';
@@ -22,8 +21,14 @@ import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
 import Subscriptions from './pages/Subscriptions';
 
+/**
+ * App component is de hoofdcomponent van de applicatie.
+ * @returns
+ */
 function App() {
-
+    /**
+     * useEffect hook die de showAccountDropdown functie van topBTNmanager aanroept.
+     */
     useEffect(() => {
         topBTNmanager.showAccountDropdown();
     })

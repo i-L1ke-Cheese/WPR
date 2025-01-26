@@ -37,6 +37,9 @@ const EditRentalRequest = () => {
         getUserInfo();
     }, [id]);
 
+    /**
+     * Fetch the current user's id
+     */
     useEffect(() => {
         if (!(rentalRequest.privateRenterId == null)) {
             setRentalUserId(rentalRequest.privateRenterId);
@@ -45,6 +48,9 @@ const EditRentalRequest = () => {
         }
     }, [rentalRequest]);
 
+    /**
+     * Fetch the current user's id
+     */
     const getUserInfo = async () => {
         try {
             const response = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
@@ -64,7 +70,10 @@ const EditRentalRequest = () => {
         }
     }
 
-
+    /**
+     * Handle form input changes
+     * @param {any} e
+     */
     const handleChange = (e) => {
         const { name, value } = e.target;
         setRentalRequest((prevRequest) => ({
@@ -73,6 +82,10 @@ const EditRentalRequest = () => {
         }));
     };
 
+    /**
+     * Handle form submit
+     * @param {any} e
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -104,6 +117,9 @@ const EditRentalRequest = () => {
         }
     };
 
+    /**
+     * Handle dashboard button click
+     */
     const handleDashboardClick = () => {
         navigate("/dashboard");
     };

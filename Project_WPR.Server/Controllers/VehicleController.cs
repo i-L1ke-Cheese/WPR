@@ -91,6 +91,11 @@ namespace Project_WPR.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Adds the vehicle.
+        /// </summary>
+        /// <param name="vehicleDto">The vehicle dto.</param>
+        /// <returns></returns>
         [HttpPost("voeg-voertuig-toe")]
         public async Task<ActionResult<data.Vehicle>> AddVehicle([FromBody] data.DTOs.VehicleDTO vehicleDto)
         {
@@ -175,6 +180,12 @@ namespace Project_WPR.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the vehicle.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="vehicle">The vehicle.</param>
+        /// <returns></returns>
         [HttpPut("update-voertuig/{id}")]
         public async Task<IActionResult> UpdateVehicle(int id, [FromBody] data.Vehicle vehicle)
         {
@@ -232,6 +243,11 @@ namespace Project_WPR.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes the vehicle.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpDelete("verwijder-voertuig/{id}")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {

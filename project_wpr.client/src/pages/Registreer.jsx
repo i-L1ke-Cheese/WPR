@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Login.css';
 
+/**
+ * Registreer component toont een formulier voor het registreren van een nieuwe gebruiker.
+ * @returns
+ */
 function Registreer() {
     const navigate = useNavigate();
 
@@ -12,7 +16,10 @@ function Registreer() {
     const [dateOfBirth, setdateOfBirth] = useState("");
     const [renter, setRenter] = useState("")
 
-
+    /**
+     * handleSubmit functie stuurt een POST-verzoek naar de API om een nieuwe gebruiker te registreren.
+     * @param {any} event
+     */
     const handleSubmit = async (event) => {
         event.preventDefault();
 
@@ -41,6 +48,11 @@ function Registreer() {
         }
     };
 
+    /**
+     * handleUserTypeSelection functie verandert de geselecteerde gebruikerstypeknop en zet de renterstate.
+     * @param {any} userType
+     * @param {any} e
+     */
     const handleUserTypeSelection = async (userType, e) => {
         setRenter(userType);
         const clickedButton = e.currentTarget;
@@ -54,6 +66,9 @@ function Registreer() {
         });
     };
 
+    /**
+     * useEffect haalt de renterstate op en zet deze op "Private" bij het laden van de pagina.
+     */
     useEffect(() => {
         setRenter("Private");
     }, []);

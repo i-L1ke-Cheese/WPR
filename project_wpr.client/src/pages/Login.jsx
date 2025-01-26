@@ -4,11 +4,20 @@ import './Login.css';
 import * as topBTNmanager from './updateTopBtns.js'
 
 // https://uiverse.io/nathann09/bad-hound-78 Gebruikt voor inspiratie en hulp om frontend mooi te maken
+
+/**
+ * Component for the login page.
+ * @returns
+ */
 function Login() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
 
+	/**
+	 * Handles the form submit event.
+	 * @param {any} e
+	 */
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -36,6 +45,9 @@ function Login() {
 		}
 	};
 
+	/**
+	 * Checks if the user is already logged in.
+	 */
 	const check = async () => {
 		const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
 			method: "GET",
@@ -50,6 +62,9 @@ function Login() {
 		}
 	}
 
+	/**
+	 * useEffect hook to check if the user is already logged in.
+	 */
 	useEffect(() => {
 		check();
 	}, []);

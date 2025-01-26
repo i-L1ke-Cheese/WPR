@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './DashboardFrontoffice.css';
 import { Link, useNavigate } from 'react-router-dom';
 
-function DashboardFrontOffice() {
+function DashboardVehicleManager() {
     const [rentalRequests, setRentalRequests] = useState([]);
     const [companyName, setCompanyName] = useState();
     const navigate = useNavigate();
@@ -139,4 +139,4 @@ function DashboardFrontOffice() {
     );
 }
 
-export default DashboardFrontOffice;
+export default DashboardVehicleManager;

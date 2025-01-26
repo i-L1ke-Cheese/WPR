@@ -17,6 +17,11 @@ namespace Project_WPR.Server.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Gets the available cars.
+        /// </summary>
+        /// <param name="date">The date.</param>
+        /// <returns></returns>
         [HttpGet("beschikbare-voertuigen")]
         public IActionResult GetAvailableCars([FromQuery] DateTime? date)
         {

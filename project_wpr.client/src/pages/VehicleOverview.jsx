@@ -35,6 +35,9 @@ function VehicleOverview() {
     const navigate = useNavigate();
     var selectedVehicle = null;
 
+    /**
+     * useEffect hook om de gebruikersrol op te halen uit de API.
+     */
     useEffect(() => {
         const getUserInfo = async () => {
             const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {

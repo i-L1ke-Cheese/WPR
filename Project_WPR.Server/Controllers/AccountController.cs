@@ -31,6 +31,10 @@ namespace Project_WPR.Server.Controllers
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Gets the current account.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("getCurrentAccount")]
         public async Task<IActionResult> getCurrentAccount()
         {
@@ -193,6 +197,11 @@ namespace Project_WPR.Server.Controllers
             });
         }
 
+        /// <summary>
+        /// Updates the user.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
         [HttpPost("updateUser")]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDTO request)
         {
@@ -225,29 +234,11 @@ namespace Project_WPR.Server.Controllers
             return Ok(new { Message = "Gegevens succesvol bijgewerkt" });
         }
 
-        [HttpPost("changePhoneNr")]
-        public async Task<IActionResult> changePhoneNr([FromBody] changePhoneNumberDTO request)
-        {
-            var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (userID == null)
-            {
-                return Unauthorized(new { Msg = "no user logged in" });
-            }
-            var user = await _userManager.FindByIdAsync(userID);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            if (request.oldPhoneNumber == user.PhoneNumber)
-            {
-                user.PhoneNumber = request.newPhoneNumber;
-                _dbContext.SaveChanges();
-            }
-
-            return Ok(new { Message = "Phone number changed.", PhoneNumber = request.newPhoneNumber });
-        }
-
+        /// <summary>
+        /// Gets the user.
+        /// </summary>
+        /// <param name="userID">The user identifier.</param>
+        /// <returns></returns>
         [HttpGet("getUser")]
         public async Task<IActionResult> getUser([FromQuery] string userID)
         {

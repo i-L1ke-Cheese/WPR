@@ -7,7 +7,6 @@ import { Link, useNavigate } from 'react-router-dom';
  * @returns {JSX.Element} Het gerenderde component dat het dashboard toont.
  */
 function DashboardBackoffice() {
-
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -20,6 +19,11 @@ function DashboardBackoffice() {
     const [message, setMessage] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
 
+    /**
+     * Handles input change events and updates the form data state.
+     * 
+     * @param {React.ChangeEvent<HTMLInputElement | HTMLSelectElement>} e - The change event.
+     */
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -28,6 +32,12 @@ function DashboardBackoffice() {
         }));
     };
 
+    /**
+     * Handles form submission, performs validation, and sends a registration request.
+     * 
+     * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
+     * @returns {Promise<void>}
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
 

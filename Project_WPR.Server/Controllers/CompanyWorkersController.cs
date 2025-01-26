@@ -21,7 +21,12 @@ namespace Project_WPR.Server.Controllers
             _logger = logger;
         }
 
-        // Pakt alle medewerkers van een bedrijf
+        // Pakt alle medewerkers van een bedrijf        
+        /// <summary>
+        /// Gets the company workers.
+        /// </summary>
+        /// <param name="companyIDset">The company i dset.</param>
+        /// <returns></returns>
         [HttpGet("GetCompanyWorkers")]
         public async Task<IActionResult> GetCompanyWorkers(int companyIDset)
         {

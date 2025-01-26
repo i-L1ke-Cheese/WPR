@@ -24,6 +24,11 @@ namespace Project_WPR.Server.Controllers
             _context = dbContext;
         }
 
+        /// <summary>
+        /// Gets the vehicle reservations.
+        /// </summary>
+        /// <param name="vehicleId">The vehicle identifier.</param>
+        /// <returns></returns>
         [HttpGet("reserveringen-van-auto")]
         public async Task<IActionResult> getVehicleReservations([FromQuery] int vehicleId) {
             var reservations = await _context.RentalRequests.Where(rr => rr.VehicleId == vehicleId).Select(rr => new { StartDate = rr.StartDate, EndDate = rr.EndDate }).ToListAsync();
@@ -35,6 +40,10 @@ namespace Project_WPR.Server.Controllers
             return Ok(reservations);
         }
 
+        /// <summary>
+        /// Gets all vehicle reservations.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("reserveringen-van-alle-autos")]
         public async Task<IActionResult> getAllVehicleReservations()
         {
@@ -48,6 +57,10 @@ namespace Project_WPR.Server.Controllers
             return Ok(reservations);
         }
 
+        /// <summary>
+        /// Gets the vehicle reservations of current user.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("reserveringen-van-gebruiker")]
         [Authorize]
         public async Task<IActionResult> getVehicleReservationsOfCurrentUser() {
@@ -111,6 +124,10 @@ namespace Project_WPR.Server.Controllers
             return Ok(reservations);
         }
 
+        /// <summary>
+        /// Gets the vehicle reservations of current company.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("reserveringen-van-company")]
         [Authorize]
         public async Task<IActionResult> getVehicleReservationsOfCurrentCompany() {
@@ -170,6 +187,11 @@ namespace Project_WPR.Server.Controllers
             return Ok(reservations);
         }
 
+        /// <summary>
+        /// Gets the rental request.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRentalRequest(int id)
         {
@@ -211,6 +233,11 @@ namespace Project_WPR.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Rentals the specified request.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
         [HttpPost("huur-auto")]
         public async Task<IActionResult> Rental([FromBody] RentalRequestDTO request) {
 
@@ -330,6 +357,12 @@ namespace Project_WPR.Server.Controllers
             return Ok(new { message = $"{vehicle.Brand} {vehicle.Type} is verhuurd." });
         }
 
+        /// <summary>
+        /// Updates the rental request.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="rentalRequestDTO">The rental request dto.</param>
+        /// <returns></returns>
         [HttpPut("update-huuraanvraag/{id}")]
         public async Task<IActionResult> UpdateRentalRequest(int id, [FromBody] RentalRequestDTO rentalRequestDTO)
         {
@@ -363,6 +396,11 @@ namespace Project_WPR.Server.Controllers
             return Ok(new { message = "Damage report updated successfully.", rentalRequest });
         }
 
+        /// <summary>
+        /// Deletes the rental request.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpDelete("verwijder-huuraanvraag/{id}")]
         public async Task<IActionResult> DeleteRentalRequest(int id)
         {

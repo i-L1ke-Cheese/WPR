@@ -20,6 +20,11 @@ namespace Project_WPR.Server.Controllers {
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Updates the privacy policy.
+        /// </summary>
+        /// <param name="contents">The contents.</param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut("UpdatePrivacyPolicy")]
         public async Task<IActionResult> UpdatePrivacyPolicy([FromBody] string contents) {
@@ -49,6 +54,11 @@ namespace Project_WPR.Server.Controllers {
             return Ok();
 
         }
+
+        /// <summary>
+        /// Gets the privacy policy.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("get")]
         public async Task<IActionResult> GetPrivacyPolicy() {
             var contents = await _dbContext.PrivacyPolicyContent.SingleOrDefaultAsync();

@@ -49,7 +49,9 @@ const SettingsRenter = () => {
             navigate("/login");
         }
     }
-
+    /**
+     * Zorgt ervoor dat de gegevens van de gebruiker worden opgehaald wanneer de pagina wordt geladen.
+     */
     useEffect(() => {
         getUserInfo();
     }, []);

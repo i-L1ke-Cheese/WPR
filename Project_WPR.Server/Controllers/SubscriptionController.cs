@@ -17,6 +17,10 @@ namespace Project_WPR.Server.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Gets the subscription details.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("GetSubscriptionDetails")]
         public async Task<IActionResult> GetSubscriptionDetails()
         {
@@ -30,6 +34,11 @@ namespace Project_WPR.Server.Controllers
             return Ok(subscriptions);
         }
 
+        /// <summary>
+        /// Posts the subscription details.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
         [HttpPost("PostSubscriptionDetails")]
         public async Task<IActionResult> PostSubscriptionDetails([FromBody] SubscriptionDTO request)
         {
