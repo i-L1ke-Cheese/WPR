@@ -127,4 +127,8 @@ namespace Project_WPR.Server.data {
         public int MaxVehiclesPerCompany { get; set; }
         public ICollection<RentalRequest> ActiveRentalRequests { get; set; } = new List<RentalRequest>();
     }
+    public class PrivacyPolicyContent {
+        public int Id { get; set; }
+        public string Content { get; set; }
+    }
 }

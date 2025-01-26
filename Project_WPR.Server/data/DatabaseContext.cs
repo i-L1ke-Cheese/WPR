@@ -16,6 +16,8 @@ namespace Project_WPR.Server.data {
         DbSet<PrivateRenter> PrivateRenters { get; set; }
         DbSet<RentalRequest> RentalRequests { get; set; }
         DbSet<VehicleManager> vehicleManagers { get; set; }
+        DbSet<PrivacyPolicyContent> PrivacyPolicyContent { get; set; }
+
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
         EntityEntry Entry(object entity);
     }
@@ -76,6 +78,7 @@ namespace Project_WPR.Server.data {
         public DbSet<PrivateRenter> PrivateRenters { get; set; }
         public DbSet<RentalRequest> RentalRequests { get; set; }
         public DbSet<VehicleManager> vehicleManagers { get; set; }
+        public DbSet<PrivacyPolicyContent> PrivacyPolicyContent { get; set; }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
