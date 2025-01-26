@@ -276,7 +276,7 @@ function DashboardCompanyAdmin() {
     };
 
     return (
-        <div className='Test'>
+        <div>
 
             <form className='Test' style={{ textAlign: 'center' }} onSubmit={handleSubmit}>
                 <h2>Maak een zakelijke account aan</h2>
@@ -327,7 +327,7 @@ function DashboardCompanyAdmin() {
 
 
 
-                    <label>AChternaam:</label>
+                    <label>Achternaam:</label>
                     <input
                         type="text"
                         name="lastName"
@@ -350,7 +350,7 @@ function DashboardCompanyAdmin() {
                 </div>
                 <div className='Test'>
                     <form style={{ alignContent: '' }} onSubmit={handleDelete}>
-                        <p style={{ paddingTop: '20px' }}>Verwijder een werknemer</p>
+                        <p style={{ paddingTop: '20px', color: "black"}}>Verwijder een werknemer</p>
                         <div>
                             <label htmlFor="deleteBusinessRenterId">Gebruiker ID: </label>
                             <input

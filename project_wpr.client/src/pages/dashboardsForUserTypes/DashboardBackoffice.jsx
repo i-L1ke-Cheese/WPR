@@ -116,93 +116,99 @@ function DashboardBackoffice() {
 
     return (
         <div>
-        <div className='Test'>
-            <h3 style={{ color: 'black', textAlign: "center" }}>Maak een nieuwe werknemer aan</h3>
-            <br />
-            <form className="noMargin" onSubmit={handleSubmit}>
-                <div className='inline-form'>
-                    <div>
-                        <label>Email:</label>
-                        <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                        />
+            <div className='Test'>
+                <h3 style={{ color: 'black', textAlign: "center" }}>Maak een nieuwe werknemer aan</h3>
+                <br />
+                <form className="noMargin" onSubmit={handleSubmit}>
+                    <div className='inline-form'>
+                        <div>
+                            <label htmlFor="email">Email:</label>
+                            <input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="password">Wachtwoord:</label>
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="firstName">Voornaam:</label>
+                            <input
+                                type="text"
+                                id="firstName"
+                                name="firstName"
+                                value={formData.firstName}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="lastName">Achternaam:</label>
+                            <input
+                                type="text"
+                                id="lastName"
+                                name="lastName"
+                                value={formData.lastName}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div className='inline-form'>
+                        <div>
+                            <label htmlFor="dateOfBirth">Geboortedatum:</label>
+                            <input
+                                type="date"
+                                id="dateOfBirth"
+                                name="dateOfBirth"
+                                value={formData.dateOfBirth}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="department">Functie:</label>
+                            <select
+                                id="department"
+                                name="department"
+                                value={formData.department}
+                                onChange={handleChange}
+                                required
+                            >
+                                <option value="">--Selecteer Functie--</option>
+                                <option value="Frontoffice">Front Office</option>
+                                <option value="Backoffice">Back Office</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div>
-                        <label>Wachtwoord:</label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
+                    <button type="submit">Registreer</button>
 
-                    <div>
-                        <label>Voornaam:</label>
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label>Achternaam:</label>
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                </div>
-                <div className='inline-form'>
-                    <div>
-                        <label>Geboortedatum:</label>
-                        <input
-                            type="date"
-                            name="dateOfBirth"
-                            value={formData.dateOfBirth}
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label>Functie:</label>
-                        <select
-                            name="department"
-                            value={formData.department}
-                            onChange={handleChange}
-                            required
-                        >
-                            <option value="">--Selecteer Functie--</option>
-                            <option value="Frontoffice">Front Office</option>
-                            <option value="Backoffice">Back Office</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button type="submit">Registreer</button>
-
-                <p style={{ color: isSuccess ? "green" : "red" }}>{message}</p>
-            </form>
-        </div>
-        <div className="Test">
-            <h3 style={{ color: 'black', textAlign: "center" }}>Voertuigen</h3>
-            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
-                <button onClick={handleEditVehiclesClick}>Voertuigen aanpassen</button>
+                    <p style={{ color: isSuccess ? "green" : "red" }}>{message}</p>
+                </form>
             </div>
-        </div>
+            <div className="Test">
+                <h3 style={{ color: 'black', textAlign: "center" }}>Voertuigen</h3>
+                <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                    <button onClick={handleEditVehiclesClick}>Voertuigen aanpassen</button>
+                </div>
+            </div>
         </div>
     );
 }

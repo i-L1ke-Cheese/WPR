@@ -176,7 +176,7 @@ function Subscriptions() {
                 display: 'flex', flexWrap: 'wrap', marginTop: '20px', height: "auto",
                 width: "auto"
             }}>
-                <h2 className='tekst' style={{ textAlign: 'center' }}>Uw huidige subscription voor {companyName} is {currentSub} u kunt het hier veranderen</h2>
+                <h2 className='tekst' style={{ textAlign: 'center' }}>Uw huidige subscription voor {companyName} is: {currentSub}. Klik hieronder om te wijzigen.</h2>
                 {subscriptions.map((subscriptionInfo, index) => (
                     <div
                         key={index}
