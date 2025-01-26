@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
+/**
+ * CreateCompany component
+ * @returns
+ */
 function CreateCompany() {
     const navigate = useNavigate();
     const [name, setName] = useState("");
@@ -11,6 +15,9 @@ function CreateCompany() {
     const [bedrijfsNaam, setBedrijfsNaam] = useState("");
     const [email, setMail] = useState("");
 
+    /**
+     * Get user info
+     */
     const getUserInfo = async () => {
         const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
             method: "GET",
@@ -33,10 +40,17 @@ function CreateCompany() {
         }
     }
 
+    /**
+     * useEffect to get the user info
+     */
     useEffect(() => {
         getUserInfo();
     }, []);
 
+    /**
+     * Handle submit to create a company and send an email
+     * @param {any} event
+     */
     const handleSubmit = async (event) => {
         event.preventDefault();
 

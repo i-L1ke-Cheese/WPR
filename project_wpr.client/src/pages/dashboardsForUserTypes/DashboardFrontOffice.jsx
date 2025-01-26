@@ -19,7 +19,9 @@ function DashboardFrontOffice() {
 
     const currentDate = new Date();
 
-    // Fetch all rental requests
+    /**
+     * Fetches rental requests and damage reports from the API.
+     */
     useEffect(() => {
         const fetchRentalRequests = async () => {
             try {
@@ -64,7 +66,11 @@ function DashboardFrontOffice() {
         handleViewDamageReports();
     }, []);
 
-    // Create or update damage report
+    /**
+     * Handles form submission, performs validation, and sends a request to the API.
+     * @param {any} e
+     * @returns
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -151,6 +157,10 @@ function DashboardFrontOffice() {
         }
     };
 
+    /**
+     * Fetches damage reports from the API.
+     * @param {any} vehicleId
+     */
     const handleViewDamageReports = async (vehicleId) => {
         // Fetch damage reports
         try {
@@ -183,6 +193,10 @@ function DashboardFrontOffice() {
         }
     };
 
+    /**
+     * Handles the deletion of a damage report.
+     * @param {any} reportId
+     */
     async function handleDeleteDamageReport(reportId) {
         try {
             const response = await fetch(`https://localhost:7289/api/DamageReport/delete-schademelding/${reportId}`, {
@@ -208,6 +222,9 @@ function DashboardFrontOffice() {
         }
     }
 
+    /**
+    * Handles the editing of a rental request.
+    */
     const handleEditRentalRequest = (request) => {
         setRentalRequestId(request.id);
         setCarId(request.vehicleId);
@@ -219,6 +236,9 @@ function DashboardFrontOffice() {
         setEndDate(request.endDate);
     };
 
+    /**
+    * Handles the editing of a damage report.
+    */
     const handleEditDamageReport = (report) => {
         setCarId(report.vehicleId);
         setAction('editDamageReport');
@@ -322,15 +342,15 @@ function DashboardFrontOffice() {
                         .filter(request => new Date(request.endDate) >= currentDate)
                         .sort((a, b) => new Date(a.startDate) - new Date(b.startDate)) // Sort rental requests by start date
                         .map(request => (
-                        <tr key={request.id}>
-                            <td>{request.vehicleBrand} {request.vehicleType} ({request.vehicleId})</td>
-                            <td>{request.startDate}</td>
-                            <td>{request.endDate}</td>
-                            <td>{request.renterFirstName} {request.renterLastName}</td>
-                            <td>{request.status}</td>{/* STATUS NOG TOEVOEGEN*/}
-                            <td><button onClick={() => handleEditRentalRequest(request)}>Acties</button></td>
-                        </tr>
-                    ))}
+                            <tr key={request.id}>
+                                <td>{request.vehicleBrand} {request.vehicleType} ({request.vehicleId})</td>
+                                <td>{request.startDate}</td>
+                                <td>{request.endDate}</td>
+                                <td>{request.renterFirstName} {request.renterLastName}</td>
+                                <td>{request.status}</td>{/* STATUS NOG TOEVOEGEN*/}
+                                <td><button onClick={() => handleEditRentalRequest(request)}>Acties</button></td>
+                            </tr>
+                        ))}
                 </tbody>
             </table>
 

@@ -12,6 +12,9 @@ function DashboardBusinessRenter() {
     const [reservations, setReservations] = useState(null);
     const [hasReservations, setHasReservations] = useState(false);
 
+    /**
+     * Fetches the vehicle reservations of the current user.
+     */
     const fetchVehicleReservations = async () => {
         try {
             const response = await fetch(`https://localhost:7289/api/RentalRequest/reserveringen-van-gebruiker`, {
@@ -34,6 +37,9 @@ function DashboardBusinessRenter() {
         }
     }
 
+    /**
+     * Fetches the user information of the current user.
+     */
     const getUserInfo = async () => {
         const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
             method: "GET",
@@ -49,6 +55,10 @@ function DashboardBusinessRenter() {
         }
     }
 
+    /**
+     * Deletes a reservation by its ID.
+     * @param {any} reservationId
+     */
     async function deleteReservation(reservationId) {
         try {
             const response = await fetch(`https://localhost:7289/api/RentalRequest/verwijder-huuraanvraag/${reservationId}`, {
@@ -73,17 +83,20 @@ function DashboardBusinessRenter() {
         }
     }
 
+    /**
+     * Fetches the vehicle reservations and user information when the component is mounted.
+     */
     useEffect(() => {
         fetchVehicleReservations();
         getUserInfo();
     }, []);
 
+    /**
+     * Handles the deletion of a reservation.
+     * @param {any} id
+     */
     const handleDeleteReservation = (id) => {
         deleteReservation(id);
-    }
-
-    const handleEditUserDataClick = () => {
-        navigate('/edituserdata');
     }
 
     return (

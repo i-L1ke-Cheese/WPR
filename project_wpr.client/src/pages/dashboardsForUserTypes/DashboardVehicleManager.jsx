@@ -22,7 +22,9 @@ function DashboardVehicleManager() {
 
     const currentDate = new Date();
 
-    // Fetch all rental requests
+    /**
+     * Fetches rental requests and damage reports when the component mounts.
+     */
     useEffect(() => {
         const fetchRentalRequests = async () => {
             try {
@@ -69,7 +71,11 @@ function DashboardVehicleManager() {
         handleViewDamageReports();
     }, []);
 
-    // Create or update damage report
+    /**
+     * Handles form submission and sends a request to the API to report damage, edit a damage report or edit a rentalRequest, depending on the action.
+     * @param {any} e
+     * @returns
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -154,6 +160,10 @@ function DashboardVehicleManager() {
         }
     };
 
+    /**
+     * Fetches damage reports and vehicle details.
+     * @param {any} vehicleId
+     */
     const handleViewDamageReports = async (vehicleId) => {
         // Fetch damage reports
         try {
@@ -186,6 +196,10 @@ function DashboardVehicleManager() {
         }
     };
 
+    /**
+     * Handles the deletion of a damage report.
+     * @param {any} reportId
+     */
     async function handleDeleteDamageReport(reportId) {
         try {
             const response = await fetch(`https://localhost:7289/api/DamageReport/delete-schademelding/${reportId}`, {
@@ -211,6 +225,9 @@ function DashboardVehicleManager() {
         }
     }
 
+    /**
+     * Handles the editing of a rental request.
+     */
     const handleEditRentalRequest = (request) => {
         setRentalRequestId(request.id);
         setCarId(request.vehicleId);
@@ -220,6 +237,9 @@ function DashboardVehicleManager() {
         setRentalRequestFarthestDestination(request.farthestDestination);
     };
 
+    /**
+     * Handles the editing of a damage report.
+     */
     const handleEditDamageReport = (report) => {
         setCarId(report.vehicleId);
         setAction('editDamageReport');

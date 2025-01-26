@@ -20,6 +20,9 @@ function Dashboard() {
 
     const [userType, setUserType] = useState("");
 
+    /**
+     * Haal de gebruikersinformatie op en bepaal welk dashboard moet worden weergegeven.
+     */
     const getUserInfo = async () => {
         const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
             method: "GET",
@@ -49,6 +52,9 @@ function Dashboard() {
 
     }
 
+    /**
+     * Haal de gebruikersinformatie op bij het laden van de pagina.
+     */
     useEffect(() => {
         getUserInfo();
     }, []);

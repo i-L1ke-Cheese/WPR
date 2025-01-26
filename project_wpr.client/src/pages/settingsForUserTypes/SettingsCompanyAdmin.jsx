@@ -53,6 +53,9 @@ const SettingsCompanyAdmin = () => {
         }
     }
 
+    /**
+     * Fetches the current company information from the server.
+     */
     const getCompanyInfo = async () => {
         const response = await fetch(`https://localhost:7289/api/Company/getCurrentCompany?companyId=${userData.companyId}`, {
             method: "GET",
@@ -75,11 +78,16 @@ const SettingsCompanyAdmin = () => {
         }
     }
 
-
+    /**
+     * Fetches the user information when the component mounts.
+     */
     useEffect(() => {
         getUserInfo();
     }, []);
 
+    /**
+     * Fetches the company information when the userData state is updated.
+     */
     useEffect(() => {
         if (userData.companyId !== 0) {
             getCompanyInfo();
@@ -98,6 +106,10 @@ const SettingsCompanyAdmin = () => {
         });
     };
 
+    /**
+     * Handles input changes and updtes the companyData state.
+     * @param {any} e
+     */
     const handleCompanyChange = (e) => {
         const { name, value } = e.target;
         setCompanyData({

@@ -15,6 +15,9 @@ function Dashboard() {
 
     const [userType, setUserType] = useState("");
 
+    /**
+     * getUserInfo haalt de informatie van de ingelogde gebruiker op en controleert of de gebruiker is ing
+     */
     const getUserInfo = async () => {
         const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
             method: "GET",
@@ -39,6 +42,9 @@ function Dashboard() {
         }
     }
 
+    /**
+     * useEffect haalt de gebruikersinformatie op zodra de component is gemount
+     */
     useEffect(() => {
         getUserInfo();
     }, []);

@@ -10,6 +10,9 @@ import * as topBTNmanager from './updateTopBtns.js'
 function Logout() {
     const navigate = useNavigate();
 
+    /**
+     * Voert de uitlogactie uit door een verzoek naar de API te sturen.
+     */
     useEffect(() => {
         const logout = async () => {
             try {
