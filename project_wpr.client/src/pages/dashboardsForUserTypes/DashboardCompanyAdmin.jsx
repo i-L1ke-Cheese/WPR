@@ -70,12 +70,12 @@ function DashboardCompanyAdmin() {
             });
             if (response.ok) {
                 const data = await response.json();
-                setUsers(data);
-                const tempData = {};
-                data.forEach(user => {
-                    tempData[user.id] = user.maxVehiclesPerBusinessRenter;
-                });
-                setTempMaxVehicles(tempData);
+                const combinedArray = [
+                    ...(data.businessRenters || []),
+                    ...(data.vehicleManagers || [])
+                ];
+                console.log(combinedArray);
+                setUsers(combinedArray);
             } else {
                 alert('Failed to fetch users');
             }
@@ -350,9 +350,12 @@ function DashboardCompanyAdmin() {
                             <p><strong>Last Name:</strong> {user.lastName}</p>
                             <p><strong>Company Name:</strong> {user.companyName}</p>
                             <p><strong>Email:</strong> {user.email}</p>
-                            <p onClick={() => setEditUserId(user.id)} style={{ cursor: 'pointer' }}>
-                                <strong>Max Vehicles Per Business Renter: </strong> {user.maxVehiclesPerBusinessRenter}
-                            </p>
+                            <p><strong>Type:</strong> {user.userRole}</p>
+                            {user.userRole == "BusinessRenter" &&
+                                <p onClick={() => setEditUserId(user.id)} style={{ cursor: 'pointer' }}>
+                                    <strong>Max Vehicles Per Business Renter: </strong> {user.maxVehiclesPerBusinessRenter}
+                                </p>
+                            }
                             {editUserId === user.id && (
                                 <div>
                                     <input
