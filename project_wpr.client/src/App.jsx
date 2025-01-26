@@ -58,7 +58,7 @@ function App() {
         <Router>
             <div className="App">
                 <Header />
-                <div className="main-layout">
+                <div className="main-layout"  >
                     {/* Sidebar */}
                     <div className="sidebar">
                         <nav>
@@ -74,7 +74,7 @@ function App() {
                         </nav>
                     </div>
                     {/* Main content */}
-                    <div className="content">
+                    <div className="content" > 
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/overview" element={<VehicleOverview />} />
