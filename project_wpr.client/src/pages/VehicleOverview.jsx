@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './VehicleOverview.css';
-
 /**
  * VehicleOverview component haalt alle voertuigen op uit de database en toont deze.
  * Gebruikers kunnen op een voertuig klikken om naar de detailpagina van dat voertuig te navigeren.
@@ -242,15 +241,18 @@ function VehicleOverview() {
 
     return (
         <div className="vehicle-overview">
-            <h2>Vehicle Overview</h2>
-            <div className="filter-container">
+            <h2 style={{textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>Vehicle Overview</h2>
+
+
+            <div className="border" style={{ paddingTop: '20px' }}>
                 <label htmlFor="vehicleType">Filter op type voertuig: </label>
-                <select id="vehicleType" value={filterVehicleType} onChange={handleFilterVehicleTypeChange}>
+                <select id="vehicleType" value={filterVehicleType} onChange={handleFilterVehicleTypeChange} >
                     <option value="">Alle voertuigen</option>
                     <option value="car">Auto</option>
                     <option value="camper">Camper</option>
                     <option value="caravan">Caravan</option>
-                </select> <br />
+                </select> <br style={{ paddingTop: '20px' }} />
+
                 <label htmlFor="brand">Filter op merk: </label>
                 <select id="brand" value={filterBrand} onChange={handleFilterBrandChange}>
                     <option value="">Alle merken</option>
@@ -288,9 +290,9 @@ function VehicleOverview() {
                 /> <br />
                 <button onClick={handleResetFilters}>Reset filters</button>
             </div>
-            <div className="container">
+            <div className="container" style={{ paddingTop: '20px' ,textShadow: '2px 2px 4px rgba(0, 0, 0, 0.25)' }}>
                 {filteredVehicles.map(vehicle => (
-                    <div style={{ border: '1px solid black', cursor: 'pointer' }} key={vehicle.id}>
+                    <div style={{ border: '1px solid black', cursor: 'pointer', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)', borderRadius: '10px' }} key={vehicle.id} >
                         <img
                             src={'Standaardauto.jpg'} //Hier moet de eerste foto komen uit de database
                             alt={vehicle.brand + " " + vehicle.type}

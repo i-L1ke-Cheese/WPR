@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import './EditVehicles.css';
+import './Layout.css'
 
 /**
  * Component for editing vehicles.
@@ -190,7 +191,7 @@ const EditVehicles = () => {
     return (
         <div className="vehicle-page">
             <h2>Voertuigbeheer</h2>
-            <form onSubmit={handleSubmit}>
+            <form className='border' onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="licensePlate">Kenteken:</label>
                     <input // Input voor kenteken
@@ -273,7 +274,7 @@ const EditVehicles = () => {
                     </div>}
                 {formData.vehicleType == "camper" &&
                     <div className="form-group">
-                        <label htmlFor="transmission">Versnellingsbak:</label>
+                        <label className='tekst' htmlFor="transmission">Versnellingsbak:</label>
                         <input // Input voor versnellingsbak bij camper
                             name="camperTransmissionType"
                             value={formData.transmissionType}
@@ -317,9 +318,10 @@ const EditVehicles = () => {
                 </div>
                 <button type="submit">Opslaan</button>
                 <button onClick={handleClick}>Voertuig toevoegen</button>
-            </form>
+            </form >
             <label htmlFor="search">Zoeken</label>
             <input // Input om te zoeken op kenteken, merk, model of merk en model 
+                className="form"
                 name="search"
                 value={searchQuery}
                 onChange={handleSearch}
@@ -327,7 +329,7 @@ const EditVehicles = () => {
             />
 
             <div
-                style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}
+                className='Test'style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}
             >
                 <table>
                     <thead>

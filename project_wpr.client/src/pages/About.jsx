@@ -7,7 +7,7 @@ import './About.css';
  */
 function About() {
     return (
-        <div className='div'>
+        <div className='Test' style={{margin: 'auto'}} >
             <h2>Over CarAndAll</h2>
             <p className='tekst'>
                 Bij CarAndAll draait alles om mobiliteit. Wij zijn de partner voor iedereen die op zoek is naar flexibele, betrouwbare en betaalbare oplossingen voor voertuigverhuur. Of u nu een auto nodig heeft om een project uit te voeren, een camper om te touren door Nederland, of een caravan voor een vakantie op de camping, wij staan voor u klaar.
