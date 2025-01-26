@@ -13,15 +13,38 @@ function DashboardFrontOffice() {
     const [rentalRequestId, setRentalRequestId] = useState('');
     const [rentalRequestIntention, setRentalRequestIntention] = useState('');
     const [rentalRequestFarthestDestination, setRentalRequestFarthestDestination] = useState('');
-    const [rentalRequestStatus, setRentalRequestStatus] = useState('in behandeling');
+    const [suspectedKm, setSuspectedKm] = useState('');
+    const [rentalRequestStatus, setRentalRequestStatus] = useState();
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
+
+    const [userDepartment, setUserDepartment] = useState('');
 
     const currentDate = new Date();
 
     /**
      * Fetches rental requests and damage reports from the API.
      */
+    useEffect(() => {
+        const fetchUserDepartment = async () => {
+            try {
+                const response = await fetch(`https://localhost:7289/api/Account/getCurrentAccount`, {
+                    credentials: 'include',
+                })
+                if (response.ok) {
+                    const data = await response.json();
+                    setUserDepartment(data.role);
+                } else {
+                    console.error("Failed to fetch user department");
+                }
+            } catch (error) {
+                console.error("Error: ", error);
+            }
+        };
+
+        fetchUserDepartment();
+    }, []);
+
     useEffect(() => {
         const fetchRentalRequests = async () => {
             try {
@@ -36,7 +59,7 @@ function DashboardFrontOffice() {
                             } else if (request.businessRenterId) {
                                 userId = request.businessRenterId;
                             }
-                            console.log(userId, request.businessRenterId, request.privateRenterId);
+                            console.log(data);
                             if (userId) {
                                 const userResponse = await fetch(`https://localhost:7289/api/Account/getUser?userID=${userId}`, {
                                     credentials: 'include',
@@ -47,6 +70,14 @@ function DashboardFrontOffice() {
                                         ...request,
                                         renterFirstName: userData.fName,
                                         renterLastName: userData.lName,
+
+                                        intention: request.intention,
+                                        farthestDestination: request.farthestDestination,
+                                        suspectedKm: request.suspectedKm,
+
+                                        //intention: userDepartment === 'EmployeeBackOffice' ? request.intention : undefined,
+                                        //farthestDestination: userDepartment === 'EmployeeBackOffice' ? request.farthestDestination : undefined,
+                                        //suspectedKm: userDepartment === 'EmployeeBackOffice' ? request.suspectedKm : undefined,
                                     };
                                 }
                             }
@@ -64,7 +95,7 @@ function DashboardFrontOffice() {
 
         fetchRentalRequests();
         handleViewDamageReports();
-    }, []);
+    }, [userDepartment]);
 
     /**
      * Handles form submission, performs validation, and sends a request to the API.
@@ -110,7 +141,7 @@ function DashboardFrontOffice() {
                         vehicleId: carId,
                         description: damageDescription,
                         employeeId: employeeId,
-                        status: status
+                        status: status,
                     }),
                 });
                 const data = await response.json();
@@ -123,6 +154,10 @@ function DashboardFrontOffice() {
                     return (alert('Er is iets mis gegeaan'));
                 }
             } else if (action === 'editRentalRequest') {
+                if (!rentalRequestStatus) {
+                    return alert('Er moet een status worden ingevuld');
+                }
+
                 const response = await fetch(`https://localhost:7289/api/RentalRequest/update-huuraanvraag/${rentalRequestId}`, {
                     method: 'PUT',
                     credentials: "include",
@@ -135,7 +170,8 @@ function DashboardFrontOffice() {
                         intention: rentalRequestIntention,
                         farthestDestination: rentalRequestFarthestDestination,
                         startDate: startDate,
-                        endDate: endDate
+                        endDate: endDate,
+                        suspectedKm: suspectedKm,
                     }),
                 });
                 const data = await response.json();
@@ -234,6 +270,7 @@ function DashboardFrontOffice() {
         setRentalRequestFarthestDestination(request.farthestDestination);
         setStartDate(request.startDate);
         setEndDate(request.endDate);
+        setSuspectedKm(request.suspectedKm);
     };
 
     /**
@@ -314,11 +351,21 @@ function DashboardFrontOffice() {
                             value={rentalRequestStatus}
                             onChange={(e) => setRentalRequestStatus(e.target.value)}
                         >
-                            <option value="in behandeling">In behandeling</option>
-                            <option value="goedgekeurd">Goedgekeurd</option>
-                            <option value="afgekeurd">Afgekeurd</option>
-                            <option value="uitgegeven">Uitgegeven</option>
-                            <option value="ingenomen">Ingenomen</option>
+                            {userDepartment == "EmployeeBackOffice" &&
+                                <>
+                                    <option value="in behandeling">In behandeling</option>
+                                    <option value="goedgekeurd">Goedgekeurd</option>
+                                    <option value="afgekeurd">Afgekeurd</option>
+                                </>
+                            }
+                            {userDepartment == "EmployeeFrontOffice" &&
+                                <>
+                                <option value={null}>-- Kies optie --</option>
+                                <option value="uitgegeven">Uitgegeven</option>
+                                <option value="ingenomen">Ingenomen</option>
+                                </>
+                            }
+          
                         </select>
                     </div>
                 )}
@@ -332,6 +379,13 @@ function DashboardFrontOffice() {
                         <th>Voertuig</th>
                         <th>Van</th>
                         <th>Tot</th>
+                        {userDepartment === 'EmployeeBackOffice' &&
+                            <>
+                                <th>Intentie</th>
+                                <th>Verste bestemming</th>
+                                <th>Verwachte km</th>
+                            </>
+                        }
                         <th>Huurder</th>
                         <th>Status</th>
                         <th>Aanpassen</th>
@@ -339,6 +393,12 @@ function DashboardFrontOffice() {
                 </thead>
                 <tbody>
                     {rentalRequests
+                        .filter(request => {
+                            if (userDepartment === 'EmployeeFrontOffice') {
+                                return ['goedgekeurd', 'uitgegeven', 'ingenomen'].includes(request.status);
+                            }
+                            return true;
+                        })
                         .filter(request => new Date(request.endDate) >= currentDate)
                         .sort((a, b) => new Date(a.startDate) - new Date(b.startDate)) // Sort rental requests by start date
                         .map(request => (
@@ -346,8 +406,15 @@ function DashboardFrontOffice() {
                                 <td>{request.vehicleBrand} {request.vehicleType} ({request.vehicleId})</td>
                                 <td>{request.startDate}</td>
                                 <td>{request.endDate}</td>
+                                {userDepartment === 'EmployeeBackOffice' &&
+                                    <>
+                                        <td>{request.intention}</td>
+                                        <td>{request.farthestDestination}</td>
+                                        <td>{request.suspectedKm}</td>
+                                    </>
+                                }
                                 <td>{request.renterFirstName} {request.renterLastName}</td>
-                                <td>{request.status}</td>{/* STATUS NOG TOEVOEGEN*/}
+                                <td>{request.status}</td>
                                 <td><button onClick={() => handleEditRentalRequest(request)}>Acties</button></td>
                             </tr>
                         ))}
