@@ -60,7 +60,7 @@ function App() {
                 <Header />
                 <div className="main-layout"  >
                     {/* Sidebar */}
-                    <div className="sidebar">
+                    <div className="sidebar" style={{ backgroundColor: '#ECEBEB' }}> 
                         <nav>
                             <ul>
                                 <li><Link to="/">Home</Link></li>
@@ -74,7 +74,7 @@ function App() {
                         </nav>
                     </div>
                     {/* Main content */}
-                    <div className="content" > 
+                    <div className="content" style={{ backgroundColor: '#F7F6F6'} }> 
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/overview" element={<VehicleOverview />} />

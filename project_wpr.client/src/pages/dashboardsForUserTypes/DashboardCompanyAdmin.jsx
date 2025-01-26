@@ -274,12 +274,13 @@ function DashboardCompanyAdmin() {
     };
 
     return (
-        <div>
-            <h2>Create new Business Renter account</h2>
-            <p className='tekst'>Bedrijfs pagina van: {companyName}</p>
-            <p className='tekst'>Maximaal aantal voertuigen voor het bedrijf: {companyMaxVehicles}</p>
-            <form onSubmit={handleSubmit}>
-                <div>
+        <div className='Test'>
+        
+            <form className='Test' style={{ textAlign: 'center' }} onSubmit={handleSubmit}>
+                <h2>Create new Business Renter account</h2>
+                <p style={{ textAlign: 'center' }}>Bedrijfs pagina van: {companyName}</p>
+                <p style={{ textAlign: 'center' }}>Maximaal aantal voertuigen voor het bedrijf: {companyMaxVehicles}</p>
+                <div className='Test' style={{margin: 'auto', paddingBottom: '10px'} }>
                     <label htmlFor="accountType">Type account:</label>
                     <select
                         id="accountType"
@@ -290,9 +291,9 @@ function DashboardCompanyAdmin() {
                         <option value="businessRenter">Zakelijke huurder</option>
                         <option value="vehicleManager">Wagenparkbeheerder</option>
                     </select>
-                </div>
 
-                <div>
+
+
                     <label>Email:</label>
                     <input
                         type="email"
@@ -301,9 +302,8 @@ function DashboardCompanyAdmin() {
                         onChange={handleChange}
                         required
                     />
-                </div>
 
-                <div>
+
                     <label>Password:</label>
                     <input
                         type="password"
@@ -312,9 +312,8 @@ function DashboardCompanyAdmin() {
                         onChange={handleChange}
                         required
                     />
-                </div>
 
-                <div>
+
                     <label>First Name:</label>
                     <input
                         type="text"
@@ -323,9 +322,9 @@ function DashboardCompanyAdmin() {
                         onChange={handleChange}
                         required
                     />
-                </div>
 
-                <div>
+
+
                     <label>Last Name:</label>
                     <input
                         type="text"
@@ -334,9 +333,8 @@ function DashboardCompanyAdmin() {
                         onChange={handleChange}
                         required
                     />
-                </div> 
 
-                <div>
+
                     <label>Date of Birth:</label>
                     <input
                         type="date"
@@ -345,34 +343,37 @@ function DashboardCompanyAdmin() {
                         onChange={handleChange}
                         required
                     />
+                    <br/>
+                    <button style={{}}type="submit">Register</button>
+                </div>
+                <div className='Test'>
+                <form style={{alignContent:''}} onSubmit={handleDelete}>
+                    <p style={{paddingTop: '20px'} }>Verwijder een werknemer</p>
+                        <div>
+                            <label htmlFor="deleteBusinessRenterId">Gebruiker ID: </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="deleteBusinessRenterId"
+                                value={deleteBusinessRenterId}
+                                onChange={(e) => setDeleteBusinessRenterId(e.target.value)}
+                                required
+                        />
+                        <button type="submit" className="btn btn-primary">  Verwijder  </button>
+                        </div>
+
+                    </form>
                 </div>
 
-                <button type="submit">Register</button>
+
 
                 <p style={{ color: isSuccess ? "green" : "red" }}>{message}</p>
             </form>
-            <div className="container" style={{ color: 'black' }}>
-
-                <form onSubmit={handleDelete}>
-                    <p>Verwijder een werknemer</p>
-                    <div className="form-group">
-                        <label htmlFor="deleteBusinessRenterId">Gebruiker ID: </label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="deleteBusinessRenterId"
-                            value={deleteBusinessRenterId}
-                            onChange={(e) => setDeleteBusinessRenterId(e.target.value)}
-                            required
-                        />
-                    </div>
-                    <button type="submit" className="btn btn-primary">  Verwijder  </button>
-                </form>
-
+            <div className="Test" style={{ color: 'black' }}>
 
                 <div className="users-container" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                     {users.map((user, index) => (
-                        <div key={index} className="user-card" style={{ margin: '10px', padding: '10px', border: '1px solid #ccc' }}>
+                        <div key={index} className="Test" style={{ margin: '10px', padding: '10px', border: '1px solid #ccc', flex: '1 0 21%' }}>
                             <p><strong>User ID:</strong> {user.id}</p>
                             <p><strong>First Name:</strong> {user.firstName}</p>
                             <p><strong>Last Name:</strong> {user.lastName}</p>

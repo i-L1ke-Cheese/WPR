@@ -103,7 +103,7 @@ function DashboardPrivateRenter() {
     return (
         <div className="dashboard">
             <h2>Welkom op je dashboard, <span id="DashboardFName"></span></h2>
-            <div className="dashboard-panel-container">
+            <div className="Test">
 
                 {/*<h3>Uw Reserveringen:</h3>     &apos; = '  */}
                 {!hasReservations && (<div className="dashboard-panel dashboard-panel-fullwidth">
