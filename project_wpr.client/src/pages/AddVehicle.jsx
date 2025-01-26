@@ -23,6 +23,8 @@ const AddVehicle = () => {
         isDamaged: false
     });
 
+    const [userType, setUserType] = useState('');
+
     const navigate = useNavigate();
 
     /**
@@ -139,6 +141,7 @@ const AddVehicle = () => {
                 <div className="form-group">
                     <label htmlFor="licensePlate">Kenteken:</label>
                     <input
+                        id="licensePlate"
                         name="licensePlate"
                         value={formData.licensePlate}
                         onChange={handleChange}
@@ -149,6 +152,7 @@ const AddVehicle = () => {
                 <div className="form-group">
                     <label htmlFor="brand">Merk:</label>
                     <input
+                        id="brand"
                         name="brand"
                         value={formData.brand}
                         onChange={handleChange}
@@ -159,6 +163,7 @@ const AddVehicle = () => {
                 <div className="form-group">
                     <label htmlFor="type">Model:</label>
                     <input
+                        id="type"
                         name="type"
                         value={formData.type}
                         onChange={handleChange}
@@ -169,6 +174,7 @@ const AddVehicle = () => {
                 <div className="form-group">
                     <label htmlFor="color">Kleur:</label>
                     <input
+                        id="color"
                         name="color"
                         value={formData.color}
                         onChange={handleChange}
@@ -179,6 +185,7 @@ const AddVehicle = () => {
                 <div className="form-group">
                     <label htmlFor="yearOfPurchase">Aankoopjaar:</label>
                     <input
+                        id="yearOfPurchase"
                         name="yearOfPurchase"
                         value={formData.yearOfPurchase}
                         onChange={handleChange}
@@ -189,6 +196,7 @@ const AddVehicle = () => {
                 <div className="form-group">
                     <label htmlFor="description">Beschrijving:</label>
                     <input
+                        id="description"
                         name="description"
                         value={formData.description}
                         onChange={handleChange}
@@ -198,6 +206,7 @@ const AddVehicle = () => {
                 <div className="form-group">
                     <label htmlFor="rentalPrice">Huurprijs:</label>
                     <input
+                        id="rentalPrice"
                         name="rentalPrice"
                         value={formData.rentalPrice}
                         onChange={handleChange}
@@ -208,6 +217,7 @@ const AddVehicle = () => {
                 <div className="form-group">
                     <label htmlFor="vehicleType">Soort voertuig:</label>
                     <select
+                        id="vehicleType"
                         name="vehicleType"
                         value={formData.vehicleType}
                         onChange={handleChange}
@@ -223,6 +233,7 @@ const AddVehicle = () => {
                     <div className="form-group">
                         <label htmlFor="transmissionType">Versnellingsbak:</label>
                         <input
+                            id="transmissionType"
                             name="transmissionType"
                             value={formData.transmissionType}
                             onChange={handleChange}
@@ -236,6 +247,7 @@ const AddVehicle = () => {
                         <div className="form-group">
                             <label htmlFor="camperTransmissionType">Versnellingsbak:</label>
                             <input
+                                id="camperTransmissionType"
                                 name="camperTransmissionType"
                                 value={formData.camperTransmissionType}
                                 onChange={handleChange}
@@ -246,6 +258,7 @@ const AddVehicle = () => {
                         <div className="form-group">
                             <label htmlFor="requiredLicenseType">Benodigd rijbewijs:</label>
                             <input
+                                id="requiredLicenseType"
                                 name="requiredLicenseType"
                                 value={formData.requiredLicenseType}
                                 onChange={handleChange}
@@ -258,6 +271,7 @@ const AddVehicle = () => {
                 <div className="form-group">
                     <label htmlFor="isAvailable">Beschikbaarheid:</label>
                     <select
+                        id="isAvailable"
                         name="isAvailable"
                         value={formData.isAvailable}
                         onChange={handleChange}
@@ -269,6 +283,7 @@ const AddVehicle = () => {
                 <div className="form-group">
                     <label htmlFor="isDamaged">Schade:</label>
                     <select
+                        id="isDamaged"
                         name="isDamaged"
                         value={formData.isDamaged}
                         onChange={handleChange}
