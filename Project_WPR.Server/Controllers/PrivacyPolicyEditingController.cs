@@ -29,12 +29,12 @@ namespace Project_WPR.Server.Controllers {
         [HttpPut("UpdatePrivacyPolicy")]
         public async Task<IActionResult> UpdatePrivacyPolicy([FromBody] string contents) {
             if (User == null || !User.Identity.IsAuthenticated) {
-                return Unauthorized(new { Msg = "no user logged in" });
+                return Unauthorized(new { Msg = "no user logged in" } );
             }
 
             var userID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (userID == null) {
-                return Unauthorized(new { Msg = "no user logged in" });
+                return Unauthorized(new { Msg = "no user logged in" } );
             }
             var employee = await _dbContext.CA_Employees.FirstOrDefaultAsync(ca => ca.Department == "Backoffice");
             if (employee == null) {
