@@ -63,6 +63,19 @@ function DashboardFrontOffice() {
         fetchRentalRequests();
     }, []);
 
+    const pastReservations = reservations.filter(request => new Date(request.endDate) < currentDate);
+
+    const groupedReservations = pastReservations.reduce((acc, reservation) => {
+        const employeeName = `${reservation.firstName} ${reservation.lastName}`;
+        if (!acc[employeeName]) {
+            acc[employeeName] = [];
+        }
+        acc[employeeName].push(reservation);
+        return acc;
+    }, {});
+
+    const sortedEmployeeNames = Object.keys(groupedReservations).sort();
+
     return (
         <div className='div'>
             <h2>Huuraanvragen van {companyName}</h2>
@@ -91,23 +104,37 @@ function DashboardFrontOffice() {
             </table>
 
             <h2>Huuraanvragen historie van {companyName}</h2>
-            <div className="dashboard-panel dashboard-panel-fullwidth scroll">
-                {reservations.filter(request => new Date(request.endDate) < currentDate)
-                    .sort((a, b) => new Date(a.startDate) - new Date(b.startDate)).map((reservation, index) => (
-                        <div key={index} className="dashboard-panel dashboard-panel-halfwidth darkgraybg">
-                            <img src="Standaardauto.jpg" alt="Vehicle" className="reservation-image" />
-                            <div className="reservation-details">
-                                <p>Gehuurd door: {reservation.firstName + " " + reservation.lastName}</p>
-                                <p><b>Status: {reservation.status}</b></p>
-                                <h3>{reservation.vehicleBrand} {reservation.vehicleType} ({reservation.vehicleColor})</h3>
-                                <p>{reservation.startDate} tot {reservation.endDate}</p>
-                                <p>Gebruiken voor: {reservation.intention}</p>
-                                <p>Geschatte afstand: {reservation.suspectedKm}</p>
-                            </div>
-                        </div>
-                    ))}
-            </div>
-
+            {sortedEmployeeNames.map(employeeName => (
+                <div key={employeeName}>
+                    <h3>{employeeName}</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Voertuig</th>
+                                <th>Van</th>
+                                <th>Tot</th>
+                                <th>Huurder</th>
+                                <th>Status</th>
+                                <th>Gebruiken voor</th>
+                                <th>Geschatte afstand</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {groupedReservations[employeeName].map((reservation, index) => (
+                                <tr key={index}>
+                                    <td>{reservation.vehicleBrand} {reservation.vehicleType} ({reservation.vehicleColor})</td>
+                                    <td>{reservation.startDate}</td>
+                                    <td>{reservation.endDate}</td>
+                                    <td>{reservation.firstName} {reservation.lastName}</td>
+                                    <td>{reservation.status}</td>
+                                    <td>{reservation.intention}</td>
+                                    <td>{reservation.suspectedKm}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            ))}
         </div>
     );
 }
