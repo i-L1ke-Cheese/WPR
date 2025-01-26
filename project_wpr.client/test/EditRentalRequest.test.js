@@ -60,6 +60,6 @@ test('updates rental request successfully', async () => {
 
     // Wait for the alert to be called
     await waitFor(() => {
-        expect(window.alert).toHaveBeenCalledWith('Huuraanvraag succesvol aangepast');
+        expect(window.alert).toHaveBeenCalledWith('Rental request updated successfully');
     });
 });
