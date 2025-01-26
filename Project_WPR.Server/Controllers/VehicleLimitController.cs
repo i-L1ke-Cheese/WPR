@@ -49,41 +49,38 @@ namespace Project_WPR.Server.Controllers
             var businessRenter = await _context.BusinessRenters
                 .FirstOrDefaultAsync(br => br.Id == vehicleLimitDTO.BusinessRenterId);
 
-            // Hier controleren of de huurder wel bij de correcte bedrijf hoort
-            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == businessRenter.CompanyId);
-
-
             if (businessRenter == null)
             {
                 return NotFound("Huurder niet gevonden");
             }
 
+            // Hier controleren of de huurder wel bij de correcte bedrijf hoort
+            var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == businessRenter.CompanyId);
+
+            if (company == null)
+            {
+                return NotFound("Bedrijf niet gevonden");
+            }
+
             // Hier wordt de totale aantal autos dat alle bedrijfshuurders mogen huren
             var totalVehiclesRented = await _context.BusinessRenters
-            .Where(br => br.CompanyId == company.Id)
-            .SumAsync(br => br.MaxVehiclesPerBusinessRenter);
+                .Where(br => br.CompanyId == company.Id)
+                .SumAsync(br => br.MaxVehiclesPerBusinessRenter);
 
-            //var a = totalVehiclesRented + vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
-            if (totalVehiclesRented <= company.MaxVehiclesPerCompany && businessRenter.MaxVehiclesPerBusinessRenter >= 0)
+            // Bereken de nieuwe totale limiet als we de nieuwe limiet voor deze huurder toepassen
+            var newTotalVehiclesRented = totalVehiclesRented - businessRenter.MaxVehiclesPerBusinessRenter + vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
+
+            // Controleer of de nieuwe totale limiet binnen de bedrijfsgrens valt
+            if (newTotalVehiclesRented > company.MaxVehiclesPerCompany || vehicleLimitDTO.MaxVehiclesPerBusinessRenter < 0)
             {
-                businessRenter.MaxVehiclesPerBusinessRenter = vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
-                await _context.SaveChangesAsync();
+                return BadRequest("Limiet voor bedrijf is bereikt of ongeldige limiet voor huurder");
             }
 
-
-
-            // hier controleert het of de maximale dat de bedrijf mag gaan huren niet wordt overschreden door hoevaak alle huurders van dat bedrijf niet wordt overschreden
-            if (totalVehiclesRented > company.MaxVehiclesPerCompany)
-            {
-                return NotFound("Limiet voor bedrijf is bereikt" + (company.MaxVehiclesPerCompany - totalVehiclesRented));
-            }
-
-
+            // Update de limiet voor de huurder
+            businessRenter.MaxVehiclesPerBusinessRenter = vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
+            await _context.SaveChangesAsync();
 
             return Ok(businessRenter.MaxVehiclesPerBusinessRenter);
-
-
-
         }
 
         // De API die ervoorzorgt hoeveel een bedrijf mag gaan huren 
