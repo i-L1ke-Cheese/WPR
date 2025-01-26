@@ -132,9 +132,10 @@ const EditRentalRequest = () => {
                 <h2>Huuraanvraag wijzigen</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label>Start datum:</label>
+                        <label htmlFor="startDate">Start datum:</label>
                         <input
                             type="date"
+                            id="startDate"
                             name="startDate"
                             value={rentalRequest.startDate}
                             onChange={handleChange}
@@ -142,9 +143,10 @@ const EditRentalRequest = () => {
                         />
                     </div>
                     <div>
-                        <label>Eind datum:</label>
+                        <label htmlFor="endDate">Eind datum:</label>
                         <input
                             type="date"
+                            id="endDate"
                             name="endDate"
                             value={rentalRequest.endDate}
                             onChange={handleChange}
@@ -152,9 +154,10 @@ const EditRentalRequest = () => {
                         />
                     </div>
                     <div>
-                        <label>Intentie:</label>
+                        <label htmlFor="intention">Intentie:</label>
                         <input
                             type="text"
+                            id="intention"
                             name="intention"
                             value={rentalRequest.intention}
                             onChange={handleChange}
@@ -162,9 +165,10 @@ const EditRentalRequest = () => {
                         />
                     </div>
                     <div>
-                        <label>Verste bestemming:</label>
+                        <label htmlFor="farthestDestination">Verste bestemming:</label>
                         <input
                             type="text"
+                            id="farthestDestination"
                             name="farthestDestination"
                             value={rentalRequest.farthestDestination}
                             onChange={handleChange}
@@ -172,9 +176,10 @@ const EditRentalRequest = () => {
                         />
                     </div>
                     <div>
-                        <label>Verwachte KM:</label>
+                        <label htmlFor="suspectedKm">Verwachte KM:</label>
                         <input
                             type="number"
+                            id="suspectedKm"
                             name="suspectedKm"
                             value={rentalRequest.suspectedKm}
                             onChange={handleChange}
