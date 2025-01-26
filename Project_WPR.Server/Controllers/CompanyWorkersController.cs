@@ -42,7 +42,8 @@ namespace Project_WPR.Server.Controllers
                     u.FirstName,
                     u.LastName,
                     u.Email,
-                    UserRole = "BusinessRenter"
+                    UserRole = "BusinessRenter",
+                    u.MaxVehiclesPerBusinessRenter
                 }).ToListAsync();
                 var vehicleManagers = await _dbContext.vehicleManagers.Where(u => u.CompanyId == companyIDset).Select(u => new
                 {

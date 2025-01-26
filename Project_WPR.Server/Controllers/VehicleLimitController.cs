@@ -63,20 +63,25 @@ namespace Project_WPR.Server.Controllers
             .Where(br => br.CompanyId == company.Id)
             .SumAsync(br => br.MaxVehiclesPerBusinessRenter);
 
+            //var a = totalVehiclesRented + vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
+            if (totalVehiclesRented <= company.MaxVehiclesPerCompany && businessRenter.MaxVehiclesPerBusinessRenter >= 0)
+            {
+                businessRenter.MaxVehiclesPerBusinessRenter = vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
+                await _context.SaveChangesAsync();
+            }
 
-            totalVehiclesRented += vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
+
 
             // hier controleert het of de maximale dat de bedrijf mag gaan huren niet wordt overschreden door hoevaak alle huurders van dat bedrijf niet wordt overschreden
-            if (totalVehiclesRented >= company.MaxVehiclesPerCompany)
+            if (totalVehiclesRented > company.MaxVehiclesPerCompany)
             {
                 return NotFound("Limiet voor bedrijf is bereikt" + (company.MaxVehiclesPerCompany - totalVehiclesRented));
-            } 
-            
-            businessRenter.MaxVehiclesPerBusinessRenter = vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
-            await _context.SaveChangesAsync();
+            }
+
+
 
             return Ok(businessRenter.MaxVehiclesPerBusinessRenter);
-   
+
 
 
         }
