@@ -64,7 +64,7 @@ namespace Project_WPR.Server.Controllers
                         FName = businessRenter.FirstName,
                         LName = businessRenter.LastName,
                         ID = businessRenter.Id,
-                        PhoneNr = businessRenter.PhoneNumber,
+                        PhoneNumber = businessRenter.PhoneNumber,
                         Address = businessRenter.Address,
                         Place = businessRenter.Place,
                         LicenseNumber = user.LicenseNumber
@@ -81,7 +81,7 @@ namespace Project_WPR.Server.Controllers
                     CompanyName = company.Name,
 
                     // Toegevoegd tijdens merge
-                    PhoneNr = businessRenter.PhoneNumber,
+                    PhoneNumber = businessRenter.PhoneNumber,
                     Address = businessRenter.Address,
                     Place = businessRenter.Place,
                     LicenseNumber = user.LicenseNumber
@@ -124,6 +124,10 @@ namespace Project_WPR.Server.Controllers
                     FName = privateRenter.FirstName,
                     LName = privateRenter.LastName,
                     ID = privateRenter.Id,
+                    PhoneNumber = privateRenter.PhoneNumber,
+                    Address = privateRenter.Address,
+                    Place = privateRenter.Place,
+                    LicenseNumber = privateRenter.LicenseNumber,
                     role = "PrivateRenter"
                 });
             }
@@ -145,6 +149,10 @@ namespace Project_WPR.Server.Controllers
                     FName = employee.FirstName,
                     LName = employee.LastName,
                     ID = employee.Id,
+                    PhoneNumber = employee.PhoneNumber,
+                    Address = employee.Address,
+                    Place = employee.Place,
+                    LicenseNumber = employee.LicenseNumber,
                     role = role
                 });
             }
@@ -157,6 +165,10 @@ namespace Project_WPR.Server.Controllers
                     FName = vehicleManager.FirstName,
                     LName = vehicleManager.LastName,
                     ID = vehicleManager.Id,
+                    PhoneNumber = vehicleManager.PhoneNumber,
+                    Address = vehicleManager.Address,
+                    Place = vehicleManager.Place,
+                    LicenseNumber = vehicleManager.LicenseNumber,
                     role = "VehicleManager"
                 });
             }

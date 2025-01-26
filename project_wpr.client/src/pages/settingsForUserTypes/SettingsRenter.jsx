@@ -35,11 +35,12 @@ const SettingsRenter = () => {
 
         if (response.ok) {
             const data = await response.json();
+            console.log(data);
             setUserData({
                 firstname: data.fName,
                 lastname: data.lName,
                 email: data.email,
-                phone: data.phoneNr,
+                phone: data.phoneNumber,
                 address: data.address,
                 place: data.place,
                 licensenumber: data.licenseNumber

@@ -43,36 +43,13 @@ function Dashboard() {
         getUserInfo();
     }, []);
 
-    if (userType === "PrivateRenter") {
-        return (
-            <SettingsRenter />
-        );
-    } else if (userType === "BusinessRenter") {
-        return (
-            <SettingsRenter />
-        );
-    } else if (userType === "CompanyAdmin") {
+    if (userType === "CompanyAdmin") {
         return (
             <SettingsCompanyAdmin />
         );
-    } else if (userType === "EmployeeFrontOffice") {
+    } else {
         return (
-            <div>
-                <h2>FrontOffice</h2>
-                <DashboardFrontoffice />
-            </div>
-        );
-    } else if (userType === "VehicleManager") {
-        return (
-            <DashboardVehicleManager />
-        );
-    } else if (userType === "EmployeeBackOffice") {
-        return (
-            <div>
-                <h2>BackOffice</h2>
-                <DashboardBackoffice />
-                <DashboardFrontoffice />
-            </div>
+            <SettingsRenter />
         );
     }
 }
