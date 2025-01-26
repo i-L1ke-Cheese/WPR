@@ -34,16 +34,19 @@ function Dashboard() {
             console.log(user);
             //document.getElementById("DashboardFName").innerHTML = user.fName;
 
-            setUserType(user.role);
+            
             console.log("setUserType: ", user.role)
 
             // Check if the user is a CompanyAdmin and if they have a companyId
             if (user.role === "CompanyAdmin" && !user.companyId) {
                 navigate("/createcompany");
-            }
+            } else { setUserType(user.role); }
+
+
         } else {
-            navigate("/login");
+            navigate("/login"); 
         }
+
     }
 
     useEffect(() => {
