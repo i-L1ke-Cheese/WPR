@@ -157,9 +157,13 @@ namespace Project_WPR.Server.Controllers
                     Intention = rr.Intention,
                     SuspectedKm = rr.SuspectedKm,
                     IsDeleted = rr.IsDeleted,
-                    Status = rr.Status
+                    Status = rr.Status,
+                    FirstName = rr.BusinessRenter.FirstName,
+                    LastName = rr.BusinessRenter.LastName,
                 })
                 .ToListAsync();
+
+
             if(reservations.Count == 0) {
                 return NotFound("No reservations found for your company.");
             }

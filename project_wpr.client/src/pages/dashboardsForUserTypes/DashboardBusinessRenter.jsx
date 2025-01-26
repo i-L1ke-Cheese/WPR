@@ -82,10 +82,6 @@ function DashboardBusinessRenter() {
         deleteReservation(id);
     }
 
-    const handleEditUserDataClick = () => {
-        navigate('/edituserdata');
-    }
-
     return (
         <div className="dashboard">
             <h2>Welkom op je dashboard, <span id="DashboardFName"></span></h2>
