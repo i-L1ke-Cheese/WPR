@@ -97,7 +97,7 @@ namespace Project_WPR.Server.Controllers
                 })
                 .ToListAsync();
 
-            if(reservations.Count == 0 || reservations == null) {
+            if(reservations.Count() == 0 || reservations == null) {
                 return NotFound(new { message = "No reservations found for the given user." });
             }
 
@@ -322,6 +322,22 @@ namespace Project_WPR.Server.Controllers
             {
                 var car = _context.Cars.FirstOrDefault(c => c.Id == request.VehicleId && c.IsAvailable);
 
+                var company = await _context.Companies.FirstOrDefaultAsync(co => co.Id == businessRenter.CompanyId);
+                if(company == null) {
+                    return NotFound("Company of businessrenter not found");
+                }
+                var companySubscription = await _context.Subscriptions.FirstOrDefaultAsync(sub => sub.Id == company.SubscriptionId);
+                if(companySubscription != null) {
+                    // HOEVEEL RENTAL REQUESTS VAN DEZE COMPANY (die nog niet verlopen zijn of verwijderd zijn)
+                    var amountoFRentalRequestsCompanyThisMonth = _context.RentalRequests.Where(rr => businessRenter.CompanyId == rr.BusinessRenter.CompanyId && !rr.IsDeleted && rr.EndDate > now).Count();
+
+                    if (amountoFRentalRequestsCompanyThisMonth + 1 > companySubscription.MaxVehicle) {
+                        return Unauthorized(new { message = "uw company heeft al het maximum aantal huuraanvragen voor deze maand." });
+                    }
+                } else {
+                    return NotFound(new { message = "Uw company's subscription is niet gevonden... neem contact op met uw beheerder"});
+                }
+
                 if (car == null || car.IsAvailable == false)
                 {
                     return BadRequest(new { message = "Auto is niet beschikbaar" });
@@ -330,11 +346,6 @@ namespace Project_WPR.Server.Controllers
                 vehicle = car;
 
                 RR.BusinessRenterId = userID;
-            } else {
-                //hier zou je nooit moeten komen, want er is aan het begin al gechekt of beide null zijn.
-                //daarom laat ik dit hier leeg maar er zou een error code kunnen komen
-                //zodat je 1000000% zeker bent dat hij niet de RR gaat opslaan zonder dat businessrenterid
-                //of privaterenterid zijn gezet (dan krijg je namelijk error)
             }
             
             // als we tot zover zijn gekomen, dan is alles goed gegaan! (vgm) dus kunnen we de rentalrequest

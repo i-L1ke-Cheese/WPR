@@ -85,8 +85,13 @@ namespace Project_WPR.Server.Controllers
             // Bereken de nieuwe totale limiet als we de nieuwe limiet voor deze huurder toepassen
             var newTotalVehiclesRented = totalVehiclesRented - businessRenter.MaxVehiclesPerBusinessRenter + vehicleLimitDTO.MaxVehiclesPerBusinessRenter;
 
+            var subscription = await _context.Subscriptions.FirstOrDefaultAsync(sub => sub.Id == company.SubscriptionId);
+            if(subscription == null) {
+                return NotFound("Company subscription not found; contact your company admin.");
+            }
+
             // Controleer of de nieuwe totale limiet binnen de bedrijfsgrens valt
-            if (newTotalVehiclesRented > company.MaxVehiclesPerCompany || vehicleLimitDTO.MaxVehiclesPerBusinessRenter < 0)
+            if (newTotalVehiclesRented > company.MaxVehiclesPerCompany || newTotalVehiclesRented > subscription.MaxVehicle || vehicleLimitDTO.MaxVehiclesPerBusinessRenter < 0)
             {
                 return BadRequest("Limiet voor bedrijf is bereikt of ongeldige limiet voor huurder");
             }
