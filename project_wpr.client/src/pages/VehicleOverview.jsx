@@ -241,7 +241,7 @@ function VehicleOverview() {
 
     return (
         <div className="vehicle-overview">
-            <h2 style={{textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>Vehicle Overview</h2>
+            <h2 style={{textShadow: '2px 2px 4px rgba(0, 0, 0, 0.5)' }}>Voertuig overzicht</h2>
 
 
             <div className="border" style={{ paddingTop: '20px', maxWidth: 'auto'}}>
