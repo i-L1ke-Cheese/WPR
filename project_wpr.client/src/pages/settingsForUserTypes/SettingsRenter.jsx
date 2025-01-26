@@ -169,8 +169,8 @@ const SettingsRenter = () => {
     };
 
     return (
-        <div className="edituserdata">
-            <h2>Gegevens inzien/bewerken</h2>
+        <div className="Test" >
+            <h2 style={{textAlign: 'center'} }>Gegevens inzien/bewerken</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="firstname">Voornaam: </label>

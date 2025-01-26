@@ -286,6 +286,7 @@ function DashboardFrontOffice() {
 
     return (
         <div className='div'>
+            <div className='Test' style={{width: 'auto'} }>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="carId">Car ID:</label>
@@ -370,9 +371,11 @@ function DashboardFrontOffice() {
                     </div>
                 )}
                 <button type="submit">Submit</button>
-            </form>
+                </form>
+            </div>
 
             <h2>Huuraanvragen</h2>
+            <div className='Test' style={{ width: 'auto' }}>
             <table>
                 <thead>
                     <tr>
@@ -419,9 +422,11 @@ function DashboardFrontOffice() {
                             </tr>
                         ))}
                 </tbody>
-            </table>
+                </table>
+            </div>
 
             <h2>Schademeldingen</h2>
+            <div className='Test'>
             <table>
                 <thead>
                     <tr>
@@ -447,6 +452,7 @@ function DashboardFrontOffice() {
                     ))}
                 </tbody>
             </table>
+            </div>
         </div>
     );
 }
