@@ -277,12 +277,12 @@ function DashboardCompanyAdmin() {
 
     return (
         <div className='Test'>
-        
+
             <form className='Test' style={{ textAlign: 'center' }} onSubmit={handleSubmit}>
                 <h2>Create new Business Renter account</h2>
                 <p style={{ textAlign: 'center' }}>Bedrijfs pagina van: {companyName}</p>
                 <p style={{ textAlign: 'center' }}>Maximaal aantal voertuigen voor het bedrijf: {companyMaxVehicles}</p>
-                <div className='Test' style={{margin: 'auto', paddingBottom: '10px'} }>
+                <div className='Test' style={{ margin: 'auto', paddingBottom: '10px' }}>
                     <label htmlFor="accountType">Type account:</label>
                     <select
                         id="accountType"
@@ -345,12 +345,12 @@ function DashboardCompanyAdmin() {
                         onChange={handleChange}
                         required
                     />
-                    <br/>
-                    <button style={{}}type="submit">Register</button>
+                    <br />
+                    <button style={{}} type="submit">Register</button>
                 </div>
                 <div className='Test'>
-                <form style={{alignContent:''}} onSubmit={handleDelete}>
-                    <p style={{paddingTop: '20px'} }>Verwijder een werknemer</p>
+                    <form style={{ alignContent: '' }} onSubmit={handleDelete}>
+                        <p style={{ paddingTop: '20px' }}>Verwijder een werknemer</p>
                         <div>
                             <label htmlFor="deleteBusinessRenterId">Gebruiker ID: </label>
                             <input
@@ -360,8 +360,8 @@ function DashboardCompanyAdmin() {
                                 value={deleteBusinessRenterId}
                                 onChange={(e) => setDeleteBusinessRenterId(e.target.value)}
                                 required
-                        />
-                        <button type="submit" className="btn btn-primary">  Verwijder  </button>
+                            />
+                            <button type="submit" className="btn btn-primary">  Verwijder  </button>
                         </div>
 
                     </form>
