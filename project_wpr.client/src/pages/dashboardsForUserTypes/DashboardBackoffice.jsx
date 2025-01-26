@@ -118,7 +118,7 @@ function DashboardBackoffice() {
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
                 <button onClick={handleEditVehiclesClick}>Voertuigen aanpassen</button>
             </div>
-            <h3 style={{ color: 'black', textAlign: "center" }}>Create new employee account</h3>
+            <h3 style={{ color: 'black', textAlign: "center" }}>Maak een nieuwe werknemer aan</h3>
             <br />
             <form onSubmit={handleSubmit}>
                 <div>
@@ -133,7 +133,7 @@ function DashboardBackoffice() {
                 </div>
 
                 <div>
-                    <label>Password:</label>
+                    <label>Wachtwoord:</label>
                     <input
                         type="password"
                         name="password"
@@ -144,7 +144,7 @@ function DashboardBackoffice() {
                 </div>
 
                 <div>
-                    <label>First Name:</label>
+                    <label>Naam:</label>
                     <input
                         type="text"
                         name="firstName"
@@ -155,7 +155,7 @@ function DashboardBackoffice() {
                 </div>
 
                 <div>
-                    <label>Last Name:</label>
+                    <label>Achternaam:</label>
                     <input
                         type="text"
                         name="lastName"
@@ -166,7 +166,7 @@ function DashboardBackoffice() {
                 </div>
 
                 <div>
-                    <label>Date of Birth:</label>
+                    <label>Geboortedatum:</label>
                     <input
                         type="date"
                         name="dateOfBirth"
@@ -177,20 +177,20 @@ function DashboardBackoffice() {
                 </div>
 
                 <div>
-                    <label>Department:</label>
+                    <label>Functie:</label>
                     <select
                         name="department"
                         value={formData.department}
                         onChange={handleChange}
                         required
                     >
-                        <option value="">Select Department</option>
+                        <option value="">Selecteer Functie</option>
                         <option value="Frontoffice">Front Office</option>
                         <option value="Backoffice">Back Office</option>
                     </select>
                 </div>
 
-                <button type="submit">Register</button>
+                <button type="submit">Registreer</button>
 
                 <p style={{ color: isSuccess ? "green" : "red" }}>{message}</p>
             </form>

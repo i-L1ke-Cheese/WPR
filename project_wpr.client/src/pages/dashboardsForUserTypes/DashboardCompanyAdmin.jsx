@@ -279,11 +279,11 @@ function DashboardCompanyAdmin() {
         <div className='Test'>
 
             <form className='Test' style={{ textAlign: 'center' }} onSubmit={handleSubmit}>
-                <h2>Create new Business Renter account</h2>
+                <h2>Maak een zakelijke account aan</h2>
                 <p style={{ textAlign: 'center' }}>Bedrijfs pagina van: {companyName}</p>
                 <p style={{ textAlign: 'center' }}>Maximaal aantal voertuigen voor het bedrijf: {companyMaxVehicles}</p>
                 <div className='Test' style={{ margin: 'auto', paddingBottom: '10px' }}>
-                    <label htmlFor="accountType">Type account:</label>
+                    <label htmlFor="accountType">Functie:</label>
                     <select
                         id="accountType"
                         name="accountType"
@@ -306,7 +306,7 @@ function DashboardCompanyAdmin() {
                     />
 
 
-                    <label>Password:</label>
+                    <label>Wachtwoord:</label>
                     <input
                         type="password"
                         name="password"
@@ -316,7 +316,7 @@ function DashboardCompanyAdmin() {
                     />
 
 
-                    <label>First Name:</label>
+                    <label>Naam:</label>
                     <input
                         type="text"
                         name="firstName"
@@ -327,7 +327,7 @@ function DashboardCompanyAdmin() {
 
 
 
-                    <label>Last Name:</label>
+                    <label>AChternaam:</label>
                     <input
                         type="text"
                         name="lastName"
@@ -337,7 +337,7 @@ function DashboardCompanyAdmin() {
                     />
 
 
-                    <label>Date of Birth:</label>
+                    <label>Geboortedatum:</label>
                     <input
                         type="date"
                         name="dateOfBirth"
@@ -376,15 +376,15 @@ function DashboardCompanyAdmin() {
                 <div className="users-container" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
                     {users.map((user, index) => (
                         <div key={index} className="Test" style={{ margin: '10px', padding: '10px', border: '1px solid #ccc', flex: '1 0 21%' }}>
-                            <p><strong>User ID:</strong> {user.id}</p>
-                            <p><strong>First Name:</strong> {user.firstName}</p>
-                            <p><strong>Last Name:</strong> {user.lastName}</p>
-                            <p><strong>Company Name:</strong> {user.companyName}</p>
+                            <p><strong>Gebruiker ID:</strong> {user.id}</p>
+                            <p><strong>Naam:</strong> {user.firstName}</p>
+                            <p><strong>Achternaam:</strong> {user.lastName}</p>
+                            <p><strong>Bedrijfsnaam:</strong> {user.companyName}</p>
                             <p><strong>Email:</strong> {user.email}</p>
-                            <p><strong>Type:</strong> {user.userRole}</p>
+                            <p><strong>Functie:</strong> {user.userRole}</p>
                             {user.userRole == "BusinessRenter" &&
                                 <p onClick={() => setEditUserId(user.id)} style={{ cursor: 'pointer' }}>
-                                    <strong>Max Vehicles Per Business Renter: </strong> {user.maxVehiclesPerBusinessRenter}
+                                    <strong>Maximale toegestaande voertuigen: </strong> {user.maxVehiclesPerBusinessRenter}
                                 </p>
                             }
                             {editUserId === user.id && (

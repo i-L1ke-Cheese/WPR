@@ -61,7 +61,7 @@ function App() {
                     {/* Sidebar */}
                     <div className="sidebar" style={{ backgroundColor: '#ECEBEB' }}> 
                         <nav>
-                            <ul>
+                            <ul style={{ fontSize: "21px" }}>
                                 <li><Link to="/">Home</Link></li>
                                 <li><Link to="/overview">Overzicht</Link></li>
                                 <li><Link to="/about">Over ons</Link></li>
