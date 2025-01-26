@@ -24,6 +24,11 @@ namespace Project_WPR.Server.Controllers
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Gets the current company.
+        /// </summary>
+        /// <param name="companyId">The company identifier.</param>
+        /// <returns></returns>
         [HttpGet("getCurrentCompany")]
         public async Task<IActionResult> getCurrentCompany(int companyId)
         {
@@ -37,6 +42,12 @@ namespace Project_WPR.Server.Controllers
             return Ok(company);
         }
 
+        /// <summary>
+        /// Updates the company.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="companyDTO">The company dto.</param>
+        /// <returns></returns>
         [HttpPut("update-company/{id}")]
         public async Task<IActionResult> UpdateCompany(int id, [FromBody] CompanyDTO companyDTO)
         {

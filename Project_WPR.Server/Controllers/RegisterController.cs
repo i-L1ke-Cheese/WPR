@@ -26,7 +26,14 @@ namespace Project_WPR.Server.Controllers
             _signinManager = signinManager;
             _context = context;
         }
-        // zorgt ervoor dat er een account wordt aangemaakt
+
+        // zorgt ervoor dat er een account wordt aangemaakt        
+        /// <summary>
+        /// Registers the specified request.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="renter">The renter.</param>
+        /// <returns></returns>
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDTO request, string renter) {
 
@@ -100,6 +107,13 @@ namespace Project_WPR.Server.Controllers
 
             return Ok(new { Message = "User registered successfully" });
         }
+
+        /// <summary>
+        /// Registers the company account.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="renter">The renter.</param>
+        /// <returns></returns>
         [HttpPost("register-company-account")]
         [Authorize]
         public async Task<IActionResult> RegisterCompanyAccount([FromBody] RegisterDTO request, string renter) {
@@ -163,6 +177,12 @@ namespace Project_WPR.Server.Controllers
 
             return BadRequest("Er is iets misgegaan");
         }
+
+        /// <summary>
+        /// Registers the employee account.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <returns></returns>
         [HttpPost("register-employee-account")]
         [Authorize]
         public async Task<IActionResult> RegisterEmployeeAccount([FromBody] CaRegisterDTO request) {

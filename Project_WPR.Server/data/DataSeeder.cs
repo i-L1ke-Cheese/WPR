@@ -3,6 +3,10 @@ using System.IO;
 
 namespace Project_WPR.Server.data {
     public class DataSeeder {
+        /// <summary>
+        /// Runs the specified c.
+        /// </summary>
+        /// <param name="c">The c.</param>
         public static void Run(DatabaseContext c) {
             addCars(c);
             addCampers(c);
@@ -10,6 +14,10 @@ namespace Project_WPR.Server.data {
             c.SaveChanges();
         }
 
+        /// <summary>
+        /// Adds the cars.
+        /// </summary>
+        /// <param name="_c">The c.</param>
         private static void addCars(DatabaseContext _c) {
             using (StreamReader r = new StreamReader("data/vehiclesJSON/autos.json")) {
                 string json = r.ReadToEnd();
@@ -35,6 +43,10 @@ namespace Project_WPR.Server.data {
             }
         }
 
+        /// <summary>
+        /// Adds the campers.
+        /// </summary>
+        /// <param name="_c">The c.</param>
         private static void addCampers(DatabaseContext _c) {
             using (StreamReader r = new StreamReader("data/vehiclesJSON/campers.json")) {
                 string json = r.ReadToEnd();
@@ -61,6 +73,10 @@ namespace Project_WPR.Server.data {
             }
         }
 
+        /// <summary>
+        /// Adds the caravans.
+        /// </summary>
+        /// <param name="_c">The c.</param>
         private static void addCaravans(DatabaseContext _c) {
             using (StreamReader r = new StreamReader("data/vehiclesJSON/caravans.json")) {
                 string json = r.ReadToEnd();
@@ -84,6 +100,7 @@ namespace Project_WPR.Server.data {
                 }
             }
         }
+
 
         private class caravanobj {
             public string merk { get; set; }

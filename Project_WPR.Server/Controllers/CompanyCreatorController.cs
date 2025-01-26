@@ -19,7 +19,13 @@ namespace Project_WPR.Server.Controllers
             _context = context;
         }
 
-        // maakt een bedrijf aan na het inloggen bij een companyAdmin account
+        // maakt een bedrijf aan na het inloggen bij een companyAdmin account        
+        /// <summary>
+        /// Creates the company.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpPost("CreateCompany")]
         public async Task<IActionResult> CreateCompany([FromBody] CompanyDTO request, string id)
         {

@@ -24,6 +24,11 @@ namespace Project_WPR.Server.Controllers
             _httpClient = httpClient;
         }
 
+        /// <summary>
+        /// Sends the email.
+        /// </summary>
+        /// <param name="emailRequest">The email request.</param>
+        /// <returns></returns>
         [HttpPost("send-email")]
         public async Task<IActionResult> SendEmail([FromBody] EmailRequestDTO emailRequest)
         {
@@ -48,5 +53,4 @@ namespace Project_WPR.Server.Controllers
             return StatusCode((int)response.StatusCode, await response.Content.ReadAsStringAsync());
         }
     }
-
 }
