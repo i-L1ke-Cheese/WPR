@@ -14,8 +14,11 @@ namespace Project_WPR.Server.Controllers
     public class CompanyWorkersController : ControllerBase
     {
         private readonly DatabaseContext _dbContext;
-        public CompanyWorkersController(DatabaseContext dbContext) {
+        private readonly ILogger<CompanyWorkersController> _logger;
+        public CompanyWorkersController(DatabaseContext dbContext, ILogger<CompanyWorkersController> logger)
+        {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         // Pakt alle medewerkers van een bedrijf
@@ -30,24 +33,36 @@ namespace Project_WPR.Server.Controllers
                 return BadRequest("Bedrijf bestaat niet");
             }
 
-            var users = await _dbContext.BusinessRenters.Where(u => u.CompanyId == companyIDset).Select(u => new
+            try
             {
-                u.Id,
-                companyName = company.Name,
-                u.FirstName,
-                u.LastName,
-                u.Email,
-               // u.MaxVehiclesPerBusinessRenter moet nog op null toegestaan gezet worden
-            }).ToListAsync();
-            // 
-            if (users == null || !users.Any())
-            {
-                return BadRequest("Gebruiker bestaat niet");
+                var businessRenters = await _dbContext.BusinessRenters.Where(u => u.CompanyId == companyIDset).Select(u => new
+                {
+                    u.Id,
+                    companyName = company.Name,
+                    u.FirstName,
+                    u.LastName,
+                    u.Email,
+                    UserRole = "BusinessRenter",
+                    u.MaxVehiclesPerBusinessRenter
+                }).ToListAsync();
+                var vehicleManagers = await _dbContext.vehicleManagers.Where(u => u.CompanyId == companyIDset).Select(u => new
+                {
+                    u.Id,
+                    companyName = company.Name,
+                    u.FirstName,
+                    u.LastName,
+                    u.Email,
+                    UserRole = "VehicleManager"
+                }).ToListAsync();
+
+                return Ok(new { businessRenters, vehicleManagers });
             }
 
-            return Ok(users);
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while fetching companyworkers.");
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while fetching companyworkers.");
+            }
         }
-
-
     }
 }

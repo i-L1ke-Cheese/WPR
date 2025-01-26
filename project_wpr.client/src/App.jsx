@@ -12,7 +12,6 @@ import Dashboard from './pages/Dashboard';
 import VehicleOverview from './pages/VehicleOverview';
 import VehicleDetails from './pages/VehicleDetails';
 import Settings from './pages/Settings';
-import Company from './pages/Company';
 import EditUserData from './pages/EditUserData';
 import EditVehicles from './pages/EditVehicles';
 import AddVehicle from './pages/AddVehicle';
@@ -42,7 +41,6 @@ function App() {
                                 <li><Link to="/overview">Overzicht</Link></li>
                                 <li><Link to="/about">About</Link></li>
                                 <li><Link to="/dashboard">Dashboard</Link></li> { /* Alleen weergeven als je ingelogd bent */}
-                                <li><Link to="/Company">Company</Link></li>
                                 <li><Link to="/EditVehicles">Voertuigen aanpassen</Link></li> {/* Alleen weergeven als backoffice medewerker */ }
                             </ul>
                         </nav>
@@ -59,7 +57,6 @@ function App() {
                             <Route path="/dashboard" element={<Dashboard />} />
                             <Route path="/logout" element={<Logout />} />
                             <Route path="/settings" element={<Settings />} />
-                            <Route path="/company" element={<Company />} />
                             <Route path="/edituserdata" element={<EditUserData />} />
                             <Route path="/editvehicles" element={<EditVehicles />} />
                             <Route path="/addvehicle" element={<AddVehicle />} />

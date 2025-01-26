@@ -25,13 +25,35 @@ namespace Project_WPR.Server.Controllers
             // controleert of het de juiste medewerker is
             var businessRenter = await _context.BusinessRenters
                 .FirstOrDefaultAsync(br => br.Id == dto.BusinessRenterId);
+            var vehicleManager = await _context.vehicleManagers.
+                FirstOrDefaultAsync(vm => vm.Id == dto.BusinessRenterId);
 
-            if (businessRenter == null)
+            if (businessRenter == null && vehicleManager == null)
             {
                 return NotFound("Werknemer niet gevonden");
             }
 
-            
+            if (businessRenter != null)
+            {
+                if (businessRenter.CompanyId != dto.Id)
+                {
+                    return BadRequest("Werknemer niet in dit bedrijf");
+                }
+                // verwijdert gebruiker van bedrijf
+                businessRenter.MaxVehiclesPerBusinessRenter = 0;
+                businessRenter.CompanyId = 0;
+            }
+
+            if (vehicleManager != null)
+            {
+                if (vehicleManager.CompanyId != dto.Id)
+                {
+                    return BadRequest("Werknemer niet in dit bedrijf");
+                }
+                // verwijdert gebruiker van bedrijf
+                vehicleManager.CompanyId = 0;
+            }
+
             // controleert of het de juiste bedrijf is
             var company = await _context.Companies.FirstOrDefaultAsync(c => c.Id == dto.Id);
             if (company == null)
@@ -39,14 +61,6 @@ namespace Project_WPR.Server.Controllers
                 return NotFound("Bedrijf niet gevonden");
             }
 
-            if (businessRenter.CompanyId != dto.Id)
-            {
-                return BadRequest("Werknemer niet in dit bedrijf");
-            }
-
-            // verwijdert gebruiker van bedrijf
-            businessRenter.MaxVehiclesPerBusinessRenter = 0;
-            businessRenter.CompanyId = 0;
             await _context.SaveChangesAsync();
 
             return Ok(new { Message = "Werknemer verwijderd" });
