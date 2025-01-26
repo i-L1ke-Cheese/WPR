@@ -5,6 +5,7 @@
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public System.DateOnly dateOfBirth { get; set; }
+        public string AccountType { get; set; }
     }
 
     public class CaRegisterDTO : RegisterDTO{

@@ -100,9 +100,9 @@ namespace Project_WPR.Server.Controllers
 
             return Ok(new { Message = "User registered successfully" });
         }
-        [HttpPost("register-business-renter")]
+        [HttpPost("register-company-account")]
         [Authorize]
-        public async Task<IActionResult> RegisterBusinessRenter([FromBody] RegisterDTO request) {
+        public async Task<IActionResult> RegisterCompanyAccount([FromBody] RegisterDTO request) {
             if (User == null || !User.Identity.IsAuthenticated) {
                 return Unauthorized(new { Msg = "no user logged in" });
             }
@@ -120,23 +120,48 @@ namespace Project_WPR.Server.Controllers
                 return Unauthorized(new { Msg = "You do not have permission to create a business renter account." });
             }
 
-            BusinessRenter businessRenter = new BusinessRenter();
-            businessRenter.CompanyId = companyAdmin.CompanyId;
-            businessRenter.Email = request.Email;
-            businessRenter.FirstName = request.FirstName;
-            businessRenter.LastName = request.LastName;
-            businessRenter.BirthDate = request.dateOfBirth;
-            businessRenter.UserName = request.Email;
+            if (request.AccountType == "businessRenter")
+            {
+                BusinessRenter businessRenter = new BusinessRenter();
+                businessRenter.CompanyId = companyAdmin.CompanyId;
+                businessRenter.Email = request.Email;
+                businessRenter.FirstName = request.FirstName;
+                businessRenter.LastName = request.LastName;
+                businessRenter.BirthDate = request.dateOfBirth;
+                businessRenter.UserName = request.Email;
 
-            var result = await _userManager.CreateAsync(businessRenter, request.Password);
-                    
-            if(!result.Succeeded) {
-                return BadRequest(result.Errors);
+                var result = await _userManager.CreateAsync(businessRenter, request.Password);
+
+                if (!result.Succeeded)
+                {
+                    return BadRequest(result.Errors);
+                }
+
+                return Ok(new { Message = "Business account successfully created for company", CompanyId = businessRenter.CompanyId });
+
+            }
+            else if(request.AccountType == "vehicleManager")
+            {
+                VehicleManager vehicleManager = new VehicleManager();
+                vehicleManager.CompanyId = companyAdmin.CompanyId;
+                vehicleManager.Email = request.Email;
+                vehicleManager.FirstName = request.FirstName;
+                vehicleManager.LastName = request.LastName;
+                vehicleManager.BirthDate = request.dateOfBirth;
+                vehicleManager.UserName = request.Email;
+
+                var result = await _userManager.CreateAsync(vehicleManager, request.Password);
+
+                if (!result.Succeeded)
+                {
+                    return BadRequest(result.Errors);
+                }
+
+                return Ok(new { Message = "VehicleManager account successfully created for company", CompanyId = vehicleManager.CompanyId });
+
             }
 
-            //[EMAIL API CALL NAAR BUSINESSRENTER.EMAIL: UW ACCOUNT IS AANGEMAAKT MET WACHTWOORD "WACHTWOORD" KLINK HIER OM HET TE WIJZIGEN "LINK NAAR WACHTWOORD WIJZIGEN PAGINA"]
-
-            return Ok(new { Message = "BusinessRenter account successfully created for company", CompanyId = businessRenter.CompanyId });
+            return BadRequest("Er is iets misgegaan");
         }
         [HttpPost("register-employee-account")]
         [Authorize]
