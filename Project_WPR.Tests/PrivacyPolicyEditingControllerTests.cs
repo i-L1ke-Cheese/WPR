@@ -31,6 +31,10 @@ namespace Project_WPR.Tests.Controllers
             _httpContextMock = new Mock<HttpContext>();
             _userMock = new Mock<ClaimsPrincipal>();
         }
+
+        /// <summary>
+        /// Updates the privacy policy should return unauthorized when user is not authenticated.
+        /// </summary>
         [Fact]
         public async Task UpdatePrivacyPolicy_ShouldReturnUnauthorized_WhenUserIsNotAuthenticated()
         {
@@ -56,6 +60,9 @@ namespace Project_WPR.Tests.Controllers
             // expected "{ Msg = \"no user logged in\" }" actual "{ Msg = \"no user logged in\" }" Ik krijg de juiste waarde terug alleen iets gaat mis met een spatie
         }
 
+        /// <summary>
+        /// Gets the privacy policy should return text in the database.
+        /// </summary>
         [Fact]
         public async Task GetPrivacyPolicy_ShouldReturn_TextInTheDatabase()
         {

@@ -8,6 +8,9 @@ namespace Project_WPR.Tests.Controllers
 {
     public class LogoutControllerTests
     {
+        /// <summary>
+        /// Logouts the should delete all cookies and return ok.
+        /// </summary>
         [Fact]
         public void Logout_ShouldDeleteAllCookies_AndReturnOk()
         {

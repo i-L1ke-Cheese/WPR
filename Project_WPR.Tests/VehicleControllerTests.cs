@@ -26,6 +26,9 @@ namespace Project_WPR.Tests
             _controller = new VehicleController(_mockContext.Object, _mockLogger.Object);
         }
 
+        /// <summary>
+        /// Gets the vehicles returns all vehicles.
+        /// </summary>
         [Fact]
         public void GetVehicles_ReturnsAllVehicles()
         {
@@ -63,6 +66,9 @@ namespace Project_WPR.Tests
             Assert.Equal(3, vehicles.Count());
         }
 
+        /// <summary>
+        /// Gets the vehicle returns vehicle when vehicle exists.
+        /// </summary>
         [Fact]
         public async Task GetVehicle_ReturnsVehicle_WhenVehicleExists()
         {
@@ -84,6 +90,9 @@ namespace Project_WPR.Tests
             Assert.Equal(1, vehicle.Id);
         }
 
+        /// <summary>
+        /// Gets the vehicle returns not found when vehicle does not exist.
+        /// </summary>
         [Fact]
         public async Task GetVehicle_ReturnsNotFound_WhenVehicleDoesNotExist()
         {
@@ -99,6 +108,9 @@ namespace Project_WPR.Tests
             Assert.IsType<NotFoundResult>(result.Result);
         }
 
+        /// <summary>
+        /// Gets the vehicle returns correct vehicle type when vehicle exists.
+        /// </summary>
         [Fact]
         public async Task GetVehicle_ReturnsCorrectVehicleType_WhenVehicleExists()
         {

@@ -3,6 +3,10 @@ using Project_WPR.Server.data;
 using System.Text.Json.Serialization;
 
 public class Program {
+    /// <summary>
+    /// Mains the specified arguments.
+    /// </summary>
+    /// <param name="args">The arguments.</param>
     public static void Main(String[] args) {
         var builder = WebApplication.CreateBuilder(args);
 

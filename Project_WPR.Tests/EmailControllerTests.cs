@@ -12,6 +12,9 @@ namespace Project_WPR.Tests.Controllers
 {
     public class EmailControllerTests
     {
+        /// <summary>
+        /// Sends the email should return ok when email is sent successfully.
+        /// </summary>
         [Fact]
         public async Task SendEmail_ShouldReturnOk_WhenEmailIsSentSuccessfully()
         {

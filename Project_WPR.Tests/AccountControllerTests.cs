@@ -16,7 +16,9 @@ namespace Project_WPR.Tests
 {
     public class AccountControllerTests
     {
-
+        /// <summary>
+        /// Gets the current account returns unauthorized when no user is logged in.
+        /// </summary>
         [Fact]
         public async Task getCurrentAccount_ReturnsUnauthorized_WhenNoUserIsLoggedIn()
         {
