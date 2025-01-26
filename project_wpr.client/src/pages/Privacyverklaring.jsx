@@ -122,7 +122,7 @@ function Privacyverklaring() {
     }, []);
 
     return (
-        <div>
+        <div className="Test">
             {userType === "EmployeeBackOffice" && (
                 <div>
                     <button onClick={toggleEditMode}>

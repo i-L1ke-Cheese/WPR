@@ -19,7 +19,6 @@ import Privacyverklaring from './pages/Privacyverklaring';
 import EditRentalRequest from './pages/EditRentalRequest';
 import './App.css';
 import * as topBTNmanager from './pages/updateTopBtns';
-import Subscriptions from './pages/Subscriptions';
 
 /**
  * App component is de hoofdcomponent van de applicatie.
@@ -60,12 +59,12 @@ function App() {
                 <Header />
                 <div className="main-layout"  >
                     {/* Sidebar */}
-                    <div className="sidebar">
+                    <div className="sidebar" style={{ backgroundColor: '#ECEBEB' }}> 
                         <nav>
-                            <ul>
+                            <ul style={{ fontSize: "21px" }}>
                                 <li><Link to="/">Home</Link></li>
                                 <li><Link to="/overview">Overzicht</Link></li>
-                                <li><Link to="/about">About</Link></li>
+                                <li><Link to="/about">Over ons</Link></li>
                                 <li><Link to="/dashboard">Dashboard</Link></li>
                                 {userType === "EmployeeBackOffice" &&
                                     <li><Link to="/EditVehicles">Voertuigen aanpassen</Link></li>
@@ -74,7 +73,7 @@ function App() {
                         </nav>
                     </div>
                     {/* Main content */}
-                    <div className="content" > 
+                    <div className="content" style={{ backgroundColor: '#F7F6F6'} }> 
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/overview" element={<VehicleOverview />} />
@@ -89,7 +88,6 @@ function App() {
                             <Route path="/editvehicles" element={<EditVehicles />} />
                             <Route path="/addvehicle" element={<AddVehicle />} />
                             <Route path="/createcompany" element={<CreateCompany />} />
-                            <Route path="/subscriptions" element={<Subscriptions />} />
                             <Route path="/privacyverklaring" element={<Privacyverklaring />} />
                             <Route path="/edit-rental-request" element={<EditRentalRequest />} />
                         </Routes>

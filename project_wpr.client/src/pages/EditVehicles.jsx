@@ -218,7 +218,8 @@ const EditVehicles = () => {
     return (
         <div className="vehicle-page">
             <h2>Voertuigbeheer</h2>
-            <form className='border' onSubmit={handleSubmit}>
+            <form className="border" onSubmit={handleSubmit}>
+                <div className='inline-form'>
                 <div className="form-group">
                     <label htmlFor="licensePlate">Kenteken:</label>
                     <input // Input voor kenteken
@@ -287,7 +288,9 @@ const EditVehicles = () => {
                         placeholder="Huurprijs"
                         required
                     />
+                    </div>
                 </div>
+                <div className='inline-form'>
                 {formData.vehicleType == "car" &&
                     <div className="form-group">
                         <label htmlFor="transmissionType">Versnellingsbak:</label>
@@ -298,10 +301,10 @@ const EditVehicles = () => {
                             placeholder="Versnellingsbak"
                             required
                         />
-                    </div>}
+                        </div>}
                 {formData.vehicleType == "camper" &&
                     <div className="form-group">
-                        <label className='tekst' htmlFor="transmission">Versnellingsbak:</label>
+                        <label htmlFor="transmission">Versnellingsbak:</label>
                         <input // Input voor versnellingsbak bij camper
                             name="camperTransmissionType"
                             value={formData.transmissionType}
@@ -342,10 +345,14 @@ const EditVehicles = () => {
                         <option value="true">Beschadigd</option>
                         <option value="false">Niet beschadigd</option>
                     </select>
+                    </div>
                 </div>
+                <div className='inline-form'>
                 <button type="submit">Opslaan</button>
-                <button onClick={handleClick}>Voertuig toevoegen</button>
+                    <button onClick={handleClick}>Voertuig toevoegen</button>
+                </div>
             </form >
+            <div className="searchbarwrapper">
             <label htmlFor="search">Zoeken</label>
             <input // Input om te zoeken op kenteken, merk, model of merk en model 
                 className="form"
@@ -353,7 +360,8 @@ const EditVehicles = () => {
                 value={searchQuery}
                 onChange={handleSearch}
                 placeholder="Zoeken op kenteken, merk en/of model"
-            />
+                />
+            </div>
 
             <div
                 className='Test'style={{ overflowX: 'auto', whiteSpace: 'nowrap' }}
