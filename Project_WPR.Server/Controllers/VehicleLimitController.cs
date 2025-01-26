@@ -14,11 +14,21 @@ namespace Project_WPR.Server.Controllers
     {
         private readonly DatabaseContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="VehicleLimitController"/> class.
+        /// </summary>
+        /// <param name="context">The context.</param>
         public VehicleLimitController(DatabaseContext context)
         {
             _context = context;
         }
-        // De API die er voorzorgt dat er uit de database wordt gehaald hoevaak een huurder mag gaan huren
+
+        // De API die er voorzorgt dat er uit de database wordt gehaald hoevaak een huurder mag gaan huren        
+        /// <summary>
+        /// Gets the company vehicle limit.
+        /// </summary>
+        /// <param name="businessRenterId">The business renter identifier.</param>
+        /// <returns></returns>
         [HttpGet("GetBusinessRenterVehicleLimit")]
         public async Task<IActionResult> GetCompanyVehicleLimit(string businessRenterId)
         {
@@ -41,7 +51,12 @@ namespace Project_WPR.Server.Controllers
         }
 
 
-        // De API die er voorzorgt dat je een huurder een limiet kunt geven van hoevaak ze mogen huren
+        // De API die er voorzorgt dat je een huurder een limiet kunt geven van hoevaak ze mogen huren        
+        /// <summary>
+        /// Sets the business vehicle limit.
+        /// </summary>
+        /// <param name="vehicleLimitDTO">The vehicle limit dto.</param>
+        /// <returns></returns>
         [HttpPost("SetBusinessRenterVehicleLimit")]
         public async Task<IActionResult> SetBusinessVehicleLimit([FromBody] VehicleLimitDTO vehicleLimitDTO)
         {
@@ -83,7 +98,12 @@ namespace Project_WPR.Server.Controllers
             return Ok(businessRenter.MaxVehiclesPerBusinessRenter);
         }
 
-        // De API die ervoorzorgt hoeveel een bedrijf mag gaan huren 
+        // De API die ervoorzorgt hoeveel een bedrijf mag gaan huren         
+        /// <summary>
+        /// Sets the company renter vehicle limit.
+        /// </summary>
+        /// <param name="companyId">The company identifier.</param>
+        /// <returns></returns>
         [HttpPost("SetCompanyRenterVehicleLimit")]
         public async Task<IActionResult> SetCompanyRenterVehicleLimit(int companyId)
         {
@@ -106,7 +126,12 @@ namespace Project_WPR.Server.Controllers
             return Ok(company.MaxVehiclesPerCompany);
         }
 
-        // De API die ervoorzorgt om te kijken hoeveel een bedrijf mag gaan huren
+        // De API die ervoorzorgt om te kijken hoeveel een bedrijf mag gaan huren        
+        /// <summary>
+        /// Gets the company renter vehicle limit.
+        /// </summary>
+        /// <param name="companyId">The company identifier.</param>
+        /// <returns></returns>
         [HttpGet("GetCompanyRenterVehicleLimit")]
         public async Task<IActionResult> GetCompanyRenterVehicleLimit(int companyId)
         {

@@ -23,6 +23,11 @@ namespace Project_WPR.Server.Controllers
             _userManager = userManager;
         }
 
+        /// <summary>
+        /// Creates the damage report.
+        /// </summary>
+        /// <param name="damageReportDTO">The damage report dto.</param>
+        /// <returns></returns>
         [HttpPost("maak-schademelding")]
         [Authorize]
         public async Task<IActionResult> CreateDamageReport([FromBody] DamageReportDTO damageReportDTO)
@@ -67,6 +72,10 @@ namespace Project_WPR.Server.Controllers
             return Ok(new { message = "Damage report created successfully.", damageReport });
         }
 
+        /// <summary>
+        /// Gets all damage reports.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("alle-voertuigen")]
         public async Task<IActionResult> GetAllDamageReports()
         {
@@ -80,6 +89,11 @@ namespace Project_WPR.Server.Controllers
             return Ok(damageReports);
         }
 
+        /// <summary>
+        /// Gets the damage reports.
+        /// </summary>
+        /// <param name="vehicleId">The vehicle identifier.</param>
+        /// <returns></returns>
         [HttpGet("vehicle/{vehicleId}")]
         public async Task<IActionResult> GetDamageReports(int vehicleId)
         {
@@ -95,6 +109,12 @@ namespace Project_WPR.Server.Controllers
             return Ok(damageReports);
         }
 
+        /// <summary>
+        /// Updates the damage report.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="damageReportDTO">The damage report dto.</param>
+        /// <returns></returns>
         [HttpPut("update-schademelding/{id}")]
         public async Task<IActionResult> UpdateDamageReport(int id, [FromBody] DamageReportDTO damageReportDTO)
         {
@@ -125,6 +145,11 @@ namespace Project_WPR.Server.Controllers
             return Ok(new { message = "Damage report updated successfully.", damageReport });
         }
 
+        /// <summary>
+        /// Deletes the damage report.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         [HttpDelete("delete-schademelding/{id}")]
         public async Task<IActionResult> DeleteDamageReport(int id)
         {

@@ -29,6 +29,9 @@ function DashboardCompanyAdmin() {
     const [message, setMessage] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
 
+    /**
+     * Gets the current user's information and checks if they are logged in.
+     */
     const getUserInfo = async () => {
         const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
             method: "GET",
@@ -54,11 +57,17 @@ function DashboardCompanyAdmin() {
         }
     }
 
+    /**
+     * Gets the current user's information and checks if they are logged in.
+     */
     useEffect(() => {
         getUserInfo();// get user info, but also check if user is logged in, and if not, go to login page
     }, []);
 
-    // Haalt maximale voertuigen op voor een gebruiker
+    /**
+     * Fetches the users for a company.
+     * @param {any} companyId
+     */
     const handleFetch = async (companyId) => {
         try {
             const response = await fetch(`https://localhost:7289/api/CompanyWorkers/GetCompanyWorkers?companyIDset=${companyId}`, {
@@ -85,15 +94,21 @@ function DashboardCompanyAdmin() {
         }
     };
 
-    // Zorgt ervoor dat de nieuwe maximale voertuigen worden getoond zonder refresh
+    /**
+     * Handles the input change for the max vehicles.
+     * @param {any} id
+     * @param {any} event
+     */
     const handleInputChange = (id, event) => {
         const newTempMaxVehicles = { ...tempMaxVehicles };
         newTempMaxVehicles[id] = event.target.value;
         setTempMaxVehicles(newTempMaxVehicles);
     };
 
-
-    // Zet een voertuigen limiet op een gebruiker
+    /**
+     * Handles the save of the max vehicles.
+     * @param {any} businessRenterId
+     */
     const handleSave = async (businessRenterId) => {
         try {
             const response = await fetch('https://localhost:7289/api/VehicleLimit/SetBusinessRenterVehicleLimit', {
@@ -119,7 +134,9 @@ function DashboardCompanyAdmin() {
         }
     };
 
-    // Verwijder een gebruiker van een bedrijf
+    /**
+     * Handles the delete of a user.
+     */
     const handleDelete = async (event) => {
         event.preventDefault();
         try {
@@ -142,7 +159,9 @@ function DashboardCompanyAdmin() {
         }
     };
 
-    // Pakt het huidige huur limiet van een bedrijf
+    /**
+     * Handles the company limit.
+     */
     const handleCompanyLimit = async (companyId) => {
         try {
             const response = await fetch(`https://localhost:7289/api/VehicleLimit/GetCompanyRenterVehicleLimit?companyId=${companyId}`, {
@@ -164,6 +183,9 @@ function DashboardCompanyAdmin() {
         }
     };
 
+    /**
+     * Handles input change events and updates the form data state.
+     */
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -172,6 +194,9 @@ function DashboardCompanyAdmin() {
         }));
     };
 
+    /**
+     * Handles the account type change.
+     */
     const handleAccountTypeChange = (e) => {
         const { value } = e.target;
         //setAccountType(value);
@@ -181,6 +206,9 @@ function DashboardCompanyAdmin() {
         }));
     };
 
+    /**
+     * Handles form submission, performs validation, and sends a registration request.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
 

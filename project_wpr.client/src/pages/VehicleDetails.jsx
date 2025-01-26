@@ -33,6 +33,9 @@ function VehicleDetails() {
 
     const [email, setEmail] = useState("");
 
+    /**
+     * Functie om de reserveringen van een voertuig op te halen uit de API.
+     */
     const fetchVehicleReservations = async () => {
         try {
             const response = await fetch(`https://localhost:7289/api/RentalRequest/reserveringen-van-auto?vehicleId=${vehicleId}`);
@@ -55,6 +58,10 @@ function VehicleDetails() {
         }
     }
 
+    /**
+     * Functie om een huuraanvraag te versturen naar de API en een email te verzenden.
+     * @param {any} e
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (currentUserId == "None") {
@@ -110,7 +117,9 @@ function VehicleDetails() {
         }
     };
 
-
+    /**
+     * Functie om de gebruikersinformatie op te halen uit de API.
+     */
     const getUserInfo = async () => {
         try {
             const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
@@ -155,6 +164,9 @@ function VehicleDetails() {
 
     }, [id]);
 
+    /**
+     * useEffect hook om de reserveringen van een voertuig op te halen uit de API.
+     */
     useEffect(() => {
         fetchVehicleReservations();
     }, [vehicle])
@@ -163,9 +175,6 @@ function VehicleDetails() {
         return <div style={{ color: 'black', textAlign: 'center' }}>Loading...</div>;
     }
 
-    if (vehicle.pictures === null) {
-            vehicle.pictures = [];
-    }
 
     return (
         <div className="vehicle-details">
@@ -181,9 +190,6 @@ function VehicleDetails() {
                 {vehicle.requiredLicenseType && <p><strong>Rijbewijs:</strong> {vehicle.requiredLicenseType}</p>}
             </div>
             <div className='vehicle-pictures'>
-                {/*{vehicle.pictures.map(picture => (*/}
-                {/*    <img key={picture.id} src={picture.filePath} alt="Voertuigfoto's" />*/}
-                {/*))}*/}
                 <img src='Standaardauto.jpg'/>
             </div>
             <div className="vehicle-info" >

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+/**
+ * Subscriptions component toont de beschikbare subscriptions en laat de gebruiker een subscription kiezen.
+ * @returns
+ */
 function Subscriptions() {
     const [subscriptions, setSubscriptions] = useState([]);
     const [companyName, setCompanyName] = useState('');
@@ -10,6 +14,9 @@ function Subscriptions() {
     const [email, setMail] = useState('');
     const navigate = useNavigate();
 
+    /**
+     * Haal de gebruikersinformatie op van de huidige ingelogde gebruiker.
+     */
     const getUserInfo = async () => {
         const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
             method: "GET",
@@ -33,6 +40,10 @@ function Subscriptions() {
         }
     };
 
+    /**
+     * Haal de company informatie op van de huidige ingelogde gebruiker.
+     * @param {any} companyId
+     */
     const getCompanyInfo = async (companyId) => {
         const companyFound = await fetch(`https://localhost:7289/api/Company/getCurrentCompany?companyId=${companyId}`, {
             method: "GET",
@@ -51,6 +62,9 @@ function Subscriptions() {
         }
     };
 
+    /**
+     * Haal de subscription informatie op.
+     */
     const getSubscriptionInfo = async () => {
         try {
             const subscriptionInfo = await fetch('https://localhost:7289/api/Subscription/GetSubscriptionDetails', {
@@ -72,6 +86,10 @@ function Subscriptions() {
         }
     };
 
+    /**
+     * Handel de klik op een subscription kaart af en update de subscription
+     * @param {any} subscriptionId
+     */
     const handleSubscriptionClick = async (subscriptionId) => {
         const confirmed = window.confirm("Weet u zeker dat u deze subscription wilt kiezen?");
         if (confirmed) {
@@ -129,16 +147,25 @@ function Subscriptions() {
         }
     };
 
+    /**
+     * Voer de getUserInfo en getCompanyInfo functies uit bij het laden van de pagina.
+     */
     useEffect(() => {
         getUserInfo();
     }, []);
 
+    /**
+     * Haal de company informatie op als de companyId is veranderd
+     */
     useEffect(() => {
         if (companyId) {
             getCompanyInfo(companyId);
         }
     }, [companyId]);
 
+    /**
+     * Haal de subscription informatie op bij het laden van de pagina
+     */
     useEffect(() => {
         getSubscriptionInfo();
     }, []);

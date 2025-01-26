@@ -49,6 +49,9 @@ const EditUserData = () => {
         }
     }
 
+    /**
+     * Fetches the user information when the component is mounted.
+     */
     useEffect(() => {
         getUserInfo();
     }, []);

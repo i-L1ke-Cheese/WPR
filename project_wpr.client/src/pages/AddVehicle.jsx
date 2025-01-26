@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 //import './AddVehicle.css';
 
+/**
+ * Component for adding a new vehicle to the database.
+ * @returns
+ */
 const AddVehicle = () => {
     const [formData, setFormData] = useState({
         licensePlate: '',
@@ -18,6 +22,10 @@ const AddVehicle = () => {
         isDamaged: false
     });
 
+    /**
+     * Handle form input changes.
+     * @param {any} e
+     */
     const handleChange = (e) => {
         const { name, value } = e.target;
         let newValue = value;
@@ -27,6 +35,10 @@ const AddVehicle = () => {
         setFormData({ ...formData, [name]: value });
     };
 
+    /**
+     * Handle form submission.
+     * @param {any} e
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         const url = 'https://localhost:7289/api/vehicle/voeg-voertuig-toe';

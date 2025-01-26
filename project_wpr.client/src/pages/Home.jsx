@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Home.css';
 
+/**
+ * Component for the home page.
+ * @returns
+ */
 function Home() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const navigate = useNavigate();
 
+    /**
+     * Fetches the current user information from the server.
+     */
     const getUserInfo = async () => {
         const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
             method: "GET",
@@ -20,6 +27,9 @@ function Home() {
         } 
     }
 
+    /**
+     * Runs when the component is mounted.
+     */
     useEffect(() => {
         // Controleer of de gebruiker is ingelogd
         getUserInfo();

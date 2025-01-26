@@ -2,6 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./About.css";
 
+/**
+ * Component for the privacy policy page.
+ * @returns
+ */
 function Privacyverklaring() {
     const navigate = useNavigate();
 
@@ -15,6 +19,9 @@ function Privacyverklaring() {
     const [userType, setUserType] = useState("");
     const [editMode, setEditMode] = useState(false);
 
+    /**
+     * Fetches the user info from the API to determine the user's role.
+     */
     const getUserInfo = async () => {
         const loggedInCheckResponse = await fetch(
             "https://localhost:7289/api/Account/getCurrentAccount",
@@ -39,6 +46,9 @@ function Privacyverklaring() {
         }
     };
 
+    /**
+     * Fetches the privacy policy content from the API.
+     */
     const fetchPrivacyPolicy = async () => {
         const response = await fetch("https://localhost:7289/api/PrivacyPolicyEditing/get", {
             method: "GET",
@@ -53,16 +63,26 @@ function Privacyverklaring() {
         }
     };
 
+    /**
+     * Toggles the edit mode for the privacy policy content.
+     */
     const toggleEditMode = () => {
         setEditMode((prevMode) => !prevMode);
     };
 
+    /**
+     * Handles the change event for the privacy policy content.
+     * @param {any} event
+     */
     const handleContentChange = (event) => {
         const newContent = event.target.value;
         setHistory((prevHistory) => [...prevHistory, content]);
         setContent(newContent);
     };
 
+    /**
+     * Handles saving the updated privacy policy content.
+     */
     const handleSave = async () => {
         setEditMode(false);
         try {
@@ -85,11 +105,17 @@ function Privacyverklaring() {
         }
     };
 
+    /**
+     * Cancels the edit mode and reverts the content to the previous state.
+     */
     const handleCancel = () => {
         setEditMode(false);
         setContent(history[history.length - 1] || placeholder);
     };
 
+    /**
+     * Initializes the component by fetching the user info and privacy policy content.
+     */
     useEffect(() => {
         getUserInfo();
         fetchPrivacyPolicy();

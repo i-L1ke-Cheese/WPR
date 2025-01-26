@@ -28,10 +28,18 @@ namespace Project_WPR.Server.data {
         {
         }
 
+        /// <summary>
+        /// Called when [configuring].
+        /// </summary>
+        /// <param name="b">The b.</param>
         protected override void OnConfiguring(DbContextOptionsBuilder b) {
             b.UseSqlite("Data Source=database.db");
         }
 
+        /// <summary>
+        /// Called when [model creating].
+        /// </summary>
+        /// <param name="b">The b.</param>
         protected override void OnModelCreating(ModelBuilder b) { 
             base.OnModelCreating(b);
 

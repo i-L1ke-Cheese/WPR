@@ -18,7 +18,13 @@ namespace Project_WPR.Server.Controllers
         {
             _context = context;
         }
-        // Verwijder medewerker van een bedrijf
+
+        // Verwijder medewerker van een bedrijf        
+        /// <summary>
+        /// Deletes the user from company.
+        /// </summary>
+        /// <param name="dto">The dto.</param>
+        /// <returns></returns>
         [HttpDelete("DeleteUserFromCompany")]
         public async Task<IActionResult> DeleteUserFromCompany([FromBody] AddUserToCompanyDTO dto)
         {
@@ -66,7 +72,12 @@ namespace Project_WPR.Server.Controllers
             return Ok(new { Message = "Werknemer verwijderd" });
         }
 
-        // Voeg medewerker toe aan bedrijf
+        // Voeg medewerker toe aan bedrijf        
+        /// <summary>
+        /// Sets the user to company.
+        /// </summary>
+        /// <param name="dto">The dto.</param>
+        /// <returns></returns>
         [HttpPost("SetUserToCompany")]
         public async Task<IActionResult> SetUserToCompany([FromBody] AddUserToCompanyDTO dto)
         {
