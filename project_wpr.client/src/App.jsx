@@ -65,7 +65,7 @@ function App() {
                             <ul>
                                 <li><Link to="/">Home</Link></li>
                                 <li><Link to="/overview">Overzicht</Link></li>
-                                <li><Link to="/about">About</Link></li>
+                                <li><Link to="/about">Over ons</Link></li>
                                 <li><Link to="/dashboard">Dashboard</Link></li>
                                 {userType === "EmployeeBackOffice" &&
                                     <li><Link to="/EditVehicles">Voertuigen aanpassen</Link></li>

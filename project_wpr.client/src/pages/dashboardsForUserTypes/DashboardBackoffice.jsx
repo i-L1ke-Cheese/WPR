@@ -113,7 +113,7 @@ function DashboardBackoffice() {
     };
 
     return (
-        <div>
+        <div className='Test'>
             <h3 style={{ color: 'black', textAlign: "center" }}>Voertuigen</h3>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
                 <button onClick={handleEditVehiclesClick}>Voertuigen aanpassen</button>

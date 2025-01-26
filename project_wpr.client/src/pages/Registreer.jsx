@@ -37,11 +37,11 @@ function Registreer() {
             if (response.ok) {
                 const result = await response.json();
                 console.log("registering successful:", result);
-                document.getElementById("RegisterConfirmationMessageTag").innerHTML = "Registration succesfull. you can now log in with your new account.";
+                document.getElementById("RegisterConfirmationMessageTag").innerHTML = "Registratie compleet u kunt inloggen.";
 
             } else {
                 console.error("registering failed");
-                document.getElementById("message").innerHTML = "failed";
+                document.getElementById("message").innerHTML = "Probeer opnieuw";
             }
         } catch (error) {
             console.error("Error:", error);
@@ -78,11 +78,11 @@ function Registreer() {
             <p className="form-title">Registeer hier</p>
             <div className="button-container">
                 <button className="userTypeSelectionBtn darkblue" type="button" onClick={(e) => handleUserTypeSelection("Private", e)}>PrivateRenter</button>
-                <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("Business", e)}>BusinessRenter</button>
+                {/*<button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("Business", e)}>BusinessRenter</button>*/}
                 <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("Admin", e)}>CompanyAdmin</button>
-                <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("VehicleManager", e)}>VehicleManager</button>
-                <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("FrontOffice", e)}>FrontOffice</button>
-                <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("BackOffice", e)}>BackOffice</button>
+            {/*    <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("VehicleManager", e)}>VehicleManager</button>*/}
+            {/*    <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("FrontOffice", e)}>FrontOffice</button>*/}
+            {/*    <button className="userTypeSelectionBtn" type="button" onClick={(e) => handleUserTypeSelection("BackOffice", e)}>BackOffice</button>*/}
             </div>
             <div className="input-container">
                 <label htmlFor="email" className="visually-hidden">emailadres:</label>

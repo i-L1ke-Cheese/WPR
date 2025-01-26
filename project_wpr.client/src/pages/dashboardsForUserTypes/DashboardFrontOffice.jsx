@@ -286,167 +286,173 @@ function DashboardFrontOffice() {
 
     return (
         <div className='div'>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="carId">Car ID:</label>
-                    <input
-                        type="text"
-                        id="carId"
-                        value={carId}
-                        onChange={(e) => setCarId(e.target.value)}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="action">Action:</label>
-                    <select
-                        id="action"
-                        value={action}
-                        onChange={(e) => setAction(e.target.value)}
-                    >
-                        <option value="editRentalRequest">Huuraanvraag bewerken</option>
-                        <option value="reportDamage">Schade melden</option>
-                        <option value="editDamageReport">Schademelding bewerken</option>
-                    </select>
-                </div>
-                {action === 'reportDamage' && (
+            <div className='Test' style={{ width: 'auto' }}>
+                <form onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="damageDescription">Damage Description:</label>
-                        <textarea
-                            id="damageDescription"
-                            value={damageDescription}
-                            onChange={(e) => setDamageDescription(e.target.value)}
+                        <label htmlFor="carId">Car ID:</label>
+                        <input
+                            type="text"
+                            id="carId"
+                            value={carId}
+                            onChange={(e) => setCarId(e.target.value)}
+                            required
                         />
                     </div>
-                )}
-                {action === 'editDamageReport' && (
                     <div>
-                        <label htmlFor="damageDescription">Damage Description:</label>
-                        <textarea
-                            id="damageDescription"
-                            value={damageDescription}
-                            onChange={(e) => setDamageDescription(e.target.value)}
-                        />
-                    </div>
-                )}
-                {(action === 'reportDamage' || action === 'editDamageReport') && (
-                    <div>
-                        <label htmlFor="status">Status:</label>
+                        <label htmlFor="action">Action:</label>
                         <select
-                            id="status"
-                            value={status}
-                            onChange={(e) => setStatus(e.target.value)}
+                            id="action"
+                            value={action}
+                            onChange={(e) => setAction(e.target.value)}
                         >
-                            <option value="Beschadigd">Beschadigd</option>
-                            <option value="In reparatie">In reparatie</option>
-                            <option value="Gerepareerd">Gerepareerd</option>
+                            <option value="editRentalRequest">Huuraanvraag bewerken</option>
+                            <option value="reportDamage">Schade melden</option>
+                            <option value="editDamageReport">Schademelding bewerken</option>
                         </select>
                     </div>
-                )}
-                {action === 'editRentalRequest' && (
-                    <div>
-                        <label htmlFor="rentalRequestStatus">Status:</label>
-                        <select
-                            id="rentalRequestStatus"
-                            value={rentalRequestStatus}
-                            onChange={(e) => setRentalRequestStatus(e.target.value)}
-                        >
-                            {userDepartment == "EmployeeBackOffice" &&
-                                <>
-                                    <option value="in behandeling">In behandeling</option>
-                                    <option value="goedgekeurd">Goedgekeurd</option>
-                                    <option value="afgekeurd">Afgekeurd</option>
-                                </>
-                            }
-                            {userDepartment == "EmployeeFrontOffice" &&
-                                <>
-                                <option value={null}>-- Kies optie --</option>
-                                <option value="uitgegeven">Uitgegeven</option>
-                                <option value="ingenomen">Ingenomen</option>
-                                </>
-                            }
-          
-                        </select>
-                    </div>
-                )}
-                <button type="submit">Submit</button>
-            </form>
-
-            <h2>Huuraanvragen</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Voertuig</th>
-                        <th>Van</th>
-                        <th>Tot</th>
-                        {userDepartment === 'EmployeeBackOffice' &&
-                            <>
-                                <th>Intentie</th>
-                                <th>Verste bestemming</th>
-                                <th>Verwachte km</th>
-                            </>
-                        }
-                        <th>Huurder</th>
-                        <th>Status</th>
-                        <th>Aanpassen</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {rentalRequests
-                        .filter(request => {
-                            if (userDepartment === 'EmployeeFrontOffice') {
-                                return ['goedgekeurd', 'uitgegeven', 'ingenomen'].includes(request.status);
-                            }
-                            return true;
-                        })
-                        .filter(request => new Date(request.endDate) >= currentDate)
-                        .sort((a, b) => new Date(a.startDate) - new Date(b.startDate)) // Sort rental requests by start date
-                        .map(request => (
-                            <tr key={request.id}>
-                                <td>{request.vehicleBrand} {request.vehicleType} ({request.vehicleId})</td>
-                                <td>{request.startDate}</td>
-                                <td>{request.endDate}</td>
-                                {userDepartment === 'EmployeeBackOffice' &&
+                    {action === 'reportDamage' && (
+                        <div>
+                            <label htmlFor="damageDescription">Damage Description:</label>
+                            <textarea
+                                id="damageDescription"
+                                value={damageDescription}
+                                onChange={(e) => setDamageDescription(e.target.value)}
+                            />
+                        </div>
+                    )}
+                    {action === 'editDamageReport' && (
+                        <div>
+                            <label htmlFor="damageDescription">Damage Description:</label>
+                            <textarea
+                                id="damageDescription"
+                                value={damageDescription}
+                                onChange={(e) => setDamageDescription(e.target.value)}
+                            />
+                        </div>
+                    )}
+                    {(action === 'reportDamage' || action === 'editDamageReport') && (
+                        <div>
+                            <label htmlFor="status">Status:</label>
+                            <select
+                                id="status"
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                            >
+                                <option value="Beschadigd">Beschadigd</option>
+                                <option value="In reparatie">In reparatie</option>
+                                <option value="Gerepareerd">Gerepareerd</option>
+                            </select>
+                        </div>
+                    )}
+                    {action === 'editRentalRequest' && (
+                        <div>
+                            <label htmlFor="rentalRequestStatus">Status:</label>
+                            <select
+                                id="rentalRequestStatus"
+                                value={rentalRequestStatus}
+                                onChange={(e) => setRentalRequestStatus(e.target.value)}
+                            >
+                                {userDepartment == "EmployeeBackOffice" &&
                                     <>
-                                        <td>{request.intention}</td>
-                                        <td>{request.farthestDestination}</td>
-                                        <td>{request.suspectedKm}</td>
+                                        <option value="in behandeling">In behandeling</option>
+                                        <option value="goedgekeurd">Goedgekeurd</option>
+                                        <option value="afgekeurd">Afgekeurd</option>
                                     </>
                                 }
-                                <td>{request.renterFirstName} {request.renterLastName}</td>
-                                <td>{request.status}</td>
-                                <td><button onClick={() => handleEditRentalRequest(request)}>Acties</button></td>
-                            </tr>
-                        ))}
-                </tbody>
-            </table>
+                                {userDepartment == "EmployeeFrontOffice" &&
+                                    <>
+                                        <option value={null}>-- Kies optie --</option>
+                                        <option value="uitgegeven">Uitgegeven</option>
+                                        <option value="ingenomen">Ingenomen</option>
+                                    </>
+                                }
+
+                            </select>
+                        </div>
+                    )}
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+
+            <h2>Huuraanvragen</h2>
+            <div className='Test' style={{ width: 'auto' }}>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Voertuig</th>
+                            <th>Van</th>
+                            <th>Tot</th>
+                            {userDepartment === 'EmployeeBackOffice' &&
+                                <>
+                                    <th>Intentie</th>
+                                    <th>Verste bestemming</th>
+                                    <th>Verwachte km</th>
+                                </>
+                            }
+                            <th>Huurder</th>
+                            <th>Status</th>
+                            <th>Aanpassen</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {rentalRequests
+                            .filter(request => {
+                                if (userDepartment === 'EmployeeFrontOffice') {
+                                    return ['goedgekeurd', 'uitgegeven', 'ingenomen'].includes(request.status);
+                                }
+                                return true;
+                            })
+                            .filter(request => new Date(request.endDate) >= currentDate)
+                            .sort((a, b) => new Date(a.startDate) - new Date(b.startDate)) // Sort rental requests by start date
+                            .map(request => (
+                                <tr key={request.id}>
+                                    <td>{request.vehicleBrand} {request.vehicleType} ({request.vehicleId})</td>
+                                    <td>{request.startDate}</td>
+                                    <td>{request.endDate}</td>
+                                    {userDepartment === 'EmployeeBackOffice' &&
+                                        <>
+                                            <td>{request.intention}</td>
+                                            <td>{request.farthestDestination}</td>
+                                            <td>{request.suspectedKm}</td>
+                                        </>
+                                    }
+                                    <td>{request.renterFirstName} {request.renterLastName}</td>
+                                    <td>{request.status}</td>
+                                    <td><button onClick={() => handleEditRentalRequest(request)}>Acties</button></td>
+                                </tr>
+                            ))}
+                    </tbody>
+                </table>
+            </div>
 
             <h2>Schademeldingen</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Datum</th>
-                        <th>Voertuig</th>
-                        <th>Beschrijving</th>
-                        <th>Status</th>
-                        <th>Aanpassen</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {damageReports.map(report => (
-                        <tr key={report.id}>
-                            <td>{report.date}</td>
-                            <td>{report.vehicleBrand} {report.vehicleType} ({report.vehicleId})</td>
-                            <td>{report.description}</td>
-                            <td>{report.status}</td>
-                            <td>
-                                <button onClick={() => handleEditDamageReport(report)}>Bewerken</button>
-                                <button onClick={() => handleDeleteDamageReport(report.id)}>Verwijderen</button>
-                            </td>
+            <div className='Test'>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Datum</th>
+                            <th>Voertuig</th>
+                            <th>Beschrijving</th>
+                            <th>Status</th>
+                            <th>Aanpassen</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {damageReports.map(report => (
+                            <tr key={report.id}>
+                                <td>{report.date}</td>
+                                <td>{report.vehicleBrand} {report.vehicleType} ({report.vehicleId})</td>
+                                <td>{report.description}</td>
+                                <td>{report.status}</td>
+                                <td>
+                                    <button onClick={() => handleEditDamageReport(report)}>Bewerken</button>
+                                    <button onClick={() => handleDeleteDamageReport(report.id)}>Verwijderen</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

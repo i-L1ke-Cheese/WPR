@@ -171,14 +171,17 @@ function Subscriptions() {
     }, []);
 
     return (
-        <div className="container" style={{ color: 'black' }}>
-            <p>Uw huidige subscription voor {companyName} is {currentSub}</p>
-            <div className="users-container" style={{ display: 'flex', flexWrap: 'wrap', marginTop: '20px' }}>
+        <div className="container" style={{ color: 'black', textAlign: 'center' }}>
+            <div className="users-container" style={{
+                display: 'flex', flexWrap: 'wrap', marginTop: '20px', height: "auto",
+                width: "auto"
+            }}>
+                <h2 className='tekst' style={{ textAlign: 'center' }}>Uw huidige subscription voor {companyName} is {currentSub} u kunt het hier veranderen</h2>
                 {subscriptions.map((subscriptionInfo, index) => (
                     <div
                         key={index}
-                        className="user-card"
-                        style={{ margin: '10px', padding: '10px', border: '1px solid #ccc', cursor: 'pointer' }}
+                        className="Test"
+                        style={{ margin: '10px', padding: 'auto', border: '1px solid #ccc', cursor: 'pointer' }}
                         onClick={() => handleSubscriptionClick(subscriptionInfo.id)}
                     >
                         <p><strong>Subscription ID:</strong> {subscriptionInfo.id}</p>

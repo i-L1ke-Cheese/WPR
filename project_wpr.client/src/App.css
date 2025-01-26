@@ -58,9 +58,25 @@
     .sidebar {
         width: 100%; 
         margin-bottom: 20px; 
+
     }
 
     .content {
         width: 100%; 
+
     }
+}
+
+.sidebara {
+    background-image: url('/public/Sidebar - kopie.jpg'); /* Path to your image */
+    background-size: cover; /* Ensure the image covers the entire sidebar */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    width: 250vh; /* Set a fixed width for the sidebar */
+    height: 100vh; /* Make the sidebar take the full height of the viewport */
+    padding: 1rem; /* Optional: Add some padding */
+    box-sizing: border-box; /* Include padding in the element's total width and height */
+    border-right: 1px solid #d3d3d3; /* Add a border to the right */
+    overflow-y: auto;
+    overflow-x: hidden;
 }
