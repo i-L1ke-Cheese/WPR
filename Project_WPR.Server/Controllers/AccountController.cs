@@ -160,7 +160,11 @@ namespace Project_WPR.Server.Controllers
                     role = role
                 });
             }
+            
             var vehicleManager = await _dbContext.vehicleManagers.FirstOrDefaultAsync(vm => vm.Id == userID);
+
+            var companyVM = await _dbContext.Companies.FirstOrDefaultAsync(c => c.Id == vehicleManager.CompanyId);
+
             if (vehicleManager != null)
             {
                 return Ok(new
@@ -173,6 +177,8 @@ namespace Project_WPR.Server.Controllers
                     Address = vehicleManager.Address,
                     Place = vehicleManager.Place,
                     LicenseNumber = vehicleManager.LicenseNumber,
+                    CompanyName = companyVM.Name,
+                    CompanyId = vehicleManager.CompanyId,
                     role = "VehicleManager"
                 });
             }
