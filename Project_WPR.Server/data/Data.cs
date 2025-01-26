@@ -125,6 +125,7 @@ namespace Project_WPR.Server.data {
         public int SubscriptionId { get; set; }
         public Subscription Subscription { get; set; }
         public int MaxVehiclesPerCompany { get; set; }
+        public string? CompanyPhone { get; set; }
         public ICollection<RentalRequest> ActiveRentalRequests { get; set; } = new List<RentalRequest>();
     }
     public class PrivacyPolicyContent {

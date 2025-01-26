@@ -128,7 +128,6 @@ function DashboardPrivateRenter() {
                         ))}
                     </div>
                 )}
-                <div className="dashboard-panel dashboard-panel-fullwidth pointer" onClick={handleEditUserDataClick}>Gegevens inzien/veranderen</div>
             </div>
         </div>
     );
