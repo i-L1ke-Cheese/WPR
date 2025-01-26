@@ -10,6 +10,7 @@ const EditVehicles = () => {
     const navigate = useNavigate();
     const [vehicles, setVehicles] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const [userType, setUserType] = useState('');
     const [formData, setFormData] = useState({
         id: '',
         brand: '',
@@ -26,6 +27,32 @@ const EditVehicles = () => {
         requiredLicenseType: '',
         transmissionType: ''
     });
+
+    /**
+     * Haal de gebruikersinformatie op en bepaal welk dashboard moet worden weergegeven.
+     */
+    const getUserInfo = async () => {
+        const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (loggedInCheckResponse.ok) {
+            const user = await loggedInCheckResponse.json();
+
+            // Check if the user is a CompanyAdmin and if they have a companyId
+            if (!(user.role === "EmployeeBackOffice")) {
+                navigate("/dashboard");
+            } else { setUserType(user.role); }
+
+        } else {
+            navigate("/login");
+        }
+
+    }
 
     // Fetch vehicles from the API
     /**
@@ -51,7 +78,7 @@ const EditVehicles = () => {
                 console.error("Error: ", error);
             }
         };
-
+        getUserInfo();
         fetchVehicles();
     }, []);
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -26,12 +26,33 @@ import Subscriptions from './pages/Subscriptions';
  * @returns
  */
 function App() {
+    const [userType, setUserType] = useState("");
     /**
      * useEffect hook die de showAccountDropdown functie van topBTNmanager aanroept.
      */
     useEffect(() => {
         topBTNmanager.showAccountDropdown();
+        getUserInfo();
     })
+
+    /**
+     * Haal de gebruikersinformatie op en stel de usertype in.
+     */
+    const getUserInfo = async () => {
+        const loggedInCheckResponse = await fetch("https://localhost:7289/api/Account/getCurrentAccount", {
+            method: "GET",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (loggedInCheckResponse.ok) {
+            const user = await loggedInCheckResponse.json();
+            setUserType(user.role);
+        }
+    }
+
 
     return (
         <Router>
@@ -45,8 +66,10 @@ function App() {
                                 <li><Link to="/">Home</Link></li>
                                 <li><Link to="/overview">Overzicht</Link></li>
                                 <li><Link to="/about">About</Link></li>
-                                <li><Link to="/dashboard">Dashboard</Link></li> { /* Alleen weergeven als je ingelogd bent */}
-                                <li><Link to="/EditVehicles">Voertuigen aanpassen</Link></li> {/* Alleen weergeven als backoffice medewerker */ }
+                                <li><Link to="/dashboard">Dashboard</Link></li>
+                                {userType === "EmployeeBackOffice" &&
+                                    <li><Link to="/EditVehicles">Voertuigen aanpassen</Link></li>
+                                }
                             </ul>
                         </nav>
                     </div>

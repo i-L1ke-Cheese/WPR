@@ -18,6 +18,7 @@ function DashboardBackoffice() {
 
     const [message, setMessage] = useState("");
     const [isSuccess, setIsSuccess] = useState(false);
+    const navigate = useNavigate();
 
     /**
      * Handles input change events and updates the form data state.
@@ -104,10 +105,19 @@ function DashboardBackoffice() {
         }
     };
 
-
+    /**
+    * Handles the click event for the edit vehicles button.
+    */
+    const handleEditVehiclesClick = () => {
+        navigate('/editvehicles');
+    };
 
     return (
         <div>
+            <h3 style={{ color: 'black', textAlign: "center" }}>Voertuigen</h3>
+            <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '20px' }}>
+                <button onClick={handleEditVehiclesClick}>Voertuigen aanpassen</button>
+            </div>
             <h3 style={{ color: 'black', textAlign: "center" }}>Create new employee account</h3>
             <br />
             <form onSubmit={handleSubmit}>
