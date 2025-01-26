@@ -128,11 +128,11 @@ const EditRentalRequest = () => {
         return <div><p style={{ color: 'black' }}>Uw account komt niet overeen met het account van deze huuraanvraag.</p></div>
     } else {
         return (
-            <div>
-                <h2>Edit Rental Request</h2>
+            <div className='Test'>
+                <h2>Huuraanvraag wijzigen</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label>Start Date:</label>
+                        <label>Start datum:</label>
                         <input
                             type="date"
                             name="startDate"
@@ -142,7 +142,7 @@ const EditRentalRequest = () => {
                         />
                     </div>
                     <div>
-                        <label>End Date:</label>
+                        <label>Eind datum:</label>
                         <input
                             type="date"
                             name="endDate"
@@ -152,7 +152,7 @@ const EditRentalRequest = () => {
                         />
                     </div>
                     <div>
-                        <label>Intention:</label>
+                        <label>Intentie:</label>
                         <input
                             type="text"
                             name="intention"
@@ -162,7 +162,7 @@ const EditRentalRequest = () => {
                         />
                     </div>
                     <div>
-                        <label>Farthest Destination:</label>
+                        <label>Verste bestemming:</label>
                         <input
                             type="text"
                             name="farthestDestination"
@@ -172,7 +172,7 @@ const EditRentalRequest = () => {
                         />
                     </div>
                     <div>
-                        <label>Suspected Km:</label>
+                        <label>Verwachte KM:</label>
                         <input
                             type="number"
                             name="suspectedKm"
@@ -182,7 +182,7 @@ const EditRentalRequest = () => {
                         />
                     </div>
                     <div><p style={{ color: 'black' }}><b>Als u een huuraanvraag aanpast moet deze opniew worden goedgekeurd door een medewerker</b></p></div>
-                    <button type="submit">Update Rental Request</button>
+                    <button type="submit">Werk huuraanvraag bij</button>
                     <button type="button" onClick={handleDashboardClick}>Dashboard</button>
                 </form>
             </div>
